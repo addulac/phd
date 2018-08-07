@@ -1,6 +1,13 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
+*.swp
+
+.session.vim
+
+thesis.pdf
+thesis.html
+thesis.doc*
 
 # C extensions
 *.so
