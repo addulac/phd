@@ -16,7 +16,7 @@ env.input_files = " ".join(glob.glob(env.input_dir + "\\*.md"))  # get list of f
 env.output_file = env.output_dir + "\\thesis"
 env.preamble_file = env.style_dir + "\\preamble.tex"
 env.template_file = env.style_dir + "\\template.tex"
-env.csl_file = env.style_dir + "\\ref_format.csl"
+env.csl_file = env.style_dir + "\\ref.csl"
 
 def pdf():
     """ Generate a PDF file """

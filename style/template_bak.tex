@@ -254,18 +254,18 @@ $else$
 $endif$
 $if(beamer)$
 $else$
-%$if(subparagraph)$
-%$else$
-%% Redefines (sub)paragraphs to behave more like sections
-%\ifx\paragraph\undefined\else
-%\let\oldparagraph\paragraph
-%\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
-%\fi
-%\ifx\subparagraph\undefined\else
-%\let\oldsubparagraph\subparagraph
-%\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
-%\fi
-%$endif$
+$if(subparagraph)$
+$else$
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+$endif$
 $endif$
 $if(pagestyle)$
 \pagestyle{$pagestyle$}

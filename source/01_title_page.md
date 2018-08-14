@@ -1,3 +1,10 @@
+---
+link-citations: true
+citecolor: green
+urlcolor: blue
+linkcolor: red
+---
+
 <!-- 
 This is the Latex-heavy title page. 
 People outside UCL may want to remove the header logo 
@@ -8,10 +15,10 @@ and add the centred logo
     \begin{center}
 
         
-        \vspace*{2.5cm}
+        \vspace*{1.6cm}
         
         \huge
-        A study a stochastic block models for complex networks analysis.
+        A Study a Stochastic Block Models for Complex Networks Analysis
         
         
         \vspace{1.5cm}
@@ -36,7 +43,7 @@ and add the centred logo
 
         % Uncomment the following line
         % to add a centered university logo
-        \includegraphics[width=0.4\textwidth]{style/univ_logo.eps}
+        \includegraphics[width=0.4\textwidth]{style/univ_logo}
         
         \normalsize
         University Grenoble Alpes, France\\

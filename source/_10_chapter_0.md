@@ -14,7 +14,11 @@ This is a brief outline of what went into each chapter. **Chapter 1** gives a ba
 
 ## Citation
 
-To include a citation to the text, just add the citation key shown in the references.bib file. The style of the citation is determined by the ref_format.csl file. For example, in The Living Sea you can find pictures of the Calypso [@Cousteau1963].
+To include a citation to the text, just add the citation key shown in the references.bib file. The style of the citation is determined by the ref.csl file. For example, in The Living Sea you can find pictures of the Calypso [@Cousteau1963].
+
+## Footnote
+
+iam plein text ^[i am a footnote]
 
 ## Syntax highlight
 

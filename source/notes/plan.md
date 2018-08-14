@@ -12,7 +12,7 @@
 
 # State of the art
 
-* Social network analysis
+* Complex network analysis
     * type of networks and applications (clustering, link prediction, compression) 
     * Properties (micro properties / vs macro properties)
     * Algorithms and applications

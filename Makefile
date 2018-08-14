@@ -25,23 +25,24 @@ help:
 	@echo 'or generic ones from: https://github.com/jgm/pandoc-templates		  '
 
 pdf:
-	pandoc "$(INPUTDIR)"/*.md \
+	pandoc "$(INPUTDIR)"/[^_]*.md \
 	-o "$(OUTPUTDIR)/thesis.pdf" \
 	-H "$(STYLEDIR)/preamble.tex" \
 	--template="$(STYLEDIR)/template.tex" \
 	--bibliography="$(BIBFILE)" 2>pandoc.log \
-	--csl="$(STYLEDIR)/ref_format.csl" \
-	--highlight-style pygments \
 	-V fontsize=12pt \
 	-V papersize=a4paper \
 	-V documentclass=report \
+	-V link-citations=true \
 	-N \
 	--verbose \
 	--pdf-engine=xelatex \
-	--filter pandoc-eqnos
+	--filter pandoc-eqnos \
+	--highlight-style pygments \
+	--csl="$(STYLEDIR)/ref.csl" \
 
 tex:
-	pandoc "$(INPUTDIR)"/*.md \
+	pandoc "$(INPUTDIR)"/[^_]*.md \
 	-o "$(OUTPUTDIR)/thesis.tex" \
 	-H "$(STYLEDIR)/preamble.tex" \
 	--bibliography="$(BIBFILE)" \
@@ -49,25 +50,25 @@ tex:
 	-V papersize=a4paper \
 	-V documentclass=report \
 	-N \
-	--csl="$(STYLEDIR)/ref_format.csl" \
+	--csl="$(STYLEDIR)/ref.csl" \
 	--latex-engine=xelatex \
 	--filter pandoc-eqnos
 
 docx:
-	pandoc "$(INPUTDIR)"/*.md \
+	pandoc "$(INPUTDIR)"/[^_]*.md \
 	-o "$(OUTPUTDIR)/thesis.docx" \
 	--bibliography="$(BIBFILE)" \
-	--csl="$(STYLEDIR)/ref_format.csl" \
+	--csl="$(STYLEDIR)/ref.csl" \
 	--toc \
 	--filter pandoc-eqnos
 
 html:
-	pandoc "$(INPUTDIR)"/*.md \
+	pandoc "$(INPUTDIR)"/[^_]*.md \
 	-o "$(OUTPUTDIR)/thesis.html" \
 	--standalone \
 	--template="$(STYLEDIR)/template.html" \
 	--bibliography="$(BIBFILE)" \
-	--csl="$(STYLEDIR)/ref_format.csl" \
+	--csl="$(STYLEDIR)/ref.csl" \
 	--include-in-header="$(STYLEDIR)/style.css" \
 	--toc \
 	--number-sections \
