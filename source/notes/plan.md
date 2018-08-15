@@ -35,6 +35,8 @@
     * matrix factorization
     * Deep learning
 
+* Representation Theorem
+
 
 
 # Study of random graph model properties for social network (contrib 1)
