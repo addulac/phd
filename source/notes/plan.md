@@ -43,7 +43,6 @@
 
 * homophily
 * preferential attachment
-* sparsity
 * experimentation
 
 * (note on pymake (contrib 3): * plateform for reproducible research (open source project)
@@ -53,7 +52,7 @@
 
 # Model for weighted and temporal networks (contrib 2)
 
-* poisson process (and/or neg bin, ) model extension of MMSB (retains as best properties and scalable trough SVB)
+* poisson process (and/or neg bin, ) model extension of MMSB (retains as best properties and scalable through SVB)
 * temporal/weighted large scale networks inference
 
 if possible:

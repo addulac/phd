@@ -15,18 +15,18 @@ and add the centred logo
     \begin{center}
 
         
-        \vspace*{1.6cm}
+        \vspace*{1.0cm}
         
         \huge
-        A Study a Stochastic Block Models for Complex Networks Analysis
+        A Study of Mixed Membersip Stochastic Block Models for Complex Networks Analysis
         
         
-        \vspace{1.5cm}
+        \vspace{1.4cm}
         
         \Large
         Adrien Dulac
 
-        \vspace{1.5cm}
+        \vspace{1.4cm}
 
         \normalsize
         A thesis presented for the degree of\\
