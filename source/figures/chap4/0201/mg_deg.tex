@@ -1,0 +1,26 @@
+% Degree distribution in MG
+%  2x2 figure  
+%  [global immsb] [global ilfm]
+%  [local ilfm] [gloal ilfm]
+%
+% pmk PNAS3 -x gennetwork burstiness -g -c generator7 -n 1000 --epoch 100
+
+
+\begin{figure}[h]
+    \centering
+    \begin{minipage}{0.4\textwidth}
+        \includegraphics[width=\textwidth]{{{source/figures/chap4/0201/MG_ml.immsb_cgs_0}}}
+    \end{minipage}
+    \begin{minipage}{0.4\textwidth}
+        \includegraphics[width=\textwidth]{{{source/figures/chap4/0201/MG_ml.ilfm_cgs_0}}}
+    \end{minipage}
+    \vskip\baselineskip
+    \begin{minipage}{0.4\textwidth}
+        \includegraphics[width=\textwidth]{{{source/figures/chap4/0201/MG_ml.immsb_cgs_1}}}
+    \end{minipage}
+    \begin{minipage}{0.4\textwidth}
+        \includegraphics[width=\textwidth]{{{source/figures/chap4/0201/MG_ml.ilfm_cgs_1}}}
+    \end{minipage}
+    \caption {Global degree distribution (top) and local degree distribution (bottom) from IMMSB (left) and ILFM (right) in the generative mode $\M_g$.} 
+\label{fig:mg_deg}
+\end{figure}

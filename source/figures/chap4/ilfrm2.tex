@@ -1,0 +1,22 @@
+\begin{tikzpicture}
+  % Define nodes
+  \node[obs]                      (y) {$y_{ij}$};
+  \node[latent, left=1.2cm of y] (fi) {$\mat{f}_i$};
+  \node[latent, right=1.2cm of y] (fj) {$\mat{f}_j$};
+  \node[latent, above= of y]    (ibp) {$\mat{F}$};;
+  \node[latent, below= of y, yshift=-0.3cm]   (W) {$\mat{\Phi}$};
+  \node[const, left=0.7cm of ibp]   (a) {$\alpha$};
+  \node[const, right=0.7cm of W]   (sw) {$\sigma_w$};
+
+  % Connect the nodes
+  \edge {fi,fj,W} {y} ;
+  \edge[dashed] {ibp} {fi,fj} ;
+  \edge {sw} {W} ; 
+  \edge {a} {ibp} ; 
+
+  % Plates
+  \plate {yx} {(fj)(y)} {$N$} ;
+  \plate[label={[label distance=-0.6cm]195:$N$}] {} {(fi)(y)(yx.north west)(yx.south west)} {} ;
+  %\plate {} {(W)} {$K\times K$};
+  %\plate {} {(fi)(y)(yx.north west)(yx.south west)} {$N$} ;
+\end{tikzpicture}

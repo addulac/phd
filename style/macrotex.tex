@@ -20,13 +20,13 @@
 \usepackage{xspace} % special space after macro
 
 
-%\usepackage{subfigure}
+\usepackage{subfigure}
 \usepackage{wrapfig}
 
-%\usepackage{tikz}
+\usepackage{tikz}
+\usetikzlibrary{bayesnet}
+%\newcommand{\tikzmark}[1]{\tikz[overlay,remember picture] \node (#1) {};}
 %%\input{../tikz.conf}
-%
-%\usetikzlibrary{bayesnet}
 
 
 % Symboles
@@ -47,7 +47,8 @@
 \newcommand{\D}{\mathcal{D}}
 \newcommand{\Graph}{\mathcal{G}}
 \renewcommand{\L}{\mathcal{L}}
-\newcommand{\mat}[1]{\mathbf{#1}}
+\newcommand{\mat}[1]{\bm{{#1}}}
+%\newcommand{\mat}[1]{\mathbf{#1}}
 \newcommand{\unit}{1\!\!1}
 \newcommand{\mg}{\mathcal{M}_g}
 \newcommand{\me}{\mathcal{M}_e}

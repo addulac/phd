@@ -55,7 +55,7 @@ Point to MMSB and IBP in later presentation.
 ### Variational Inference
 \label{sec:vb}
 
-### Alternative Models
+### Alternative Inference Scheme
 
 
 

@@ -29,7 +29,7 @@ More generally, the category of **Social Interaction Networks** type are used to
 An other important source of networks resides in the relations that can be extract from textual content or document. This type of networks are called **Information Networks** (sometimes called knowledge networks) and the semantics behind their construction is strongly connected to the format used to represent the documents:
 
 * *Citation networks*: The entities are documents and relations are the citations between them. The academic papers citations is the most studied representative of these networks [].
-* *Collaboration networks*: The entities are individuals and there is relation between them if they collaborated on a paper. These network are also often studied though academic paper collaboration [].
+* *Collaboration networks*: The entities are individuals and there is relation between them if they collaborated on a paper. These networks are also often studied though academic paper collaborations [].
 * *Hyperlink networks*: The entities are web-pages and the relation between them are the hyperlinks. Those networks arise from the web, and often represent a small region of it such as the hyperlinks in a set of related blogs [], or again the hyperlink en the Wikipedia website [].
 * *Lexical networks*: The entities are words and a relation can be built in several ways between them. For example, a relation can be present if two words are consecutive [] or alternatively if they co-occurs in a document []. 
 * *Ontologies*: Those networks, also called *Knowledge Graph*, are used to represents the relations between concepts, data, and entities that substantiate one or many domains. There also often used to formalize the structure of databases as a means to describe its semantics [].
@@ -43,7 +43,7 @@ Note that some of the network types can overlap in some case as there is no stri
 Furthermore, the classification of type of networks presented here are based on the *nodes* similarities of the graph. But, a classification based on the *edges* similarities (i.e. the similarities between the pattern of interactions) can suggest different classification choices.
 Recently, interesting metrics have also been proposed in order to automatically construct taxonomies of networks [@onnela2012taxonomies].
 
-However, it is important to mention that because a majority of the class of networks presented here share some structural properties such as being scale-free or sparse \ref{network_property}, it mays seems appealing to consider the presence of such properties as an element of carachterisation of real-world complex networks. However, there are some exceptions that are worth to mention to weaken the idea of considering these properties as universal. Indeed, it has been shown that most food webs appear to be dense [@dunne2002food] and it may also be true for other biological networks such as Metabolic network [@Newman03]. In general, Biological and Technological network may exhibit specific properties that require different expert knowledge from Social and Information networks. In the following, we will specifically focus on properties and application that mainly concern these last two types of networks.
+However, it is important to mention that because a majority of the class of networks presented here share some structural properties such as being scale-free or sparse (\ref{sec:network_property}), it mays seems appealing to consider the presence of such properties as an element of carachterisation of real-world complex networks. However, there are some exceptions that are worth to mention to weaken the idea of considering these properties as universal. Indeed, it has been shown that most food webs appear to be dense [@dunne2002food] and it may also be true for other biological networks such as Metabolic network [@Newman03]. In general, Biological and Technological network may exhibit specific properties that require different expert knowledge from Social and Information networks. In the following, we will specifically focus on properties and application that mainly concern these last two types of networks.
 
 
 ### Datasets
@@ -108,19 +108,20 @@ Finally, a graph can be *dynamic* (sometimes call temporal or time-varying netwo
 In the next section, we will introduce the emerging properties that are often observed in real-world networks.
 
 ### Community Structure
+<!-- Structral equivalence is more general ! see me) -->
 
-Clustering is the task of grouping a set of objects in such a way that objects in the same group (called a cluster) are more similar (in some sense) to each other than to those in other groups (clusters).
-In the context of network analysis, the clustering task concerns the grouping of nodes into groups accoring to a given similarity measure that in general based on topological properties of the network. Thus ,the choice of the right similarity measure is crucial to capture the desired properties. 
+Real-world networks are known to exhibit a modular structure, where nodes group together according to some equivalence relation [@flake2002self][@girvan2002community][@Schwartz92discoveringshared]. Those groups are generally referred as communities where a *community* is  defined as a set of nodes that are tighter connected to each other than those outside the community. In this case, the nodes are grouped according to a equivalence relation based on their common neighborhood. This Approach to defined communities is referred to as _**regular equivalence**_ [@holme2005role].
 
-* but what we observed is that community structure is a properties that arise in number of complex network, and especially social networks.
+Nevertheless, networks can also exhibits another form of modular structure based on a different definition of the equivalence relation. Instead of measuring the common neighbors, it measure the pattern of relations between nodes. That is, nodes in the same group are not necessarily tied together but instead, their connectivity to similar nodes are similar [@goldenberg2010survey]. This approach is called _**structural equivalence**_ [@lorrain1971structural] (sometimes called *stochastic equivalence* [@wasserman1994social]) and the groups are generally referred to as *blocks*^[Note that we may also refers to them as *classes* in this manuscipt.] [@leicht2006vertex][@sun2009information].
+
+For formal definitions of equivalence relations in graphs, the reader can refer to [@white1983graph].
+
+<!-- shema of a networks where nodes arge grouped by they regular equivlance, and structural equivalance. -->
 
 
+### Mixing Patterns
 
-Nodes in real-world networks 
-
-community structure and structural equivalence
-
-### Homophily
+Mixing patterns refers to the tendency of certain types of nodes to connect to another type. For example, networks of married and unmarried couples has been analysed to show strong correlation between the age of the partner [@garfinkel2002assortative]. In general, this kind of selective linking depend on the similarity of two nodes based on characteristic dependent of the type of network analysed. For social networks, it has been admitted that individuals tend to associate between similar ones in some way. This is know as *assortative mixing* or _**homophily**_ and have been widely cover in the literature [@la2010randomization][@la2010randomization][@kim2017effect]. In contrast, when nodes tend connect to dissimilar ones, the networks is says to be *disassortative* or *heterophilic*. Several metrics has been proposed to measure to what extent a networks exhibit assortative (homophilic) mixing patterns [@newman2003mixing] where some side information about nodes (type, features) are assumed to be know. A special case of assortative mixing that only use topological information have received attention [@Newman03]. Here, the authors ask if either a node with a high degree prefer to connect to nodes with high degree or low-degree. It appears that both situation can occurs on some networks.
 
 ### Burstiness
 
@@ -137,6 +138,13 @@ community structure and structural equivalence
 -->
 
 ### Small-world effect
+
+The small-world effect is an important emerging properties that has been found in many real world networks []. It has first been shown in the seminal work of [] where the authors establish that the maximum path length of two nodes is equal to six. Though, it has been speculated before in [] and []. This is sometimes referred as the six degree of separation. The small world effect is a properties that is related the slow growth of the diameter of the networks when the number of nodes increase. 
+According to experiments done on various networks, logarithmic and sub-logarithmic...
+
+Bollobas on the implication of scale-free networks on small world effect (sub-logaritmic)
+
+A notable implication of the small-world effect is the fast spread of information in real-world networks.
 
 
 ## Applications
@@ -160,7 +168,7 @@ A concurent approach, is the clustering of networks in the context so-called *bl
 
 ### Link prediction
 
-In the *link prediction* task, one assumes a partially oberved networks with missing links. The goal is then to predict the missing links, that is, to predict if either an edge exists or not between unobserved relations between nodes [@lu2011link]. In the case of weighted graphs, the prediction concerns the number of edges or the weights between two nodes. In the learning based context, there is two major approaches to solve this problem^[Other Standard non learning based approach rely on had-hoc similarity measures that uses topological properties of nodes such as common neighborhood, short paths, or other [@LibenNowell07]]. The first is based on matrix factorizations techniques [@menon2011link] and the second on latent variable models [@wang2015link], also referred to as probabilistic models. The latter is the approach pursued in the thesis^[Note that the two approaches are closely related as most of the times one a matrix factorization model can equivalently interpreted in terms of probabilistic model. This question is also related to frequentist vs bayesian reasonning debate.].
+In the *link prediction* task, one assumes a partially observed networks with missing links. The goal is then to predict the missing links, that is, to predict if either an edge exists or not between unobserved relations between nodes [@lu2011link]. In the case of weighted graphs, the prediction concerns the number of edges or the weights between two nodes. In the learning based context, there is two major approaches to solve this problem^[Other Standard non learning based approach rely on had-hoc similarity measures that uses topological properties of nodes such as common neighborhood, short paths, or other [@LibenNowell07]]. The first is based on matrix factorizations techniques [@menon2011link] and the second on latent variable models [@wang2015link], also referred to as probabilistic models. The latter is the approach pursued in the thesis^[Note that the two approaches are closely related as most of the times one a matrix factorization model can equivalently interpreted in terms of probabilistic model. This question is also related to frequentist vs Bayesian reasoning debate.].
 
 <!--
 * evnetually, present similarity based methode >= o(n^2). 
@@ -180,7 +188,9 @@ Another related application is the exploitation of the graph topology for *Infor
 
 ## Summary
 
-* we review some of the important properties that arise in real world networks, neverthess, other properties have been studied and are not present in this paper.
-* we precise the type of network to which this work and review some important of the properties that caracterise social and information networks.
-* We discuss the application of network analysis and the different modeling and algorithmic existing approaches. In this context, the model of interest (probablistic) are apealing because i) they can run on the two mode; generative based and learning based, and ii) they can answer several type a question. In particular, once the model inference is performed, they can be used for community detection as well as link prediction.
+* We expose in this section the networks considered in the literature and precise what particular real world networks we focus on this thesis, that is, social interaction networks and information networks
+* we review some of the important properties that arise in real world networks, nevertheless, other properties have been studied and are not present in this paper, in particular the one concerning temporal networks.
+* we precise the type of network to which this work and review some important of the properties that characterise social and information networks.
+* We discuss the application of network analysis and the different modeling and algorithmic existing approaches. 
+* In this context (introduce next section), the model of interest (probabilistic) are appealing because i) they can run on the two mode; generative based and learning based, and ii) they can answer several type a question. In particular, once the model inference is performed, they can be used for community detection as well as link prediction.
 
