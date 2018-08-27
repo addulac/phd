@@ -10,9 +10,9 @@ Nevertheless, although drawn from a wide range of domains, real world social net
 However, as these models belong to the family of Bayesian model, we can study their behavior in two settings. In the first one, denoted $\mathcal{M}_g$, we consider the model as a pure generative model and given the parameters, we use it to generate artificial networks. Like this, we can study the model properties based on their expectation over the random parameters. In the second setting, denoted $\mathcal{M}_e$ and corresponding to the typical use of these models for link prediction, we consider that the parameters are unknown but some observations (\textit{i.e.} an existing network ) are available and are used to estimate the distribution underlying the models. 
 -->
 
-The remainder of the paper is organized as follows: Section \ref{sec:background} describes the two main stochastic mixed membership models used for link prediction in social networks and the settings in which they are used. Section \ref{sec:burstiness} introduces formal definitions of preferential attachment and studies how stochastic mixed membership models relate to them. Section \ref{sec:exps} illustrates the theoretical results on two synthetic and two real networks. Section \ref{sec:rel-work} then discusses related work, while Section \ref{sec:concl} concludes the study. 
+The remainder of the chapter is organized as follows: Section \ref{sec:background} describes the two main stochastic mixed membership models used for link prediction in social networks and the settings in which they are used. Section \ref{sec:burstiness} introduces formal definitions of preferential attachment and studies how stochastic mixed membership models relate to them. Section \ref{sec:exps} illustrates the theoretical results on two synthetic and two real networks. Section \ref{sec:rel-work} then discusses related work, while Section \ref{sec:concl} concludes the study. 
 
-## Related Work
+## Related work
 \label{sec:rel-work} 
 
 Recently, the class of stochastic mixed membership models have been successfully used for link prediction and structure discovery in social networks. For example, in [@AMMSB], the authors propose an adaptation of mixed-membership stochastic block model (MMSB) called a-MMSB, where "a" stands for assortative, and they use it for discovering overlapping communities in large networks having millions of nodes. The weight matrix is constrained to have a fixed small value outside its diagonal. A non parametric dynamic version of MMSB model has also been introduced to handle temporal networks [@fan2015dynamic]. The latent feature model (LFM) has also been extended in several ways, to handle non-negative weights in [@IMRM] and with a more subtle latent feature structure in [@ILAM]. Nevertheless, the characterization of these models with regards to the properties of the networks remains to be explored, as mentioned in [@jacobs2014unified]. 
@@ -93,7 +93,6 @@ We have this time four real hyper-parameters, two for the Hierarchical Dirichlet
 ### Settings
 
 In a Bayesian context, the set of hyper-parameters underlying the model considered is known. This set, denoted $\mg$, respectively corresponds to $\alpha$ and $\sigma_w$ for \ifm\ and to $\gamma$, $\alpha_0$, $\lambda_0$ and $\lambda_1$ for \imb. For mixed membership models, the evidence $\p(Y|\mg)$ has no closed form solution. Yet, the random graph $G$ is exchangeable so that, for any permutation $\pi$ on integers, one has:
-
 $$
 P((y_{ij})_{i,j\in \mathcal{R}} | \mg) = P((y_{\pi(i)\pi(j)})_{i,j\in \mathcal{R}} | \mg)
 $$
@@ -101,7 +100,6 @@ $$
 and one can generate networks from $\mg$ by following the generative processes described above for \ifm\ and \imb. In this setting, the question we ask ourselves is whether the networks generated from $\mg$ comply with the preferential attachment effect.
 
 However, the typical use of the above models corresponds to the scenario in which some observations (\textit{i.e.} an existing network, observed till a certain time) are available and are used to estimate $\mat{F}$ and $\mat{\Phi}$ from which new links are created. The estimation of $\mat{F}$ and $\mat{\Phi}$ is based on:
-
 \begin{equation}
     \p(F, \Phi | Y, \mg) = \frac{\p(Y|F,\Phi)\p(F|\mg)\p(\Phi|\mg)}{\p(Y|\mg)}
 \end{equation}
@@ -121,9 +119,9 @@ We now propose a formalization of preferential attachment in social networks and
 
 As mentioned before, preferential attachment can be global, in which case nodes are connected across communities, and/or local to the network communities. We first study global preferential for the models \ifm\ and \imb\ in the two contexts defined by $\mathcal{M}_g$ and $\mathcal{M}_e$. We then turn our attention to local preferential attachment.
 
-### Global Preferential Attachment
+### Global preferential attachment
 
-Probabilistic models naturally lead to the following generative process for creating links between nodes in a network\footnote{For simplicity in the notation, we consider that nodes can be linked to themselves. Excluding such links does not raise particular problems.}. This process considers all possible pairs of nodes in turn and generates or not a link between them:
+Probabilistic models naturally lead to the following generative process for creating links between nodes in a network^[For simplicity in the notation, we consider that nodes can be linked to themselves. Excluding such links does not raise particular problems.]. This process considers all possible pairs of nodes in turn and generates or not a link between them:
 
 \begin{description}
  \item[1.] \textit{For each node $i \in \{1, .., N\}$},
@@ -180,8 +178,7 @@ Both \ifm\ and \imb, for both $\mathcal{M}_e$ and $\mathcal{M}_g$, are neutral w
 \end{proposition}
 
 \begin{proof}
-We first consider model $\me$. Fix any indexing, a node $i$, $i \leq i \leq N$, and a step $p$, $1 \leq p < N$. One has, $\forall n, 1 \leq n < p$ :
-
+We first consider model $\me$. Fix any indexing, a node $i$, $i \leq i \leq N$, and a step $p$, $1 \leq p < N$. One has, $\forall n, 1 \leq n < p$:
 \begin{align*}
 P(d_i^{(N)} \geq n+1 | d_i^{(p)}=n, \me) &= 1 - P(d_i^{(N)}=n | d_i^{(p)}=n, \me) \\
         &= 1 -P(y_{i,p+1}=0, ...,y_{iN}=0 | \me ) \\
@@ -189,7 +186,6 @@ P(d_i^{(N)} \geq n+1 | d_i^{(p)}=n, \me) &= 1 - P(d_i^{(N)}=n | d_i^{(p)}=n, \m
 \end{align*}
 
 where the last equality comes from the fact that, in $\me$, links are independently generated. Similarly:
-
 \begin{align*}
 P(d_i^{(N)} \geq n+2 | d_i^{(p)}=n+1, \me) &= 1 - \prod_{j=p+1}^N P(y_{ij}=0 | \me) \\
                     &=P(d_i^{(N)} \geq n+1 | d_i^{(p)}=n, \me)
@@ -198,13 +194,11 @@ P(d_i^{(N)} \geq n+2 | d_i^{(p)}=n+1, \me) &= 1 - \prod_{j=p+1}^N P(y_{ij}=0 |�
 which shows that both \ifm\ and \imb\ are neutral wrt to global preferential attachment with $\me$.
 
 For $\mg$, it suffices to observe that the above result holds for all $\mat{F}$ and $\mat{\Phi}$, and not only for $\mat{\hat{F}}$ and $\mat{\hat{\Phi}}$, so that:
-
 \begin{equation*}
 P(d_i^{(N)} \geq n+1 | d_i^{(p)}=n, \mg) = \int_{\mat{F},\mat{\Phi}} P(\mat{F},\mat{\Phi}|\mg) P(d_i^{(N)} \geq n+1 | d_i^{(p)}=n, \mat{F},\mat{\Phi}) \ d\mat{F} d\mat{\Phi}
 \end{equation*}
 
 As the models are neutral with $(\mat{F},\mat{\Phi})$, $P(d_i^{(N)} \geq n+1 | d_i^{(p)}=n, \mat{F},\mat{\Phi}) = P(d_i^{(N)} \geq n+2 | d_i^{(p)}=n+1, \mat{F},\mat{\Phi})$ and thus:
-
 \begin{equation*}
 P(d_i^{(N)} \geq n+2 | d_i^{(p)}=n+1, \mg) = P(d_i^{(N)} \geq n+1 | d_i^{(p)}=n, \mg)
 \end{equation*}
@@ -215,7 +209,7 @@ which completes the proof.
 \vspace{0.1cm}
 We now turn to local preferential attachment that deals with the fact that preferential attachment can be also observed within classes of nodes, as exemplified in [@LeskovecBKT08]. The classes we consider here are the latent classes of the stochastic mixed-membership models.
 
-### Local Preferential Attachment
+### Local preferential attachment
 \label{sec:local_me}
 
 Local preferential attachment is a restriction of global preferential attachment at the community level and aims at capturing the fact that the more links a node has in a given community, the more links it will have in the future within this community. The latent classes used in \ifm\ and \imb\ play the role of latent communities gathering nodes sharing unobserved properties. Local preferential attachment can thus be studied in stochastic mixed membership models by studying how preferential attachment is captured within latent classes. This nevertheless entails that the latent classes be set in one way or another, meaning that the question of whether stochastic mixed membership models comply with the local preferential attachment effect only makes sense in $\me$, and not in $\mg$.
@@ -223,7 +217,6 @@ Local preferential attachment is a restriction of global preferential attachment
 For \textbf{\ifm}, the situation wrt to local preferential attachment is very similar to the one for global preferential attachment. This is due to the fact that, in $\me$ (i.e. given $F$ and $\Phi$), a local degree can be defined in the same way as the global degree above.
 
 Considering the same generative process as before, for $\me$ and \ifm, the local degree in class $k$ ($0\leq k\leq K-1$), for a node $i$ such that $f_{ik}=1$, is defined by:
-
 \begin{equation*}
 d_{i,k}^{(p)} = \sum_{j=1, f_{jk}=1}^p y_{ij}
 \end{equation*}
@@ -235,7 +228,6 @@ We say that \ifm, in $\me$, satisfies the local preferential attachment effect i
 \end{definition}
 
 As before, we have the following property.
-
 \begin{proposition}
 \ifm, with $\me$, is neutral \textit{w.r.t.} the local preferential attachment effect.
 \end{proposition}
@@ -246,14 +238,12 @@ The proof is identical to the first part of the proof of Property \ref{th:mg_glo
 
 \vspace{0.1cm}
 For \textbf{\imb} in $\me$, we do not have a direct access to classes, encoded in the $Z$ variables. One can nevertheless define local random variables $y_{ij,k}$ that are 1 if a link is generated between nodes $i$ and $j$ within class $k$ and 0 otherwise. One has:
-
 \begin{align*}
 P(y_{ij,k}=1 | \me) &= P(y_{ij}=1 | z_{i\rightarrow j} = z_{i\leftarrow j}=k, \Phi) P(z_{i\rightarrow j}=k|F)P(z_{i\leftarrow j}=k|F) \\
     &= f_{ik} \phi_{kk} f_{jk}
 \end{align*}
 
 The local degree $d_{i,k}^{(p)}$ can then be defined as the expectation of $y_{ij,k}$ over the nodes $1,...,p$:
-
 \begin{align}\label{def:locdegimb}
 d_{i,k}^{(p)} &= \sum_{j=1}^p P(y_{ij,k}=1 | \me) \nonumber \\
     &= \sum_{j=1}^p f_{ik} \phi_{kk} f_{jk}
@@ -273,7 +263,6 @@ Let us assume that elements of $\mat{\hat{F}}$ follow a power law distribution, 
 
 \begin{proof}
 First note that $P(\hat{f}_{ik} \geq x) \propto x^{- \alpha_{ik} + 1}$. Let $F_k^p \triangleq \sum_{j=1}^p \hat{f}_{jk}$. Using the definition of $d_{i,k}^{(p)}$ in Eq. \ref{def:locdegimb} and the change of variables $x'=\frac{x}{F_k^p \phi_{kk}}$ and $\epsilon'=\frac{\epsilon}{F_k^N \phi_{kk}}$, one gets:
-
 \begin{align*}
 P(d_{i,k}^{(N)} \geq x+\epsilon | d_{i,k}^{(p)} \geq x,\me) = P(\hat{f}_{ik} \geq \frac{F_k^p}{F_k^N} x'+\epsilon' | \hat{f}_{ik} \geq x') = 
 \frac{P(\hat{f}_{ik} \geq \frac{F_k^p}{F_k^N} x'+\epsilon')}{P(\hat{f}_{ik} \geq x')} & \\
@@ -318,7 +307,7 @@ For local preferential attachment, we follow the same approach as before to comp
 * For \ifm, the reduced adjacency matrix $Y^k$ is defined by: $ y_{ij,k}=1$ if $y_{ij}=1 , f_{ik}=f_{jk}=1$ and $0$ otherwise.
 
 
-Note that all our experiments where realized in a platform that we developed and maintain in order to help reproducibility of machine learning experiments. It is available online \footnote{https://github.com/dtrckd/pymake} under a GNU GPL license.
+Note that all our experiments where realized in a platform that we developed and maintain in order to help reproducibility of machine learning experiments. It is available online^[https://github.com/dtrckd/pymake] under a GNU GPL license.
 
 ### Datasets
 
@@ -328,7 +317,7 @@ To illustrate the above developments, we consider two artificial and two real ne
 
 The non-oriented artificial networks (Network1 and Network2) have been generated with the DANCer-Generator [@largeron2015]. This generator has been chosen because it allows one to build an attributed graph having a community structure as well as known properties of real-world networks such as preferential attachment and homophily. In order to test link prediction models on different types of networks, Network1 was generated, by design, to comply with preferential attachment whereas Network2 was not.
 
-The first real network, denoted Blogs \footnote{moreno.ss.uci.edu/data.html\#blogs}, contains front-page hyperlinks between blogs in the context of the 2004 US election. A node represents a blog and an oriented link represents a hyperlink between two blogs. The second one, denoted Manufacturing \footnote{www.ii.pwr.edu.pl/~michalski/index.php?content=datasets\#manufacturing}, is an internal email communication network between employees of a mid-sized manufacturing company. Each node is associated to an employee and an oriented link represents an email sent between the two employees. One can notice that the second network is specific since it is an enterprise network in which the relationships between the employees are (professionally) constrained. This means that this network is less likely to display some of the properties that occur in unconstrained social networks.
+The first real network, denoted Blogs^[moreno.ss.uci.edu/data.html\#blogs], contains front-page hyperlinks between blogs in the context of the 2004 US election. A node represents a blog and an oriented link represents a hyperlink between two blogs. The second one, denoted Manufacturing^[www.ii.pwr.edu.pl/~michalski/index.php?content=datasets\#manufacturing], is an internal email communication network between employees of a mid-sized manufacturing company. Each node is associated to an employee and an oriented link represents an email sent between the two employees. One can notice that the second network is specific since it is an enterprise network in which the relationships between the employees are (professionally) constrained. This means that this network is less likely to display some of the properties that occur in unconstrained social networks.
 
 The adjacency matrices and global degree distributions of these networks are presented in Figure \ref{fig:corpuses}. This figure allows us to visualize some characteristics of the networks such as their density and their clustering patterns: as one can note, Blogs and the two artificial networks (Network1 and Network2) have a clear community structure, corresponding to the blocks of white dots on the figure, whereas Manufacturing, the denser network, does not have such a structure. Furthermore, the log-log scale plots show that Network1 and Blogs verify the global preferential attachment (the fitted line represents relatively well the data points) whereas neither Network2 nor Manufacturing verify it. This is confirmed by the $p$-values reported in the first section of Table \ref{table:me_gofit} (Training Datasets): the $p$-value is 1 for Network1 and Blogs, whereas it is null for Network2 and Manufacturing. The parameter $\alpha$ reported in Table \ref{table:me_gofit} corresponds to the parameter of the estimated power law distribution (\textit{i.e.} the slope of the best fitting line in log-log scale).
 
@@ -374,14 +363,14 @@ Figure \ref{fig:synt_graph_local} represents the local degree distributions for 
 
 
 
-### Preferential Attachment in $me$
+### Preferential attachment in $\me$
 
 For each dataset, we estimated the model parameters through a Markov Chain Monte Carlo inference consisting of 200 iterations. For \imb, the concentration parameters of HDP were optimized using vague gamma priors $\alpha_0 \sim \text{Gamma}(1,1)$ and $\gamma \sim \text{Gamma}(1,1)$ following [@HDP]. The parameters for the matrix weights $\lambda_0$ and $\lambda_1$ were fixed to 0.1. For \ifm, the hyperparameter $\sigma_w$ was fixed to 1 and the IBP hyperparameter $\alpha$ to 0.5. %in order to have comparable number of classes with \imb.
 Once the models have been learned, they are used to generate links (or non-links) between the entire set of network nodes. The whole procedure is repeated 10 times and the average values are reported as final results.
 
 \input{source/tables/preferential_attachment}
 
-#### Degree Distributions
+#### Degree distributions
 
 Table \ref{table:me_gofit} reports the value of the power-law goodness of fit for \imb\ and \ifm\ in the global case (left) and in the local case (right). The precision of the test was set to $\epsilon = 0.03$. It appears that for both models, the global preferential attachment is only verified for networks generated from datasets where the property was observed, namely in Network1 with p-value equal to 0.9 for \imb\ and 1 for \ifm, and in Blogs with a p-value equal to 1 for both models; the property is not verified in Network2 and in Manufacturing, where the p-values are equal to 0. This is in accordance with Proposition 2.1 according to which both \ifm\ and \imb\ do not satisfy global preferential attachment. However, these models are able to capture this property if it exists in the training datasets. Moreover, one can observe that, in the local case, \imb\ complies with the preferential attachment with $p$-values equal or close to 1 for the four networks, while \ifm\ obtained low p-values for the networks that were less locally bursty (respectively 0 for Network2 and 0.3 for Manufacturing). In addition, the power-law coefficients $\alpha$ are significantly greater for \imb\ than for \ifm, and specially for the bursty networks Network1 and Blogs.
 
@@ -390,7 +379,7 @@ Figure \ref{fig:me_local} illustrates the local preferential attachment for Netw
 \input{source/figures/chap4/corpus/me_deg}
 
 
-#### Generating Process
+#### Generating process
 In figure \ref{fig:burst_immsb} and \ref{fig:burst_ilfm} we show respectively for IMMSB and ILFM the evolution of the local preferential attachment following the definition given in section \ref{sec:local_me}, for the networks Manufacturing and Networks1 and for two different values of the generating process step $p$ ($p$ is given as a percentage of $N$ in the plots). For IMMSB one can see on figure \ref{fig:burst_immsb}, that the probability of generating new links increases with the degree. However, for ILFM, one can observe, on figure \ref{fig:burst_ilfm}, some classes where the preferential attachment is no true such as for the class 3 in Manufacturing where the probability to generate new links decreases with the degree or contains some plateau. For Networks1, the probability to generate new links increase in average because the model is fitted with a networks where the preferential attachment is present. However, on can see that the increase of the probability is not as clear than for IMMSB. The value of the probability fluctuate and reach some plateau. The interpretation of these results with regard to the properties that we asses for the local preferential attachment is that IMMSB is better adapted than ILFM to capture the local preferential attachment.
 
 
@@ -404,7 +393,7 @@ In figure \ref{fig:burst_immsb} and \ref{fig:burst_ilfm} we show respectively fo
 \input{source/figures/chap4/burst_ilfm}
 \end{figure}
 
-#### Performance Evalutation
+#### Performance evalutation
 
 
 In Figure \ref{fig:auc}, we compare the performance of the models for predicting new links using the Area Under the Curve (AUC) measure as a function of the training set size. In the bottom plot, the y-axis gives the relative performance defined as the difference of the AUC values for \imb\ and \ifm\ ($AUC_{\imb} - AUC_{\ifm}$) whereas the x-axis indicates the percentage of links randomly removed from the datasets and used as test examples. Hence, the number of training data decreases with the x-axis and a positive value on the y-axis indicates that \imb\ outperforms \ifm. The relative performance corresponds to the difference of the best AUC values obtained for both models on the 10 inference experiences. The top plots illustrate a case where 75 percent of the data is used as test set and where \imb\ dominates \ifm\ on Network1 (left), and the opposite on Network2 (right).
@@ -429,7 +418,7 @@ The above behavior can be explained by the fact that \imb\ satisfies the local p
 \end{figure}
 
 
-### Preferential Attachment in $\mg$
+### Preferential attachment in $\mg$
 
 Illustrations in the $\mg$ case are based on the simulation of the models where the parameters $F$ and $\Phi$ have been marginalized out. In other words the degrees that we are going to observe are the expected degree for a large numbers (in the sense of the theory of large numbers) of generated parameters, given the hyper-parameters of the model. In order to simulate this scenario, we generated a large number (100) of networks with a given set of hyper-parameters for the models. Then we reported the average global degree distribution in figure \ref{fig:mg_deg} (top). For this experiments, fix the number of nodes to 1000. We went trough the generative process 100 times in order to simulate the $\mg$ mode. In order to have a comparable number of classes for \ifm and \imb and block-block probability priors, we fix the hyper-parameters $\lambda_0=\lambda_1=0.5$ for both models, $\alpha=\alpha_0=1$ for \ifm, and $\gamma=0.5$ for \imb.
 

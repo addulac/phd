@@ -1,7 +1,7 @@
 # Complex Network Analysis
 
 
-## Context of the Study
+## Context of the study
 
 The study of complex networks is grounded by the graph theory and in particular, for the statistical analysis of networks, by the random graph theory [@albert2002statistical][@Newman03]. The latter approach is particularly well adapted for complex networks because, by definition, their associated graphs haven't a *rigid* topological structure such as being acyclic, complete, or other specific symmetries in their connectivity patterns, or at least, there are not assumed *a priori*. This can be resumed by the statement: *a complex network is governed by simple assumptions*.
 Meanwhile, using random structures provides a rich formalism to encode data priors and model the uncertainty through representation (\ref{sec:network_model}) that are sound with the assumptions made on the network [@orbanz2015bayesian].
@@ -59,7 +59,7 @@ More recently, an effort has been done to build and maintains an index of the ex
 * The ICON project based at the University of Colorado Boulder^[\url{https://icon.colorado.edu}] [@icon].
 
 
-## Network Properties
+## Network properties
 \label{sec:network_property}
 
 We will first provide some basic definitions use throughout the manuscript, and then recall some of the properties find in real-world networks. The table \ref{table:net_terms} recall the basic terminology of networks analysis.
@@ -107,7 +107,7 @@ Finally, a graph can be *dynamic* (sometimes call temporal or time-varying netwo
 
 In the next section, we will introduce the emerging properties that are often observed in real-world networks.
 
-### Community Structure
+### Community structure
 <!-- Structral equivalence is more general ! see me) -->
 
 Real-world networks are known to exhibit a modular structure, where nodes group together according to some equivalence relation [@flake2002self][@girvan2002community][@Schwartz92discoveringshared]. Those groups are generally referred as communities where a *community* is  defined as a set of nodes that are tighter connected to each other than those outside the community. In this case, the nodes are grouped according to a equivalence relation based on their common neighborhood. This Approach to defined communities is referred to as _**regular equivalence**_ [@holme2005role].
@@ -119,7 +119,7 @@ For formal definitions of equivalence relations in graphs, the reader can refer 
 <!-- shema of a networks where nodes arge grouped by they regular equivlance, and structural equivalance. -->
 
 
-### Mixing Patterns
+### Mixing patterns
 
 Mixing patterns refers to the tendency of certain types of nodes to connect to another type. For example, networks of married and unmarried couples has been analysed to show strong correlation between the age of the partner [@garfinkel2002assortative]. In general, this kind of selective linking depend on the similarity of two nodes based on characteristic dependent of the type of network analysed. For social networks, it has been admitted that individuals tend to associate between similar ones in some way. This is know as *assortative mixing* or _**homophily**_ and have been widely cover in the literature [@la2010randomization][@la2010randomization][@kim2017effect]. In contrast, when nodes tend connect to dissimilar ones, the networks is says to be *disassortative* or *heterophilic*. Several metrics has been proposed to measure to what extent a networks exhibit assortative (homophilic) mixing patterns [@newman2003mixing] where some side information about nodes (type, features) are assumed to be know. A special case of assortative mixing that only use topological information have received attention [@Newman03]. Here, the authors ask if either a node with a high degree prefer to connect to nodes with high degree or low-degree. It appears that both situation can occurs on some networks.
 
@@ -139,10 +139,10 @@ Mixing patterns refers to the tendency of certain types of nodes to connect to a
 
 ### Small-world effect
 
-The small-world effect is an important emerging properties that has been found in many real world networks []. It has first been shown in the seminal work of [] where the authors establish that the maximum path length of two nodes is equal to six. Though, it has been speculated before in [] and []. This is sometimes referred as the six degree of separation. The small world effect is a properties that is related the slow growth of the diameter of the networks when the number of nodes increase. 
+The small-world effect is an important emerging properties that has been found in many real world networks []. It has first been shown in the seminal work of [] where the authors establish that the maximum path length of two nodes is equal to six. Though, it has been speculated before in [] and []. This is sometimes referred as the six degree of separation. The small-world effect is a properties that is related the slow growth of the diameter of the networks when the number of nodes increase. 
 According to experiments done on various networks, logarithmic and sub-logarithmic...
 
-Bollobas on the implication of scale-free networks on small world effect (sub-logaritmic)
+Bollobas on the implication of scale-free networks on small-world effect (sub-logaritmic)
 
 A notable implication of the small-world effect is the fast spread of information in real-world networks.
 

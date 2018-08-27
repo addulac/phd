@@ -14,7 +14,7 @@ distribution
 ### Concluding remarks
 Importance of the distribution according that the results of the thesis are often connected in the end to the properties of the exponential familly distribution.
 
-### Nonparametric Process
+### Nonparametric process
 
 (do I nedd levy process here ?)
 
@@ -30,10 +30,10 @@ gaussian process...
 
 
 
-## Random Graph Models
+## Random graph models
 \label{sec:network_model}
 
-### Representation Theorem
+### Representation theorem
 
 + Latent Variables; echangeability etc
 
@@ -46,7 +46,7 @@ gaussian process...
 Point to MMSB and IBP in later presentation.
 
 
-## Approximate Inference
+## Approximate inference
 \label{sec:network_inference}
 
 ### Markov Chain Monte Carlo
@@ -55,11 +55,11 @@ Point to MMSB and IBP in later presentation.
 ### Variational Inference
 \label{sec:vb}
 
-### Alternative Inference Scheme
+### Alternative inference scheme
 
 
 
 
-## Other Approaches
+## Other approaches
 
 
