@@ -1,0 +1,48 @@
+
+\caption{AUC-ROC performance comparaison for two different sizes of test sets. In the top table, the test sets contains 20 percent of the edges. In the bottom table the testsets contains 80 percent of the edges. For each run we randomly build the testsets that were held-out during the inference. For the SCVB inference, we fix the sampling parameter $m=50$. Scores are averaged on 10 independants trials and scaled by a factor $10^{-3}$.}
+
+\resizebox{12cm}{!}{
+%\resizebox{\textwidth}{!}{
+\begin{tabular}{llllll}
+\toprule
+$t_{ratio}=0.2$             &   MMSB &   WMMSB & bg-WMMSB      &    SBM &   WSBM \\
+\midrule
+
+astro-ph      & \textbf{713} $\pm$ 10 & 700 $\pm$ 8  & 693 $\pm$ 19 & 703 $\pm$ 7  & 708 $\pm$ 4 \\
+hep-th        & 667 $\pm$ 13          & 595 $\pm$ 19 & 647 $\pm$ 21 & \textbf{782} $\pm$ 11 & 714 $\pm$ 11 \\
+moreno\_names & 733 $\pm$ 32          & 660 $\pm$ 40 & 702 $\pm$ 36 & \textbf{868} $\pm$ 4  & 866 $\pm$ 8 \\
+manufacturing & 895 $\pm$ 6           & 764 $\pm$ 89 & 814 $\pm$ 91 & \textbf{908} $\pm$ 7  & 790 $\pm$ 19 \\
+fb\_uc        & 793 $\pm$ 107         & 659 $\pm$ 35 & 854 $\pm$ 18 & \textbf{901} $\pm$ 3  & 895 $\pm$ 4 \\
+digg-reply    & 337 $\pm$ 16          & 693 $\pm$ 28 & \textbf{743} $\pm$ 11 & 719 $\pm$ 18 & 705 $\pm$ 27 \\
+slashdot      & 584 $\pm$ 163         & 740 $\pm$ 53 & 799 $\pm$ 7  & \textbf{837} $\pm$ 18 & 832 $\pm$ 14 \\
+enron         & 523 $\pm$ 259         & 827 $\pm$ 10 & 830 $\pm$ 23 & 821 $\pm$ 35 & \textbf{837} $\pm$ 47 \\
+wiki-link     & 580 $\pm$ 241         & 776 $\pm$ 27 & 785 $\pm$ 12 & \textbf{920} $\pm$ 5  & 915 $\pm$ 5 \\
+prosper-loans & 434 $\pm$ 226         & 726 $\pm$ 21 & \textbf{741} $\pm$ 20 & 500 $\pm$ 7  & 502 $\pm$ 9 \\
+
+\bottomrule
+\end{tabular}
+}
+
+\resizebox{12cm}{!}{
+%\resizebox{\textwidth}{!}{
+\begin{tabular}{llllll}
+\toprule
+$t_{ratio}=0.8$             &   MMSB &   WMMSB & bg-WMMSB      &    SBM &   WSBM \\
+\midrule
+
+astro-ph      & \textbf{715} $\pm$ 7  & 662 $\pm$ 7  & 660 $\pm$ 23          & 619 $\pm$ 14         & 607 $\pm$ 6 \\
+hep-th        & \textbf{624} $\pm$ 24 & 593 $\pm$ 20 & 597 $\pm$ 24          & 486 $\pm$ 14         & 526 $\pm$ 23 \\
+moreno\_names & 703 $\pm$ 45          & 641 $\pm$ 26 & \textbf{717} $\pm$ 32  & 657 $\pm$ 23         & 656 $\pm$ 18 \\
+manufacturing & \textbf{858} $\pm$ 13 & 698 $\pm$ 80 & 728 $\pm$ 96          & 794 $\pm$ 11         & 747 $\pm$ 35 \\
+fb\_uc        & 812 $\pm$ 62          & 639 $\pm$ 61 & \textbf{835} $\pm$ 17 & 804 $\pm$ 14         & \textbf{835} $\pm$ 8 \\
+digg-reply    & 477 $\pm$ 197         & 685 $\pm$ 37 & \textbf{743} $\pm$ 10  & 634 $\pm$ 30         & 633 $\pm$ 24 \\
+slashdot      & 495 $\pm$ 180         & 782 $\pm$ 36 & \textbf{816} $\pm$ 15  & 748 $\pm$ 76         & 771 $\pm$ 93 \\
+enron         & 344 $\pm$ 197         & 863 $\pm$ 18 & 865 $\pm$ 26          & \textbf{932} $\pm$ 8 & 890 $\pm$ 60  \\
+wiki-link     & 431 $\pm$ 217         & 779 $\pm$ 23 & 794 $\pm$ 6           & 858 $\pm$ 7          & 861 $\pm$ 4 \\
+prosper-loans & 325 $\pm$ 277         & 745 $\pm$ 37 & \textbf{759} $\pm$ 19  & 515 $\pm$ 24         & 502 $\pm$ 16 \\
+
+
+\bottomrule
+\end{tabular}
+}
+

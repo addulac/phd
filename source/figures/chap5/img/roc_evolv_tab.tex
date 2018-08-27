@@ -1,0 +1,96 @@
+
+\caption{Comparison of MMSB, WMMSB-bg, SBM and WSBM in terms of AUC-ROC when using 10\% and 100\% of the training data.}
+
+%\resizebox{12cm}{!}{
+\resizebox{\textwidth}{!}{
+
+\begin{tabular}{lllll|llll}
+\toprule
+&   \multicolumn{4}{c}{10\%} &   \multicolumn{4}{c}{100\%}   \\
+\cmidrule(l){2-5} \cmidrule(l){6-9}   & MMSB & WMMSB-bg & SBM & WSBM & MMSB & WMMSB-bg & SBM & WSBM   \\
+%\hline
+\midrule
+astro-ph      & \textbf{708} $\pm$ 3  & 700 $\pm$ 30           & 594 $\pm$ 16 & 586 $\pm$ 9           & \textbf{716} $\pm$ 11 & 710 $\pm$ 18          & 701 $\pm$ 6           & 705 $\pm$ 5 \\
+hep-th        & \textbf{617} $\pm$ 11 & 579 $\pm$ 12           & 480 $\pm$ 9  & 482 $\pm$ 26          & 675 $\pm$ 8           & 676 $\pm$ 8           & \textbf{779} $\pm$ 10 & 714 $\pm$ 7 \\
+moreno\_names & 680 $\pm$ 72          & \textbf{707} $\pm$ 29  & 571 $\pm$ 29 & 594 $\pm$ 30          & 738 $\pm$ 33          & 739 $\pm$ 7           & \textbf{862} $\pm$ 7  & 859 $\pm$ 11 \\
+fb\_uc        & 732 $\pm$ 127         & \textbf{827} $\pm$ 8   & 726 $\pm$ 20 & 788 $\pm$ 18          & 784 $\pm$ 140         & 850 $\pm$ 20          & \textbf{902} $\pm$ 2  & 896 $\pm$ 2 \\
+digg\_reply   & 485 $\pm$ 178         & \textbf{651} $\pm$ 127 & 551 $\pm$ 47 & 582 $\pm$ 35          & 482 $\pm$ 204         & \textbf{744} $\pm$ 15 & 728 $\pm$ 26          & 717 $\pm$ 17 \\
+slashdot      & 519 $\pm$ 193         & \textbf{820} $\pm$ 6   & 721 $\pm$ 66 & 732 $\pm$ 81          & 634 $\pm$ 181         & 791 $\pm$ 11          & 830 $\pm$ 16          & \textbf{834} $\pm$ 12  \\
+enron         & 459 $\pm$ 289         & 875 $\pm$ 14           & 870 $\pm$ 80 & \textbf{923} $\pm$ 14 & 529 $\pm$ 256         & 835 $\pm$ 8           & 799 $\pm$ 20          & \textbf{853} $\pm$ 63  \\
+wiki-link     & 491 $\pm$ 242         & 739 $\pm$ 73           & 848 $\pm$ 4  & \textbf{850} $\pm$ 4  & 432 $\pm$ 185         & 785 $\pm$ 8           & \textbf{925} $\pm$ 2  & 915 $\pm$ 3 \\
+prosper-loans & 548 $\pm$ 284         & \textbf{752} $\pm$ 11  & 466 $\pm$ 57 & 455 $\pm$ 44          & 434 $\pm$ 274         & \textbf{727} $\pm$ 30 & 500 $\pm$ 4           & 504 $\pm$ 6 \\
+\bottomrule
+\end{tabular}
+}
+
+% 10 100
+%\begin{tabular}{lllll|llll}
+%\toprule
+%&   \multicolumn{2}{c}{MMSB} &   \multicolumn{2}{c}{WMMSB-bg} &   \multicolumn{2}{c}{SBM} & \multicolumn{2}{c}{WSBM}   \\
+%\cmidrule(l){2-3} \cmidrule(l){4-5} \cmidrule(l){6-7}\cmidrule(l){8-9}  & 10 & 100 & 10 & 100 & 10 &  100 & 10 & 100   \\
+%%\hline
+%\midrule                              
+%astro-ph        &  \textbf{708} $\pm$ 3    & \underline{716} $\pm$ 11          & 700 $\pm$ 30            &  710 $\pm$ 18   &   594 $\pm$ 16   &  701 $\pm$ 6               &   588 $\pm$ 12           & 705 $\pm$ 5  \\
+%hep-th          &  \textbf{617} $\pm$ 11   & 675 $\pm$ 8           & 579 $\pm$ 12            &  676 $\pm$ 8    &   480 $\pm$ 9    &  \underline{779} $\pm$ 1               &   497 $\pm$ 29            & 716 $\pm$ 9  \\
+%moreno\_names   &  680 $\pm$ 72            & 738 $\pm$ 33          & \textbf{707} $\pm$ 29   &  739 $\pm$ 7    &   571 $\pm$ 29   &  \underline{862} $\pm$ 7               &   588 $\pm$ 25            & 862 $\pm$ 10 \\
+%fb\_uc          &  732 $\pm$ 127           & 784 $\pm$ 14          & \textbf{827} $\pm$ 8    &  850 $\pm$ 20   &   726 $\pm$ 20   &  \underline{902} $\pm$ 2               &   787 $\pm$ 15            & 896 $\pm$ 2  \\
+%digg\_reply     &  485 $\pm$ 178           & 482 $\pm$ 204         & \textbf{651} $\pm$ 127  &  744 $\pm$ 15   &   551 $\pm$ 47   &  728 $\pm$ 26              &   584 $\pm$ 34            & 714 $\pm$ 17 \\
+%slashdot        &  519 $\pm$ 193           & 634 $\pm$ 181         & \textbf{820} $\pm$ 6    &  791 $\pm$ 11   &   721 $\pm$ 66   &  830 $\pm$ 16              &   699 $\pm$ 79            & \underline{833} $\pm$ 13 \\
+%enron           &  459 $\pm$ 289           & 529 $\pm$ 256         & \textbf{875} $\pm$ 14   &  835 $\pm$ 8    &   870 $\pm$ 80   &  799 $\pm$ 20              &   866 $\pm$ 45            & \underline{842} $\pm$ 51 \\
+%wiki-link       &  491 $\pm$ 242           & 432 $\pm$ 185         & 739 $\pm$ 73            &  785 $\pm$ 8    &   848 $\pm$ 4    &  \underline{925} $\pm$ 2               &   \textbf{853} $\pm$ 4    & 914 $\pm$ 4  \\
+%prosper-loans   &  548 $\pm$ 284           & 434 $\pm$ 274         & \textbf{752} $\pm$ 11   &  \underline{727} $\pm$ 30   &   466 $\pm$ 57   &  500 $\pm$ 4               &   455 $\pm$ 44  	       & 505 $\pm$ 5  \\
+%
+%\bottomrule
+%\end{tabular}
+          
+          
+          
+
+
+
+
+
+% 5 20 100
+
+%&   \multicolumn{3}{c}{MMSB} &   \multicolumn{3}{c}{WMMSB-bg} &   \multicolumn{3}{c}{SBM} & \multicolumn{3}{c}{WSBM}     \\
+%\cmidrule(l){2-4} \cmidrule(l){5-7} \cmidrule(l){8-10}\cmidrule(l){11-13}  & 5 & 20 & 100 & 5 & 20 & 100 & 5 & 20 & 100 & 5 & 20 & 100   \\
+
+%astro-ph        &  686 $\pm$ 7    & 720 $\pm$ 8    & 716 $\pm$ 11   & 684 $\pm$ 25 & 690 $\pm$ 40  &  710 $\pm$ 18   &    505 $\pm$ 9  &  627 $\pm$ 5   &  701 $\pm$ 6   &  538 $\pm$ 31  &    626 $\pm$ 9   & 705 $\pm$ 5  \\
+%hep-th          &  583 $\pm$ 13   & 655 $\pm$ 6    & 675 $\pm$ 8    & 558 $\pm$ 9  & 630 $\pm$ 21  &  676 $\pm$ 8    &   498 $\pm$ 6   &  506 $\pm$ 13  &  779 $\pm$ 1   &  513 $\pm$ 24   &    545 $\pm$ 29  & 716 $\pm$ 9  \\
+%moreno\_names   &  674 $\pm$ 43   & 740 $\pm$ 18   & 738 $\pm$ 33   & 664 $\pm$ 39 & 697 $\pm$ 33  &  739 $\pm$ 7    &   478 $\pm$ 59  &  698 $\pm$ 25  &  862 $\pm$ 7   &  457 $\pm$ 38   &    709 $\pm$ 9   & 862 $\pm$ 10 \\
+%fb\_uc          &  723 $\pm$ 109  & 728 $\pm$ 140  & 784 $\pm$ 14   & 790 $\pm$ 20 & 846 $\pm$ 11  &  850 $\pm$ 20   &   590 $\pm$ 43  &  846 $\pm$ 13  &  902 $\pm$ 2   &  679 $\pm$ 27   &    855 $\pm$ 7   & 896 $\pm$ 2  \\
+%digg\_reply     &  491 $\pm$ 150  & 486 $\pm$ 195  & 482 $\pm$ 204  & 667 $\pm$ 73 & 723 $\pm$ 31  &  744 $\pm$ 15   &   528 $\pm$ 51  &  677 $\pm$ 13  &  728 $\pm$ 26  &  554 $\pm$ 22   &    659 $\pm$ 26  & 714 $\pm$ 17 \\
+%slashdot        &  537 $\pm$ 177  & 538 $\pm$ 186  & 634 $\pm$ 181  & 801 $\pm$ 13 & 822 $\pm$ 6   &  791 $\pm$ 11   &   712 $\pm$ 66  &  775 $\pm$ 72  &  830 $\pm$ 16  &  731 $\pm$ 64   &    733 $\pm$ 28  & 833 $\pm$ 13 \\
+%enron           &  555 $\pm$ 300  & 576 $\pm$ 301  & 529 $\pm$ 256  & 862 $\pm$ 15 & 876 $\pm$ 9   &  835 $\pm$ 8    &   900 $\pm$ 3   &  898 $\pm$ 39  &  799 $\pm$ 20  &  887 $\pm$ 48   &    916 $\pm$ 29  & 842 $\pm$ 51 \\
+%wiki-link       &  389 $\pm$ 192  & 505 $\pm$ 230  & 432 $\pm$ 185  & 749 $\pm$ 43 & 725 $\pm$ 87  &  785 $\pm$ 8    &   517 $\pm$ 59  &  870 $\pm$ 4   &  925 $\pm$ 2   &  592 $\pm$ 159  &    871 $\pm$ 2   & 914 $\pm$ 4  \\
+%prosper-loans   &  569 $\pm$ 300  & 622 $\pm$ 233  & 434 $\pm$ 274  & 736 $\pm$ 54 & 746 $\pm$ 28  &  727 $\pm$ 30   &   439 $\pm$ 97  &  503 $\pm$ 74  &  500 $\pm$ 4   &  472 $\pm$ 59   &    504 $\pm$ 39  & 505 $\pm$ 5  \\
+
+                     
+                     
+                     
+                     
+                     
+                     
+                     
+                     
+                     
+               
+               
+                                                                                                                                        
+                     
+                                                                                                                                           
+                     
+                     
+                                                                                                                                           
+                     
+                     
+                     
+                                                                                                                     
+
+
+
+
+
+
+
+

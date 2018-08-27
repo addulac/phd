@@ -1,0 +1,24 @@
+\begin{tikzpicture}
+    %\begin{scope}[yshift=0.5cm]
+  % Define nodes
+  \node[obs]                      (y) {$y_{ij}$};
+  \node[latent, left=1.2cm of y] (zi) {$z_{ij}$};
+  \node[latent, right=1.2cm of y] (zj) {$z_{ji}$};
+  \node[latent, above= of y]    (ibp) {$\mat{F}$};;
+  \node[latent, below= of y, yshift=-0.3cm]   (W) {$\mat{\Phi}$};
+  \node[const, left=0.7cm of ibp]   (a) {$\alpha_0$};
+  \node[latent, right=0.7cm of ibp]   (b) {$\bm{\beta}$};
+  \node[const, above=of b, , yshift=-0.1cm]   (g) {$\gamma$};
+  \node[const, right=0.7cm of W]   (sw) {($\lambda_0,\lambda_1$)};
+
+  % Connect the nodes
+  \edge {zi,zj,W} {y} ;
+  \edge {ibp} {zi,zj} ;
+  \edge {sw} {W} ; 
+  \edge {a,b} {ibp} ; 
+  \edge {g} {b};
+
+  % Plates
+  \plate {yx} {(zj)(zi)(y)} {$N\times N$} ;
+  %\end{scope}
+\end{tikzpicture}
