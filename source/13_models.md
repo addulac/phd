@@ -4,6 +4,7 @@
 
 ## Preliminaries
 
+### Bayesian networks
 baysesian networks
 distribution
 (nature)
@@ -11,7 +12,6 @@ distribution
 ### Exponential familly
 
 
-### Concluding remarks
 Importance of the distribution according that the results of the thesis are often connected in the end to the properties of the exponential familly distribution.
 
 ### Nonparametric process
@@ -22,7 +22,7 @@ Importance of the distribution according that the results of the thesis are ofte
 
 #### IBP
 
-#### Concluding remarks
+#### Perspectives
 
 echangeability
 gaussian process...
@@ -58,8 +58,6 @@ Point to MMSB and IBP in later presentation.
 ### Alternative inference scheme
 
 
-
-
-## Other approaches
+## Summary
 
 

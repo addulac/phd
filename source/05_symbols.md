@@ -1,4 +1,4 @@
-# List of symbols {.unnumbered}
+# List of Symbols {.unnumbered}
 
 \begin{tabbing}
 $G$~~~~~~~~~~~~ \= a graph representing a network \\  

@@ -8,20 +8,29 @@
 \usepackage{bm}
 %\usepackage{enumerate}
 %\usepackage{url}
-\usepackage[ruled,vlined]{algorithm2e}
-%\usepackage{fancyvrb}
 \usepackage{yfonts}
 \usepackage{multirow}
 \usepackage{multicol}
-%\usepackage{adjustbox}
-%%\usepackage[margin=6.5em]{geometry}
 \usepackage{makecell} % thicker table separator
 \usepackage{booktabs}
 \usepackage{xspace} % special space after macro
-
+%\usepackage{adjustbox}
+%%\usepackage[margin=6.5em]{geometry}
+\usepackage[ruled,vlined]{algorithm2e}
 
 \usepackage{subfigure}
 \usepackage{wrapfig}
+
+%%% Header
+\usepackage{fancyvrb}
+\pagestyle{fancy}
+%\fancyhf{}
+\fancyhead[L]{\rightmark}
+\fancyhead[R]{{}}
+%\renewcommand{\headrulewidth}{0pt}
+%
+%\usepackage{emptypage} %removes headers and footers on empty pages
+%/
 
 \usepackage{tikz}
 \usetikzlibrary{bayesnet}

@@ -69,10 +69,9 @@ As for most hierarchical Bayesian model, exact inference is intractable and one 
 \label{sec:inference}
 
 %One drawback of doing inference with Gibbs sampling for MMSB models, as is standard, is the quadratic complexity in the number of nodes. If one wants to use MMSB models and its weighted extensions on large networks, one needs to rely on other techniques, as variational inference. 
+
 Collapsed variational Bayes inference presents the advantage, over standard variational inference, to rely on weaker assumptions and has proven to be efficient on the latent Dirichlet allocation model [@teh2007collapsed]. Recent advances in stochastic variational inference [@hoffman2013stochastic], notably based on well-designed sampling techniques [@gopalan2013efficient][@kim2013efficient], have furthermore shown that it is possible to speed-up (collapsed) variational inference with online updates based on minibatches.
-%so that the overall complexity is only linear in the number of edges and quadratic in the number of latent classes. 
 Coupling collapsed and stochastic variational inference thus leads here to an efficient inference method that can be used on large networks.
-%Such approaches are thus very well adapted to online settings, in which links are observed during certain time intervals, over sparse networks (real world networks are most of the time very sparse [@barabasi_burst]). 
 
 We first provide below the results obtained through collapsed variational inference for MMSB and its weighted counterparts. A detailed derivation of these results is given in the supplementary material. We then detail how stochastic variational inference is used on these models.
 
@@ -162,13 +161,12 @@ Lastly, as for its true distribution, the variational distribution for $r_{kk'}$
 
 ### Stochastic Variational Inference with Stratified Sampling
 
-Stochastic variational inference aims at optimizing ELBO through noisy yet unbiased estimates of its natural gradient computed on sampled data points. Different sampling strategies [@gopalan2013efficient][@kim2013efficient] can be used. Following the study in [@gopalan2013efficient], we rely here on stratified sampling that allows one to control the number of links and non-links used in the inference process. For each node $i, \, 1 \le i \le N$, one first constructs a set, denoted $s_1^i$, containing all the nodes to which $i$ is connected to as well as $M$ sets of equal size, denoted $s_0^{i,m}, \, 1 \le m \le M$, each containing a sample of the nodes to which $i$ is not connected to^[The sampling is here uniform over the nodes not connected to $i$ with replacement; sampling without replacement led to poorer results in our experiments.]. We will denote by $S_0^i$ the set of all $s_0^{i,m}$ sets. The sets thus obtained, for all nodes, constitute minibatches that can be sampled and used to update the global parameters in Eq. \ref{eq:sss}. The combined scheme is summarized below:
+Stochastic variational inference aims at optimizing ELBO through noisy yet unbiased estimates of its natural gradient computed on sampled data points. Different sampling strategies [@gopalan2013efficient][@kim2013efficient] can be used. Following the study in [@gopalan2013efficient], we rely here on stratified sampling that allows one to control the number of links and non-links considered at each step of the inference process. For each node $i, \, 1 \le i \le N$, one first constructs a set, denoted $s_1^i$, containing all the nodes to which $i$ is connected to as well as $M$ sets of equal size, denoted $s_0^{i,m}, \, 1 \le m \le M$, each containing a sample of the nodes to which $i$ is not connected to^[The sampling is here uniform over the nodes not connected to $i$ with replacement; sampling without replacement led to poorer results in our experiments.]. We will denote by $S_0^i$ the set of all $s_0^{i,m}$ sets. Furthermore, we will denote by $S_0$ the union of all non-links set and $S_1$ the union of all links set. The sets thus obtained, for all nodes, constitute minibatches that can be sampled and used to update the global parameters in Eq. \ref{eq:sss}. The combined scheme is summarized below:
 
 \begin{enumerate}
 \item Sample a node $i$ uniformly from all nodes in the graph; with probability $\frac{1}{2}$, either select $s_1^i$ or any set from $S_0^i$ (in the latter case, the selection is uniform over the sets in $S_0^i$). We will denote by $s_i$ the set selected and by $|s_i|$ its cardinality.
 \item For each node $j \in s_i$, compute $\gamma_{ijkk'}$ through Eq. \ref{eq:maximization} and intermediate global counts acc. to:
 {\small \label{local_gradient_chap5}
-%$\hat N^{\Theta}_{\rightarrow ik} += \frac{1}{|s_i|} \frac{1}{Cg(s_i)} \sum_{k'} \gamma_{ijkk'}, \,\, \hat N^{\Theta}_{\leftarrow jk'} = \frac{1}{Cg(s_i)} \sum_{k} \gamma_{ijkk'}, \,\, \hat N^{\Phi}_{xkk'} += \frac{1}{|s_i|} \frac{1}{Cg(s_i)} \gamma_{ijkk'}, \,\, \hat N^{Y}_{kk'} += \frac{1}{|s_i|} \frac{1}{Cg(s_i)} \gamma_{ijkk'} y_{ij}$
 \begin{align*} 
   &\hat N^{\Theta}_{\leftarrow jk'} = \frac{1}{Cg(s_i)} \sum_{k} \gamma_{ijkk'} \\
   &\hat N^{\Theta}_{\rightarrow ik} \mathrel{+}= \frac{1}{|s_i|} \frac{1}{Cg(s_i)} \sum_{k'} \gamma_{ijkk'} \\
@@ -176,9 +174,8 @@ Stochastic variational inference aims at optimizing ELBO through noisy yet unbia
   &\hat N^{Y}_{kk'} \mathrel{+}= \frac{1}{|s_i|} \frac{1}{Cg(s_i)} \gamma_{ijkk'} y_{ij} 
 \end{align*}
 }
-where $C$ is a constant that is $2$ for undirected graphs and $1$ for directed graphs and $g(s_i) = \frac{1}{Nm}$ if $s_i \in S_0^i$ and $\frac{1}{N}$ otherwise. Note that $Cg(s_i)$ correspond to the probability to observe the node $i$ depending on whether $s_i$ is in $S_0$ or $S_1$.
+where $C$ is a constant that is $2$ for undirected graphs and $1$ for directed graphs and $g(s_i) = \frac{1}{Nm}$ if $s_i \in S_0^i$ and $\frac{1}{N}$ otherwise. Note that $Cg(s_i)$ correspond to the probability to observe the node $i$ depending on whether $s_i$ belongs to $S_0$ or $S_1$.
 \item Update of the global counts (online version of Eq. \ref{eq:sss}): \label{global_gradient_chap5}
-%$N^{\Theta}_{\rightarrow ik} \leftarrow (1 - \rho^{i,\Theta}_t) N^{\Theta}_{\rightarrow ik} + \rho^{i,\Theta}_t \hat N^{\Theta}_{\rightarrow ik}, \,\, N^{\Theta}_{\leftarrow jk'} \leftarrow (1 - \rho^{i,\Theta}_t) N^{\Theta}_{\leftarrow jk'} + \rho^{i,\Theta}_t \hat N^{\Theta}_{\leftarrow jk'}, \,\, N^{\Phi}_{xkk'} \leftarrow (1 - \rho^{\Phi}_t) N^{\Phi}_{xkk'} + \rho^{\Phi}_t \hat N^{\Phi}_{xkk'}, \,\, N^{Y}_{kk'} \leftarrow (1 - \rho^{Y}_t) + \rho^{Y}_t \hat N^{Y}_{kk'}$
 \begin{align*} 
   &N^{\Theta}_{\rightarrow ik} \leftarrow (1 - \rho^{i,\Theta}_t) N^{\Theta}_{\rightarrow ik} + \rho^{i,\Theta}_t \hat N^{\Theta}_{\rightarrow ik} \\
   &N^{\Theta}_{\leftarrow jk'} \leftarrow (1 - \rho^{i,\Theta}_t) N^{\Theta}_{\leftarrow jk'} + \rho^{i,\Theta}_t \hat N^{\Theta}_{\leftarrow jk'}  \\
@@ -191,9 +188,9 @@ where $C$ is a constant that is $2$ for undirected graphs and $1$ for directed g
 
 As one can note, the intermediate global counts correspond to a restriction, on minibatches, of the complete computation given in Eq. \ref{eq:sss}. The value of $C$ is due to the fact that in undirected networks, each edge can be seen twice. The terms $\frac{1}{|s_i|}$ and $\frac{1}{Cg(s_i)}$ serve as a normalization in the gradient-like updates of the global counts (as there are more non-links than links, each non-link minibatch, representing a smaller fraction of the non-links, leads to more conservative updates). The "gradient steps" $\rho^*$ are discussed below (Robbins-Monro condition).
 
-For \imb, the procedure is silghtly different. The parameter $N^Y$ is not present for this model and the update coresponding to the count $N^\Phi_ {.kk'}$ is replaced by updates of $N^\Phi_{xkk'}$ where $x=1$ if the current point observed is a link as $\yij=1$ and $x=0$ if it is a non-link as $\yij=0$.
+For \imb, the procedure is silghtly different. The parameter $N^Y$ does not exist for this model and the update coresponding to the count $N^\Phi_ {.kk'}$ is replaced by updates of $N^\Phi_{xkk'}$ where $x=1$ if the current point observed is a link as $\yij=1$ and $x=0$ if it is a non-link as $\yij=0$.
 
-Lastly, to be able to efficiently compute such quantities as $N^{\Phi^{-ij}}$ used for the computation of the link probability, one needs to store in memory, for each pair of nodes $(i,j)$, a $K \times K$ matrix, which is not feasible for large networks. Thus, following [@foulds2013stochastic], we replace here $N^{\Phi^{-ij}}$ by $N^{\Phi}$, which amounts to assume that the contribution of each individual pair of nodes is negligible compared to all other pairs, a reasonable assumption when the network is large.
+Lastly, to be able to efficiently compute such quantities as $N^{\Phi^{-ij}}$ used for the computation of the link probability, one needs to store in memory, for each pair of nodes $(i,j)$, a $K \times K$ matrix, which is not feasible for large networks. Thus, following [@foulds2013stochastic], we replace here $N^{\Phi^{-ij}}$ by $N^{\Phi}$ (and as well for $N^Y$ and $N^\Theta$), which amounts to assume that the contribution of each individual pair of nodes is negligible compared to all other pairs, a reasonable assumption when the network is large.
 
 #### Robbins-Monro condition and implementation remarks
 
@@ -206,11 +203,12 @@ This heuristic provides a trade-off between updating the global parameters after
 * the intermiatade graidnet is normalized by the minibatch size.
 -->
 
-Within a Stratified sampling scheme, the network dataset is divided into $N(1+m)$ minibatches. The sampling uniformly choose into the minibatches of links $$_1$ and non-links $s_0$, with the parameters $m$ controling the size of the non-links minibatch.  The distribution of a minibatch $S$ has the following distribution:
+Within a Stratified sampling scheme, the network dataset is divided into $N(1+m)$ minibatches. The sampling uniformly choose between the minibatches of links $S_1$ and non-links $S_0$, with the parameters $m$ controling the size of the non-links minibatch. The distribution of a minibatch $S$ has the following   distribution:
 $$
-p(S) = h(S;m,C) = \frac{1}{2CN}\delta_{S_1} + \frac{1}{2CMN}
+S \sim h(S;m) = \frac{1}{2N}\delta_{S_1} + \frac{1}{2Nm}\delta_{S_0}
 $$
-.  Thus, the number of non-link minibatches observerd is in average $m$ times lower that the number of link minibatch. This is
+where $\delta$ is the dirac operator, and $\delta_{S_1}=1$ if $S \in S_1$ and 0 otherwise.
+One can see that the number of the non-link minibatches observed is in average $m$ times lower that the number of the link minibatches. This is particularly interesting for sparse networks where the number of non-links is predominant over the number of links. As, the model is update after each minibatch, one could expect that the inference converge much before the total number of minibatches is reached which represents a great interest to scale the inference process to large networks^[If all the $N(1+m)$ minibatches are observed during the inference, the time complexity will be in O(N^2).]. This is in fact what we observed in our experiments where the model converge in general after observing a small proportion of the total of minibatches (\ref{sec:exps}).
 
 Our SCVI algorithm is summarized in the pseudo-code \ref{algo:scvb}.
 
@@ -220,7 +218,7 @@ Our SCVI algorithm is summarized in the pseudo-code \ref{algo:scvb}.
 \Begin{
 $t \gets 0$ \\
 \While{Convergence criteria not met}{
-    Sample a minibatch $S$ from $h(S;m,C)$. \\
+    Sample a minibatch $S$ from $h(S;m)$. \\
     \ForEach{$i,j \in S$}{
         Maximize local parameters $\gamma_{ij}$ from \eqref{eq:maximization}.\\
         \If{burn-in finished}{
