@@ -1,10 +1,11 @@
 # Weighted Mixed Membership Stochastic Block Model and Scalable Inference
+\label{sec:wmmsb}
 
 ## Introduction
 
 From social networks to protein interactions, from physics to linguistics, networks are one of the key representations for objects interacting with one another. The interest for modeling such networks has naturally increased with the availability of large datasets, and people have tried to design generative models to describe the formation of links between nodes. Among such generative models, stochastic block models and their extensions through mixed-membership block models have received particular attention [@airoldi2009mixed,iMMSB,fan2015dynamic] as they can account for the underlying classes that structure real-world networks and in particular social networks. Nevertheless, most models proposed so far are devoted to unweighted networks. To our knowledge, only two models, in the stochastic block model family, have been proposed for weighted graphs: the latent block structure model of [@aicher2014learning] and the weighted stochastic block model of [@peixoto2018nonparametric]. These two models however suffer from the same drawback as standard stochastic block models, namely the fact that a node can belong to only one class, which is not realistic for many networks. Mixed-membership block models were specifically designed to overcome this limitation and we propose here a new mixed-membership block model adapted to weighted networks. One important aspect in designing a generative model for networks is to develop a scalable inference method so that the model can be applied on large networks. We rely in this study on collapsed variational inference coupled with stochastic variational inference to do so.
 
-The remainder of the chapter is organized as follows: Section \ref{sec:model} presents the weighted mixed-membership models and Section \ref{sec:inference} their inference; Section \ref{sec:rl} describes related work; Section \ref{sec:exps} illustrates the behavior of the proposed models on several real-world networks. Finally, Section \ref{sec:concl} concludes the study.
+The remainder of the chapter is organized as follows: Section \ref{sec_5:rl} describes related work; Section \ref{sec_5:model} presents the weighted mixed-membership models and Section \ref{sec_5:inference} their inference; Section \ref{sec_5:exps} illustrates the behavior of the proposed models on several real-world networks. Finally, Section \ref{sec_5:concl} concludes the study.
 
 <!--
 Especially in the machine learning literature, that focused on link prediction, dimensionality reduction and data exploration tasks. One of the main challenge in this area is to be able to handle massive networks that emerge from the web. In this paper, we focus on networks that underpin some kind of social relationship such as collaboration or communication networks. In this context, we propose an online learning algorithm that we derived for both binary and count edge covariate, within the framework of Mixed-Membership Stochastic Blockmodel (MMSB).
@@ -17,7 +18,7 @@ The complexity (time and memory) of batch algorithm are polynomial for graph. Th
 -->
 
 ## Related work
-\label{sec:rl}
+\label{sec_5:rl}
 
 
 The original MMSB model was proposed in [@airoldi2009mixed] with a variational inference scheme. The inference process was later extended with stochastic variational inference in [@gopalan2013efficient] and structured variational inference in [@kim2013efficient] for scalability purposes. Stochastic variational inference has been applied with a collapsed variational objective for the latent Dirichlet allocation model [@foulds2013stochastic]. To our knowledge, it is the first time that stochastic and collapsed variational inference are coupled in the context of stochastic block models.
@@ -29,15 +30,41 @@ Similar to our model, count processes with Poisson distributions and Gamma conju
 The main theoretical contribution of this chapter is two-fold: firstly, we propose a mixed-membership stochastic block model, called WMMSB-bg, for weighted networks allowing nodes to belong to several classes, and secondly we show how to efficiently learn this model on large networks with a stochastic collapsed variational inference algorithm.
 
 
+## Weighted networks and the Poisson law
 
+Most of real networks exhibit a topology more complex than just binary relationship between nodes. Instead, the relations can be weighted and dynamic. For example, co-authorship networks can be constructed such that the edges covariate corresponds to the number of collaborations between the corresponding authors [@newman2001scientific]. In a communication network, the weight can be the number of messages sent from the sender to the receiver. In the web, documents are connected with hyperlinks where the count of those is for example used to construct the PageRank algorithm. Finally, in a linguistic network, a network of words can be built where the weight between two words is the number of times where they follow each other. Another useful case where weighted networks can be useful is temporal networks. For instance, in communication networks, messages are sent at a specific time, thus taking into account the number of messages send during a period allows to represent the strength of the relation over the time.
+
+In this paper we consider the weighted relations as a measure for the number of times each nodes have interacted. Thus, a natural prior for count edge covariate is a Poisson distribution. Furthermore, it has several nice properties:
+
+\begin{itemize}
+\item{Additivity}: If $K_1 \sim \mathrm{Poi}(\alpha_1)$ and $K_2 \sim \mathrm{Poi}(\alpha_2)$ then,
+    \begin{equation*}
+        K_1 + K_2 = \mathrm{Poi}(\alpha_1 + \alpha_2)
+    \end{equation*}
+\item {Thinning}: The number of successes in a Poisson number of coin flips is Poisson, namely if $K \sim \mathrm{Poi}(\alpha)$ and $X_1,...,X_K \sim \mathrm{Bern}(p)$ then,
+    \begin{equation*}
+        \sum_{i=1}^K X_i = \mathrm{Poi}(p\alpha)
+    \end{equation*}
+\end{itemize}
+
+<!--In the second case the weights can also be seen as a \emph{strength} of connection between individuals, since it represents a count/number of times they interacted together. There is a number of situations where such a case arise. One can think for example, to the count of clicks that an user makes during a web session. Or the number of time that a individual send a message to another in a communication network, such as email or online social networks. Or again, the number of transportation between two cities. Thus modeling weighted networks is a way to take into account the strength of relations that arise in a temporal context, but by keeping the exchangeability assumptions. Or says differently, we loose the time order in which each individual connections took place. That is the reason why we use the term \emph{time exchangeability}.-->
+
+These two properties justify to build weighted networks datasets from sequence of either weighted graphs or binary graphs to feed a Poisson based model. This is convenient to exploit the network datasets that often are provided as a time sequence of binary or weighted interactions by summing up all nodes pair interactions. 
+
+<!-- nips comment....time exhvngbility (loose) but weighte win over binary. -->
+
+
+As usual, we will consider that a network is represented by a graph $G=(\V,\E)$ where $\V$ is the set of nodes such that $N=|\V|$ and $\E$ the set of edges. We consider the adjacency matrix $Y=(y_{ij})_{ij\in N^2}$ such that $y_{ij}=0$ if $(i,j) \notin \E$ and $y_{ij} > 0$ otherwise.
 
 
 ## Mixed-Membership Stochastic Block Models and (un)weighted graphs
-\label{sec:model}
+\label{sec_5:model}
 
-As usual, we consider here that a network is represented by a graph $G=(V,E)$ where $V$ is the set of nodes such that $N=|V|$ and E the set of edges. We consider the adjacency matrix $Y=(y_{ij})_{ij\in N^2}$ such that $y_{ij}=0$ if $(i,j) \notin E$ and $y_{ij} > 0$ otherwise.
+Mixed-membership stochastic block (MMSB) models extend stochastic block models [@airoldi2009mixed] by allowing nodes to "belong" to several blocks (or classes) through a given (usually Dirichlet) probability distribution. Prior to generate a link between two nodes, a particular class is selected for each node. The link is then generated according to a probability distribution $F$, sometimes referred to as the \textit{kernel} distribution, that depends on the selected classes. The generative process behind such models can be summarized as:
 
-Mixed-membership stochastic block (MMSB) models extend stochastic block models [@airoldi2009mixed] by allowing nodes to "belong" to several blocks (or classes) through a given (usually Dirichlet) probability distribution. Prior to generate a link between two nodes, a particular class is selected for each node. The link is then generated according to a probability distribution $F$, sometimes referred to as the \textit{kernel} distribution, that depends on the selected classes. The generative process behind such models can be summarized as: (a) For each node $i$, draw $\theta_i \sim \textrm{Dir}(\alpha)$, where $\theta_i$ and $\alpha$ are $K$-dimensional vectors, $K$ denoting the number of classes considered; (b) Generate two sets of latent class memberships, $Z_\rightarrow = \{z_{i\rightarrow j} \sim \textrm{Cat}(\theta_i), 1 \le i,j \le N\}$ and $Z_\leftarrow = \{z_{i\leftarrow j} \sim \textrm{Cat}(\theta_j), 1 \le i,j \le N\}$, with categorical draws; (c) Generate or not a link between two nodes $(i,j)$ according to $y_{ij} \sim F(\phi_{z_{i \rightarrow j}z_{i \leftarrow j}})$, where $F$ is a distribution in the exponential family and $\phi_{z_{i \rightarrow j}z_{i \leftarrow j}}$ an associated (usually conjugate) distribution that represents the relations between classes. For unweighted graphs, $F$ is usually Bernoulli and $\phi$ its conjugate Beta distribution.
+1. For each node $i$, draw $$\theta_i \sim \textrm{Dir}(\alpha),$$ where $\theta_i$ and $\alpha$ are $K$-dimensional vectors, $K$ denoting the number of classes considered;
+2. Generate two sets of latent class memberships for each possible interactions, $$Z_\rightarrow = \{z_{i\rightarrow j} \sim \textrm{Cat}(\theta_i), 1 \le i,j \le N\}$$ and $$Z_\leftarrow = \{z_{i\leftarrow j} \sim \textrm{Cat}(\theta_j), 1 \le i,j \le N\},$$ with categorical draws;
+3. Generate or not a link between two nodes $(i,j)$ according to $$y_{ij} \sim F(\phi_{z_{i \rightarrow j}z_{i \leftarrow j}}),$$ where $F$ is a distribution in the exponential family and $\phi_{z_{i \rightarrow j}z_{i \leftarrow j}}$ an associated (usually conjugate) distribution that represents the relations between classes. For unweighted graphs, $F$ is usually Bernoulli and $\phi$ its conjugate Beta distribution.
 
 Many real networks nevertheless rely on graphs in which edges are naturally weighted. In co-authorship networks, for example, it is standard to consider edges weighted according to the number of collaborations between authors [@newman2001scientific]. In communication networks, the weights are based on the number of messages sent from the sender to the receiver. In text mining and natural language processing applications, it is also common to use word graphs in which edges are weighted on the basis of the number of times the words co-occur (in a sentence, paragraph or document). In all these cases, weights are integers that can naturally be modeled with Poisson distributions. Relying on its conjugate Gamma distribution for $\phi$, one finally obtains the following models, denoted MMSB for unweighted graphs and WMMSB for weighted graphs:
 $$
@@ -61,19 +88,21 @@ r_{kk'} \sim \textrm{Gamma}(c_0r_0, 1/c_0) \qquad p_{kk'} \sim \textrm{Beta}(c\e
 \phi_{kk'} \sim \textrm{Gamma}(r_{kk'}, \frac{p_{kk'}}{1-p_{kk'}})
 \end{gather*}
 
-The variable $y_{ij}$ is again distributed according to a negative binomial distribution, of the form: $y_{ij}|_{Z} \sim \textrm{NB}(r_{z_{i \rightarrow j} z_{i \leftarrow j}},p_{z_{i \rightarrow j} z_{i \leftarrow j}})$. As one can note, and contrary to WMMSB, the parameters of the negative binomial distribution depend this time on the classes selected for each node, meaning that classes now play a prominent role in the model. We will denote this model as WMMSB-bg.
+The variable $y_{ij}$ is again distributed according to a negative binomial distribution, of the form:
+$$y_{ij}|{Z} \sim \textrm{NB}(r_{z_{i \rightarrow j} z_{i \leftarrow j}},p_{z_{i \rightarrow j} z_{i \leftarrow j}}).$$
+As one can note, and contrary to WMMSB, the parameters of the negative binomial distribution depend this time on the classes selected for each node, meaning that classes now play a prominent role in the model. We will denote this model as WMMSB-bg.
 
 As for most hierarchical Bayesian model, exact inference is intractable and one must resort to approximate inference. In the next section we propose a stochastic collapsed variational inference algorithm for the above models (MMSB, WMMSB, WMMSB-bg).
 
 ## Inference
-\label{sec:inference}
+\label{sec_5:inference}
 
-%One drawback of doing inference with Gibbs sampling for MMSB models, as is standard, is the quadratic complexity in the number of nodes. If one wants to use MMSB models and its weighted extensions on large networks, one needs to rely on other techniques, as variational inference. 
+Standard inference method for MMSB models rely either on Gibbs sampling or variational approach [@airoldi2009mixed]. The former approach give generally better results than the latter as sampling methods approximate the true posterior distribution while variational ones makes stronger assumptions on the posterior distribution that leads to a biased estimation. On the other hand variational approach usually allow faster convergence due to its deterministic form.
 
 Collapsed variational Bayes inference presents the advantage, over standard variational inference, to rely on weaker assumptions and has proven to be efficient on the latent Dirichlet allocation model [@teh2007collapsed]. Recent advances in stochastic variational inference [@hoffman2013stochastic], notably based on well-designed sampling techniques [@gopalan2013efficient][@kim2013efficient], have furthermore shown that it is possible to speed-up (collapsed) variational inference with online updates based on minibatches.
 Coupling collapsed and stochastic variational inference thus leads here to an efficient inference method that can be used on large networks.
 
-We first provide below the results obtained through collapsed variational inference for MMSB and its weighted counterparts. A detailed derivation of these results is given in the supplementary material. We then detail how stochastic variational inference is used on these models.
+We first provide below the results obtained through collapsed variational inference for MMSB and its weighted counterparts. A detailed derivation of these results is given in the appendix \ref{annexe:wmmsb}. We then detail how stochastic variational inference is used on these models.
 
 ### Collapsed Variational Inference
 
@@ -208,7 +237,7 @@ $$
 S \sim h(S;m) = \frac{1}{2N}\delta_{S_1} + \frac{1}{2Nm}\delta_{S_0}
 $$
 where $\delta$ is the dirac operator, and $\delta_{S_1}=1$ if $S \in S_1$ and 0 otherwise.
-One can see that the number of the non-link minibatches observed is in average $m$ times lower that the number of the link minibatches. This is particularly interesting for sparse networks where the number of non-links is predominant over the number of links. As, the model is update after each minibatch, one could expect that the inference converge much before the total number of minibatches is reached which represents a great interest to scale the inference process to large networks^[If all the $N(1+m)$ minibatches are observed during the inference, the time complexity will be in O(N^2).]. This is in fact what we observed in our experiments where the model converge in general after observing a small proportion of the total of minibatches (\ref{sec:exps}).
+One can see that the number of the non-link minibatches observed is in average $m$ times lower that the number of the link minibatches. This is particularly interesting for sparse networks where the number of non-links is predominant over the number of links. As, the model is update after each minibatch, one could expect that the inference converge much before the total number of minibatches is reached which represents a great interest to scale the inference process to large networks^[If all the $N(1+m)$ minibatches are observed during the inference, the time complexity will be in O(N^2).]. This is in fact what we observed in our experiments where the model converge in general after observing a small proportion of the total of minibatches (\ref{sec_5:exps}).
 
 Our SCVI algorithm is summarized in the pseudo-code \ref{algo:scvb}.
 
@@ -242,7 +271,7 @@ $t \gets 0$ \\
 
 
 ## Experimental validation
-\label{sec:exps}
+\label{sec_5:exps}
 
 
 We experimented our models on several real world networks, directed and undirected. Theirs statistics and properties are summarized in Table 5.1 and detailed descriptions are available in the online Koblenz network collection^[http://konect.uni-koblenz.de/networks/]. For both astro-ph and hep-ph datasets, we used the cleaned version available in the graph-tool framework.
@@ -264,7 +293,7 @@ We experimented our models on several real world networks, directed and undirect
   $9$ \url{hhttp://konect.uni-koblenz.de/networks/link-dynamic-simplewiki}\\
   $10$ \url{hhttp://konect.uni-koblenz.de/networks/prosper-loans}
 }
-\label{table-chap5:corpus}
+\label{table_5-chap5:corpus}
 \end{table}
 
 
@@ -292,14 +321,14 @@ Variational inference, used here for MMSB models, and MCMC, used for SBM models,
 \begin{figure}[h]
 \centering
     \input{source/figures/chap5/img/roc_evolv_fig2}
-\label{fig:roc}
+\label{fig_5:roc}
 \end{figure}
 
 ### Results
 
-Figure \ref{fig:roc} gives the AUC/ROC scores for the different models when using 1\%, 5\%, 10\%, 20\%, 30\% and 50\% of the training data, for 6 networks (the complete results, over all training set size and networks are given in the supplementary material). As one can note, MMSB models outperform the other models when the amount of training data is limited. Among these models, WMMSB-bg is the best performing one, which highlights the importance of the Beta and Gamma priors used. The poor performance of MMSB on some networks can be explained by the fact that the convergence of the model is very sensitive to the sampling choices done during the online inference, as illustrated by the high variance in the results. When the amount of training data is sufficient (which depends on the network considered), SBM models tend to be better. As discussed before, we attribute this to the MCMC method used in SBM models. Surprisingly, and contrary to what is happening for MMSB models, WSBM does not really outperform SBM; this model does not seem to be able to make a good use of the edge covariates. 
+Figure \ref{fig_5:roc} gives the AUC/ROC scores for the different models when using 1\%, 5\%, 10\%, 20\%, 30\% and 50\% of the training data, for 6 networks (the complete results, over all training set size and networks are given in the appendix \ref{annexe:wmmsb}). As one can note, MMSB models outperform the other models when the amount of training data is limited. Among these models, WMMSB-bg is the best performing one, which highlights the importance of the Beta and Gamma priors used. The poor performance of MMSB on some networks can be explained by the fact that the convergence of the model is very sensitive to the sampling choices done during the online inference, as illustrated by the high variance in the results. When the amount of training data is sufficient (which depends on the network considered), SBM models tend to be better. As discussed before, we attribute this to the MCMC method used in SBM models. Surprisingly, and contrary to what is happening for MMSB models, WSBM does not really outperform SBM; this model does not seem to be able to make a good use of the edge covariates. 
 
-Table \ref{table:roc}, which displays the results of MMSB, WMMSB-bg, SBM and WSBM for all networks when using 10\% and 100\% of the training data, confirms these elements. As one can note, using all training data, SBM outperforms WSBM on 5 datasets. Interestingly, there is an important degradation for SBM models when only 10\% of the training set is used. MMSB models are more stable in this aspect, showing that the stochastic variational inference used in MMSB models allows one to learn a correct model with few data.
+Table \ref{table_5:roc}, which displays the results of MMSB, WMMSB-bg, SBM and WSBM for all networks when using 10\% and 100\% of the training data, confirms these elements. As one can note, using all training data, SBM outperforms WSBM on 5 datasets. Interestingly, there is an important degradation for SBM models when only 10\% of the training set is used. MMSB models are more stable in this aspect, showing that the stochastic variational inference used in MMSB models allows one to learn a correct model with few data.
 
 Finally, it is worth mentioning that on the dataset prosper-loans, the only network classified as "Interaction" in the Konnect repository, most models fail to learn the topology. In particular, MMSB barely exceeds a random classifier. Only the weighted MMSB models, WMMSB and WMMSB-bg, succeed in predicting new edges, with a performance above 0.75 when using only 10\% of the training data.
  
@@ -307,17 +336,17 @@ Finally, it is worth mentioning that on the dataset prosper-loans, the only netw
 \begin{table}
 \centering
     \input{source/figures/chap5/img/roc_evolv_tab}
-\label{table:roc}
+\label{table_5:roc}
 \end{table}
 
 ### Convergence analysis
 
-Figure \ref{fig:conv_entropy} shows the evolution of the log-likelihood for the MMSB-based models on a validation set composed of 20\% of links and non-links for each network. We used three different sets for the hyperparameters shape $r$ and scale $p$ of WMMSB. Regardless of the values of these hyperparameters, one can observe that the augmented model WMMSB-bg is less prone to overfitting, usually converges to a better solution and only needs a small proportion of the total number $N^2$ of edges to do so.
+Figure \ref{fig_5:conv_entropy} shows the evolution of the log-likelihood for the MMSB-based models on a validation set composed of 20\% of links and non-links for each network. We used three different sets for the hyperparameters shape $r$ and scale $p$ of WMMSB. Regardless of the values of these hyperparameters, one can observe that the augmented model WMMSB-bg is less prone to overfitting, usually converges to a better solution and only needs a small proportion of the total number $N^2$ of edges to do so.
 
 \begin{figure}[h]
 \centering
     \input{source/figures/chap5/img/conv_entropy3}
-\label{fig:conv_entropy}
+\label{fig_5:conv_entropy}
 \end{figure}
 
 <!--
@@ -327,7 +356,7 @@ Figure \ref{fig:conv_entropy} shows the evolution of the log-likelihood for the 
 
 <!--
 %%% Time convergence
-While our implementation is in python, the time convergence of the algorithm is fast and it is even comparable with SBM which is implemented in C. Furthermore, in practice, the algorithm exhibits a sublinear time complexity with the numbers of edges, as shown Table \ref{table:time}.
+While our implementation is in python, the time convergence of the algorithm is fast and it is even comparable with SBM which is implemented in C. Furthermore, in practice, the algorithm exhibits a sublinear time complexity with the numbers of edges, as shown Table \ref{table_5:time}.
 
 \begin{table}[h]
 \begin{tabular}{llllll}
@@ -345,7 +374,7 @@ wiki-link     & 13683.093 $\pm$ 6890.663 & 5592.084 $\pm$ 228.13    & 613.841 $\
 prosper-loans & 6595.175 $\pm$ 4612.049  & 12255.827 $\pm$ 4878.113 & 1182.409 $\pm$ 183.342  \\
 \hline
 \end{tabular}
-\label{table:time}
+\label{table_5:time}
 \caption{Inference time in seconds.}
 \end{table}
 -->
@@ -366,9 +395,11 @@ D_{l_1}(D_{test} || \{\Thetah, \Phih\}) = \sum_{i,j \in \D_{test}} | y_{ij} - \E
 
 
 ## Conclusion
-\label{sec:concl}
+\label{sec_5:concl}
 
 We exposed in this chapter a new model, from the mixed-membership stochastic block model family, to deal with (directed or undirected) weighted networks. We furthermore showed that this model can be efficiently learned through a stochastic collapsed variational approach that couples collapsed variational and stochastic inference, so that the model can be deployed on networks comprising millions of edges. Experiments conducted on several networks showed that the proposed model can successfully predict the topology of various real world networks and that it outperforms the standard mixed-membership stochastic block model (with the same, scalable inference). Another interesting property of this model is the fact that it outperforms other stochastic block models when the mount of training data is limited.
+
+<!--* contributiuon on scalable inference !-->
 
 
 

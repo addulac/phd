@@ -38,6 +38,7 @@ pdf:
 	--verbose \
 	--pdf-engine=xelatex \
 	--filter pandoc-eqnos \
+	--filter pandoc-citeproc \
 	--highlight-style pygments \
 	--csl="$(STYLEDIR)/ref.csl" \
 

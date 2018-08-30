@@ -5,6 +5,11 @@ urlcolor: blue
 linkcolor: red
 ---
 
+<!--
+=== Put all the reference in bib in a papers
+nocite: '@*' 
+-->
+
 <!-- 
 This is the Latex-heavy title page. 
 People outside UCL may want to remove the header logo 
@@ -30,7 +35,7 @@ and add the centred logo
 
         \normalsize
         A thesis presented for the degree of\\
-        Doctor of Philosophy
+        Doctor of Science
         
         \vfill
         

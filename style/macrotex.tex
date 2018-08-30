@@ -76,6 +76,9 @@
 \newcommand{\ilfm}{{ILFM}\xspace}
 \newcommand{\imb}{{IMMSB}\xspace}
 
+% Cn't make a fucking aigue accent on a (barabasi!)
+\newcommand{\acca}{à}
+
 %\newcommand\mms[1]{\vcenter{\hbox{$\scriptstyle #1$}}}
 
 \newtheorem{definition}{Definition}[section]
@@ -84,5 +87,29 @@
 \newtheorem{corollary}{Corollary}[section]
 \newtheorem{proof}{Proof}[section]
 
-
+%%% Tentative to make the title visible for inproceeding citation/
+%\makeatletter
+%\let\@internalcite\cite
+%\def\cite{\def\citename##1{##1}\@internalcite}
+%\def\shortcite{\def\citename##1{}\@internalcite}
+%\newlength{\bibhang}
+%\setlength{\bibhang}{1em}
+%\def\@biblabel#1{}
+%\def\thebibliography#1{%
+%	\section*{%
+%		\refname\@mkboth{\sl\uppercase{\refname}}{\sl\uppercase{\refname}}}
+%		\list{\relax}{\setlength{\labelsep}{0em}
+%	\setlength{\itemindent}{-\bibhang}
+%		\setlength{\leftmargin}{\bibhang}}
+%		\def\newblock{\hskip .11em plus .33em minus .07em}
+%		\sloppy\clubpenalty4000\widowpenalty4000
+%		\sfcode`\.=1000\relax}
+%		\def\@citex[#1]#2{\if@filesw\immediate\write\@auxout{\string\citation{#2}}\fi
+%		\def\@citea{}\@cite{\@for\@citeb:=#2\do
+%		{\@citea\def\@citea{; }\@ifundefined
+%		{b@\@citeb}{{\bf ?}\@warning
+%		{Citation '\@citeb' on page \thepage \space undefined}}%
+%		{\csname b@\@citeb\endcsname}}}{#1}}
+%		\makeatother
+%
 

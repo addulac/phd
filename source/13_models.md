@@ -1,6 +1,6 @@
 
 # Latent Variable Models
-\label{sec:model}
+\label{sec:network_model}
 
 ## Preliminaries
 
@@ -43,6 +43,9 @@ gaussian process...
 [@goldenberg2010survey]
 
 
+### Latent feature model
+
+### Latent class model
 Point to MMSB and IBP in later presentation.
 
 
