@@ -1,0 +1,17 @@
+\begin{tikzpicture}
+  % Define nodes
+  \node[const]                              (alpha) {$\alpha$};
+    \node[const, below= of alpha]                              (beta) {$\beta$};
+  \node[latent, right=1.5cm of alpha] (pika) {$\pi_k$};
+  \node[latent, right=1.5cm of pika]  (zik){$z_{ik}$};
+ 
+
+  % Connect the nodes
+  \edge {alpha, beta} {pika} ;
+  \edge {pika} {zik} ;
+
+
+  % Plates
+  \plate {p1} {(zik)} {$N$} ;
+  \plate {} {(pika)(p1)} {$K$} ;
+\end{tikzpicture}

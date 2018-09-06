@@ -1,0 +1,26 @@
+\begin{tikzpicture}
+
+  \pgfmathsetmacro{\offs}{0.3cm}
+
+  % Define nodes
+  \node[latent                             ] (G0) {$G_0$};
+  \node[latent, above=of G0, yshift=-\offs ] (H) {$H$};
+  \node[const, right=of G0                 ] (gamma) {$\gamma$};
+  \node[latent, below=of G0, yshift=\offs  ] (Gj) {$G_j$};
+  \node[const, right=of Gj                 ] (alpha) {$\alpha_0$};
+  \node[latent, below= of Gj, yshift=\offs ] (theta) {$\theta_{ji}$};
+  \node[obs, below= of theta, yshift=\offs ] (y) {$y_{ji}$};
+
+  % Connect the nodes
+  \edge {gamma} {G0} ;
+  \edge {H} {G0} ;
+  \edge {G0} {Gj} ;
+  \edge {alpha} {Gj} ;
+  \edge {Gj} {theta} ;
+  \edge {theta} {y};
+
+  % Plates
+  \plate[yshift=0] {p} {($(Gj)!0.5!(theta)$)(y)} {$N$} ;
+  \plate {} {($(Gj)!0.5!(G0)$)(p)($(Gj)!0.4!(alpha)$)} {$J$} ;
+
+\end{tikzpicture}

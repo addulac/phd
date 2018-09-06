@@ -10,7 +10,7 @@ $Y$ \>  adjacency matrix of $G$ \\
 $\yij$ \>  edge(s) between node $i$ and node $j$ \\  
 $d_i$ \>  degree of node $i$ \\  
 $K$ \> number of latent classes/blocks/features in the graph $G$ \\
-$\mg$ or $\Omega$ \> set of hyperparameter of a (Bayesian) model \\
+$\mg$ or $\Omega$ \> set of hyper-parameters of a (Bayesian) model \\
 $\me$ or $\Pi$ \> set of random parameters (equiv. latent variable) of a (Bayesian) model \\
 $\mat{\Theta}$ \> matrix of nodes' latent classes/features \\
 $\mat{\Phi}$ \> matrix of latent class/feature interaction strength \\

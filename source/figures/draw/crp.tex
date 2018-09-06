@@ -1,0 +1,22 @@
+\begin{tikzpicture}
+
+    \foreach \z/\x in {a/1,b/2,c/3,d/4} {
+        %\node[draw, circle] (\z)  at ((-1+\x)*2 ,0)  {$t=\x$};
+        \node[draw, circle] (\z)  at (2.5*\x-2 ,0)  {$k=\x$};
+    }
+
+    \foreach \x in {0,...,2} 
+        \node (d\x) at (9+\x/3,0)  {$\pt$};
+
+    \node[draw, inner sep=8pt , fit=(a) (d2)] {};
+
+    \foreach \x in {10, 34, 78, 280} 
+        \node at ($ (a) + (-\x:0.9) $) {\scriptsize X};
+    \foreach \x in {199, 300} 
+        \node at ($ (b) + (-\x:0.9) $) {\scriptsize X};
+    \foreach \x in {188, 87, 69} 
+        \node at ($ (c) + (-\x:0.9) $) {\scriptsize X};
+    \foreach \x in {124} 
+        \node at ($ (d) + (-\x:0.9) $) {\scriptsize X};
+
+\end{tikzpicture}

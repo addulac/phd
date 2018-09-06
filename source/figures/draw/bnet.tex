@@ -1,0 +1,8 @@
+\begin{tikzpicture}
+    \node[const] (a) {$\Omega$};
+    \node[latent, right=of a] (p) {$\Pi$};
+    \node[obs, right=of p] (x) {$X$};
+
+    \edge {a}{p};
+    \edge {p}{x};
+\end{tikzpicture}

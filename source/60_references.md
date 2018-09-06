@@ -9,3 +9,9 @@ References are automatically generated from the BibTex file (References.bib)
 -->
 
 # References
+
+\ 
+
+\setlength{\parindent}{-15pt}
+\setlength{\leftskip}{15pt}
+<!--\setlength{\parskip}{8pt}-->

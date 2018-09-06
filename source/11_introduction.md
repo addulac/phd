@@ -3,14 +3,14 @@
 
 ## Thesis Overview
 
-Networks are ubiquitous data structures that allow to represent interactions between objects. Complex networks encompass real-world networks with non-trivial structural properties such as social networks of individuals in the society or information networks of document ressources like academic papers, and magnified by the World Wide Web. Their study comes with many exciting questions concerning the law that governs complex networks, their dynamics, and their invariant properties which are motivated by a better understanging of the *emergent* phenomenons raised by the formation of complex interacting systems. The analysis of complex networks is a modern field of science that reprensents an oppurtunity for many scientific communities to interact and share knowledge between each others.
+Networks are ubiquitous data structures that allow to represent interactions between objects. Complex networks encompass real-world networks with non-trivial structural properties such as social networks of individuals in the society or information networks of document resources like academic papers, and magnified by the World Wide Web. Their study comes with many exciting questions concerning the law that govern them, their dynamics, and their invariant properties. Such questions are motivated by a better understanding of the *emergent* phenomena raised by the formation of complex interacting systems as well as the development of tools to enhance their analysis. The analysis of complex networks is a modern field of science that represent an opportunity for many scientific communities to interact and share knowledge between each others due the diversity of the sources from where networks arise on one side, and the common phenomena that occur in their midst in the other.
 
 In the other hand, Machine Learning is a discipline at the crossroad of applied mathematics and computer science that aims to build algorithms able to *explore* various kind of observable information such as texts, images, time-series or networks.
 The purpose of this exploration is to shape an abstract view of the observable information, also called the training data. This abstract view is referred as a model and is used to accomplish some prediction tasks on unobserved or future outcomes.
-The processus of (machine) learning consists of fitting a model with the data which, in general, reduced to a mathematical optimisation problem ^[Most of the time, the learning process can be cast into an optimization problem, but not always, as for MCMC techniques (\ref{sec:mcmc}) for example.] of an objective function which mesures, in some sense, how well the model explain the data.
+The process of (machine) learning consists of fitting a model with the data which, in general, reduced to a mathematical optimisation problem ^[Most of the time, the learning process can be cast into an optimization problem, but not always, as for MCMC techniques (\ref{sec:mcmc}) for example.] of an objective function which measures, in some sense, how well the model explain the data.
 
-The context of this thesis is the study of complex networks with a machine learning approach.
-The objectives are to understand what models are adapted for networks and why, and to propose new models that overcome current limitation to improve prediction tasks on real world networks.
+The context of this thesis is to study and develop machine learning based approaches towards complex networks analysis.
+The objectives are to understand what models are adapted for networks and why, and to propose new models that overcome current limitation to improve prediction tasks on real world networks. In particular, we studied a family of probabilistic models characterised by hierarchical relations of latent variables that provide a rich framework to capture networks properties and develop statistical procedures (i.e. inference) that efficiently extract information from network datasets while controlling the uncertainty levels that are inherent to complex networks.
 
 
 
@@ -18,7 +18,7 @@ The objectives are to understand what models are adapted for networks and why, a
 ## Thesis Outline
 
 This thesis is organised in 4 chapters. 
-The chapters 2 and 3 review the state of the art of the topic. In particular, chapter 2 focus on complex networks analysis and mining aspects while chapter 3 focus on the random graph theory and models aspects. Our motivations in those preliminaries chapter are to provide elements of response of the following questions:
+The chapter 2 and 3 review the state of the art of the topic. In particular, chapter 2 focus on complex networks analysis and mining aspects while chapter 3 focus on the probabilistic framework for random graph models. Our motivations in those preliminaries chapter are to provide elements of response of the following questions:
 
 * what kind of network data are we interested in and why? (\ref{sec:network_type}, \ref{sec:network_property})
 * what kind of prediction tasks we want to solve with those models?  (\ref{sec:network_application})

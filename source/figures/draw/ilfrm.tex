@@ -1,0 +1,21 @@
+\begin{tikzpicture}
+  % Define nodes
+  \node[obs]                      (y) {$y_{ij}$};
+  \node[latent, left=1.2cm of y] (fi) {$F_i$};
+  \node[latent, right=1.2cm of y] (fj) {$F_j$};
+  \node[latent, above= of y, xshift=-0.5cm]   (W) {$W$};
+  \node[latent, below= of y, yshift=-0.3cm]   (ibp) {IBP};
+  \node[const, right=0.7cm of ibp]   (a) {$\alpha$};
+  \node[const, above= of y, xshift=0.5cm]   (s) {$\sigma$};
+  \node[const, left=0.7cm of W]   (sw) {$\sigma_w$};
+
+  % Connect the nodes
+  \edge {fi,fj,W,s} {y} ;
+  \edge[dashed] {ibp} {fi,fj} ;
+  \edge {sw} {W} ; 
+  \edge {a} {ibp} ; 
+
+  % Plates
+  \plate {yx} {(fj)(y)} {$N$} ;
+  \plate {} {(fi)(y)(yx.north west)(yx.south west)} {$N$} ;
+\end{tikzpicture}

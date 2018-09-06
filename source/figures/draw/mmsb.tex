@@ -1,0 +1,27 @@
+\begin{tikzpicture}
+  % Define nodes
+  \node[obs]                              (y) {$y_{ij}$};
+  \node[latent, above=of y, xshift=-1.2cm, yshift=-0.4cm](zi){$z_u$};
+  \node[latent, above=of y, xshift=1.2cm,  yshift=-0.4cm] (zj){$z_v$};
+  \node[latent, left=1cm of zi]           (gi){$G_i$};
+  \node[latent, right=1cm of zj]          (gj) {$G_j$};
+  \node[const, above=of y, yshift=0.8cm]   (a0) {$\beta$};
+  \node[latent, above=of a0, yshift=-0.7cm] (G0) {$G_0$};
+  \node[const, above=0.7cm of G0]   (H) {$H$};
+  \node[const, left=0.7cm of G0]    (g) {$\gamma$};
+  \node[latent, below=of y, yshift=-0.2cm]      (B) {$B$};
+  \node[const, right=0.7cm of B]    (ab) {$a, b$};
+
+  % Connect the nodes
+  \edge {zi,zj,B} {y} ;
+  \edge {gi} {zi} ;
+  \edge {gj} {zj} ;
+  \edge {a0,G0} {gi,gj} ;
+  \edge {g} {G0} ;
+  \edge {ab} {B} ;
+  \edge {H} {G0} ;
+
+  % Plates
+  \plate {yx} {(gj)(zj)(zi)(y)} {$N$} ;
+  \plate {} {(gi)(zi)(zj)(y)(yx.north west)(yx.south west)} {$N$} ;
+\end{tikzpicture}

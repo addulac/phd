@@ -1,0 +1,19 @@
+\begin{tikzpicture}
+  % Define nodes
+  \node[obs]                      (y) {$y_{ij}$};
+  \node[latent, left=1.2cm of y] (zi) {$z_{i\rightarrow j}$};
+  \node[latent, right=1.2cm of y] (zj) {$z_{i\leftarrow j}$};
+  \node[latent, above= of y]    (ibp) {$\Theta$};;
+  \node[latent, below= of y, yshift=-0.3cm]   (W) {$\Phi$};
+  \node[const, left=0.7cm of ibp]   (a) {$\alpha_0$};
+  \node[const, right=0.7cm of W]   (sw) {$\lambda$};
+
+  % Connect the nodes
+  \edge {zi,zj,W} {y} ;
+  \edge {ibp} {zi,zj} ;
+  \edge {sw} {W} ; 
+  \edge {a} {ibp} ; 
+
+  % Plates
+  \plate {yx} {(zj)(zi)(y)} {$N\times N$} ;
+\end{tikzpicture}

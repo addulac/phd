@@ -1,4 +1,5 @@
 ---
+fontsize: 12pt
 link-citations: true
 citecolor: green
 urlcolor: blue

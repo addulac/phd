@@ -41,7 +41,7 @@ In this paper we consider the weighted relations as a measure for the number of 
     \begin{equation*}
         K_1 + K_2 = \mathrm{Poi}(\alpha_1 + \alpha_2)
     \end{equation*}
-\item {Thinning}: The number of successes in a Poisson number of coin flips is Poisson, namely if $K \sim \mathrm{Poi}(\alpha)$ and $X_1,...,X_K \sim \mathrm{Bern}(p)$ then,
+\item {Thinning}: The number of successes in a Poisson number of coin flips is Poisson, namely if $K \sim \mathrm{Poi}(\alpha)$ and $X_1,\dotsc,X_K \sim \mathrm{Bern}(p)$ then,
     \begin{equation*}
         \sum_{i=1}^K X_i = \mathrm{Poi}(p\alpha)
     \end{equation*}
@@ -77,7 +77,7 @@ y_{ij} &\sim \textrm{Poi}(\phi_{z_{i \rightarrow j}z_{i \leftarrow j}}), &\phi_{
 \end{align*}
 The choice made here for the Poisson and Gamma distributions in WMMSB allows one to represent overdispersed count data as one has [@zhou2012beta]
 $$y_{ij} \sim \textrm{NB}(r,p)$$
-where $\textrm{NB}$ denotes the negative binomial distribution. Furthermore, the above models are valid for both directed and undirected graphs, the matrix $\Phi = (\phi_{kk'})_{k,k' \in \{1,..,K\}^2}$ being symmetric in the latter case.
+where $\textrm{NB}$ denotes the negative binomial distribution. Furthermore, the above models are valid for both directed and undirected graphs, the matrix $\Phi = (\phi_{kk'})_{k,k' \in \{1,\dotsc,K\}^2}$ being symmetric in the latter case.
 
 
 ### Beta-Gamma augmentation
@@ -106,7 +106,7 @@ We first provide below the results obtained through collapsed variational infere
 
 ### Collapsed Variational Inference
 
-In the remainder, we use the notation $n^{-ij}$ to indicate that the superscript $ij$ is excluded from the underlying count variable, and $n_{\bm{.}}$ to indicate a sum over the dotted subscript index. Furthermore, $\Pi$ will denote the model parameters ($\Pi = (\Theta,\Phi,Z)$ for MMSB and WMMSB and $\Pi = (\Theta,\Phi,Z,R,P)$ for WMMSB-bg) and $\Omega$ the hyperparameters ($\Omega = (\alpha,\lambda_0,\lambda_1)$ for MMSB, $\Omega = (\alpha,r,p)$ for WMMSB and $\Omega = (\alpha, c_0, r_0, c, \epsilon)$ for WMMSB-bg). 
+In the remainder, we use the notation $n^{-ij}$ to indicate that the superscript $ij$ is excluded from the underlying count variable, and $n_{\bm{.}}$ to indicate a sum over the dotted subscript index. Furthermore, $\Pi$ will denote the model parameters ($\Pi = (\Theta,\Phi,Z)$ for MMSB and WMMSB and $\Pi = (\Theta,\Phi,Z,R,P)$ for WMMSB-bg) and $\Omega$ the hyper-parameters ($\Omega = (\alpha,\lambda_0,\lambda_1)$ for MMSB, $\Omega = (\alpha,r,p)$ for WMMSB and $\Omega = (\alpha, c_0, r_0, c, \epsilon)$ for WMMSB-bg). 
 
 From Jensen's inequality, for any distribution $q$, one has: 
 \begin{equation*}
@@ -203,7 +203,7 @@ Stochastic variational inference aims at optimizing ELBO through noisy yet unbia
   &\hat N^{Y}_{kk'} \mathrel{+}= \frac{1}{|s_i|} \frac{1}{Cg(s_i)} \gamma_{ijkk'} y_{ij} 
 \end{align*}
 }
-where $C$ is a constant that is $2$ for undirected graphs and $1$ for directed graphs and $g(s_i) = \frac{1}{Nm}$ if $s_i \in S_0^i$ and $\frac{1}{N}$ otherwise. Note that $Cg(s_i)$ correspond to the probability to observe the node $i$ depending on whether $s_i$ belongs to $S_0$ or $S_1$.
+where $C$ is a constant that is $2$ for undirected graphs and $1$ for directed graphs and $g(s_i) = \frac{1}{Nm}$ if $s_i \in S_0^i$ and $\frac{1}{N}$ otherwise. Note that $Cg(s_i)$ correspond to the probability to observe the node $i$ depending on either $s_i$ belongs to $S_0$ or $S_1$.
 \item Update of the global counts (online version of Eq. \ref{eq:sss}): \label{global_gradient_chap5}
 \begin{align*} 
   &N^{\Theta}_{\rightarrow ik} \leftarrow (1 - \rho^{i,\Theta}_t) N^{\Theta}_{\rightarrow ik} + \rho^{i,\Theta}_t \hat N^{\Theta}_{\rightarrow ik} \\
@@ -313,7 +313,7 @@ $$
 \log p(\D_{set}) = \sum_{i,j \in \D_{set}} \log p(y_{ij} | \phih_{kk'}) p(k|\thetah_i) p(k'|\thetah_j)
 $$
 
-For all our models, the gradient step parameters $\tau$ and $\kappa$ were fixed respectively to $1024$ and $0.5$, the burn-in period $T_{burnin}$ to $150$; for stratified sampling, $M$ was set to $50$, the size of $s_0^{i,m}, \, 1 \le m \le M$ being equal to the number of nodes to which $i$ is not connected to divided by $M$. For MMSB, the hyperparameters $\lambda_0$ and $\lambda_1$ were set to $0.1$. For WMMSB, the shape and scale parameters $r$ et $p$ were fixed to $1$ and for WMMSB, the beta-gamma hyperparameters were fixed to $c_0=10$, $r_0=1$, $c=100$ and $\epsilon=10^{-6}$. The number of latent classes $K$ was fixed to $10$ for all models and the latent-class hyperparameters $\alpha_k$ to $\frac{1}{K}$. Our implementation is available online^[https://github.com/***/*** (anonymized)]. In addition, we consider here two standard link prediction models, the stochastic block model, referred to as SBM, and its weighted extension, referred to as WSBM. For these two models, the microcanonical stochastic block model implementation of [@peixoto2018nonparametric] has been used since it integrates an efficient MCMC inference method for the stochastic block model family. The number of classes was also set to $K=10$.
+For all our models, the gradient step parameters $\tau$ and $\kappa$ were fixed respectively to $1024$ and $0.5$, the burn-in period $T_{burnin}$ to $150$; for stratified sampling, $M$ was set to $50$, the size of $s_0^{i,m}, \, 1 \le m \le M$ being equal to the number of nodes to which $i$ is not connected to divided by $M$. For MMSB, the hyper-parameters $\lambda_0$ and $\lambda_1$ were set to $0.1$. For WMMSB, the shape and scale parameters $r$ et $p$ were fixed to $1$ and for WMMSB, the beta-gamma hyper-parameters were fixed to $c_0=10$, $r_0=1$, $c=100$ and $\epsilon=10^{-6}$. The number of latent classes $K$ was fixed to $10$ for all models and the latent-class hyper-parameters $\alpha_k$ to $\frac{1}{K}$. Our implementation is available online^[https://github.com/***/*** (anonymized)]. In addition, we consider here two standard link prediction models, the stochastic block model, referred to as SBM, and its weighted extension, referred to as WSBM. For these two models, the microcanonical stochastic block model implementation of [@peixoto2018nonparametric] has been used since it integrates an efficient MCMC inference method for the stochastic block model family. The number of classes was also set to $K=10$.
 
 Variational inference, used here for MMSB models, and MCMC, used for SBM models, lead to different performance, the latter usually yielding better models than the former [@asuncion2009smoothing]. Indeed, despite the fact that the MMSB models considered here rely on more realistic assumptions regarding the distribution of nodes over latent classes, the approximations made on the likelihood for scalable inference purposes penalize MMSB models when it comes to prediction accuracy. This said, the strong averaging step of the stochastic gradient descent allows for faster convergence so that, as the models are more realistic, they may yield better performance when the amount of training data is limited. This is indeed what we observe in practice.
 
@@ -341,7 +341,7 @@ Finally, it is worth mentioning that on the dataset prosper-loans, the only netw
 
 ### Convergence analysis
 
-Figure \ref{fig_5:conv_entropy} shows the evolution of the log-likelihood for the MMSB-based models on a validation set composed of 20\% of links and non-links for each network. We used three different sets for the hyperparameters shape $r$ and scale $p$ of WMMSB. Regardless of the values of these hyperparameters, one can observe that the augmented model WMMSB-bg is less prone to overfitting, usually converges to a better solution and only needs a small proportion of the total number $N^2$ of edges to do so.
+Figure \ref{fig_5:conv_entropy} shows the evolution of the log-likelihood for the MMSB-based models on a validation set composed of 20\% of links and non-links for each network. We used three different sets for the hyper-parameters shape $r$ and scale $p$ of WMMSB. Regardless of the values of these hyper-parameters, one can observe that the augmented model WMMSB-bg is less prone to overfitting, usually converges to a better solution and only needs a small proportion of the total number $N^2$ of edges to do so.
 
 \begin{figure}[h]
 \centering

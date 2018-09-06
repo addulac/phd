@@ -34,26 +34,41 @@
 
 \usepackage{tikz}
 \usetikzlibrary{bayesnet}
+\usetikzlibrary{calc}
 %\newcommand{\tikzmark}[1]{\tikz[overlay,remember picture] \node (#1) {};}
 %%\input{../tikz.conf}
 
 
 % Symboles
 \renewcommand{\text}{\textnormal}
+\newcommand{\pt}{\bm{.}}
 %\newcommand{\pr}{\mathbf{p}}
-\newcommand{\pr}{p}
-\newcommand{\p}{p}
+\newcommand{\pr}{P}
+\newcommand{\p}{P}
 \newcommand{\Er}{\mathbb{E}}
+\newcommand{\Vr}{\mathbb{V}}
 \newcommand{\divkk}{\mathbb{K}}
 \newcommand{\entropy}{\mathbb{H}}
+\renewcommand{\Re}{\mathbb{R}}
+\newcommand{\Co}{\mathbb{C}}
+\newcommand{\Na}{\mathbb{N}}
 \newcommand{\gem}{\mathrm{GEM}}
 \newcommand{\Mult}{\mathrm{Mult}}
+\newcommand{\Cat}{\mathrm{Cat}}
+\newcommand{\Bern}{\mathrm{Bern}}
+\newcommand{\Dir}{\mathrm{Dir}}
+\newcommand{\Beta}{\mathrm{Beta}}
+\newcommand{\Gmma}{\mathrm{Gamma}}
+\newcommand{\Poisson}{\mathrm{Poi}}
 \newcommand{\DP}{\mathrm{DP}}
 \newcommand{\IBP}{\mathrm{IBP}}
 \newcommand{\V}{\mathcal{V}}
 \newcommand{\E}{\mathcal{E}}
 \newcommand{\N}{\mathcal{N}}
 \newcommand{\D}{\mathcal{D}}
+\newcommand{\X}{\mathcal{X}}
+%\newcommand{\H}{\mathcal{H}}
+%\newcommand{\C}{\mathcal{C}}
 \newcommand{\Graph}{\mathcal{G}}
 \renewcommand{\L}{\mathcal{L}}
 \newcommand{\mat}[1]{\bm{{#1}}}

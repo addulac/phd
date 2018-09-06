@@ -1,0 +1,34 @@
+\begin{tikzpicture}
+  \pgfmathsetmacro{\offs}{0.3cm}
+
+  % Define nodes
+  \node[latent                                 ] (beta) {$\beta^0$};
+  \node[const, right=of beta                   ] (gamma) {$\gamma$};
+  \node[latent, below=of beta, yshift=\offs ] (k) {$k_{jt}$};
+  \node[latent, right=of k, xshift=-1.2*\offs   ] (betat) {$\beta_j^1$};
+  \node[const, right=of betat ] (alpha) {$\alpha_0$};
+  \node[latent, below= of betat, yshift=\offs  ] (t) {$t_{ji}$};
+  \node[latent, below= of k, yshift=\offs     ] (z) {$z_{ji}$};
+  \node[obs, below= of z, yshift=\offs         ] (y) {$y_{ji}$};
+  \node[latent, below= of y, yshift=\offs-20pt ] (phi) {$\phi_k$};
+  \node[latent, right=of phi                   ] (H) {$H$};
+
+  % Connect the nodes
+  \edge {gamma} {beta};
+  \edge {alpha} {betat};
+  \edge {beta} {k};
+  \edge {k} {z};
+  \edge {betat} {t};
+  \edge {z} {y};
+  \edge {phi} {y};
+  \edge {H} {phi};
+  \edge {t} {z};
+
+  % Plates
+  %\plate[yshift=0, outer sep=0pt] {p} {($(k)!0.1!(z)$)(t)(y)} {$N$} ;
+  \plate[yshift=0, outer sep=0pt] {p} {(z)(t)(y)} {$N$} ;
+  \plate[outer sep=0pt] {} {($(beta)!0.5!(k)$)(betat)(p)($(betat)!0.4!(alpha)$)} {$J$} ;
+  \plate {} {(phi)($(phi)!0.4!(H)$)} {$\infty$} ;
+  \plate {} {($(k)!0.4!(beta)$)(k)($(k)!0.4!(betat)$)} { $\infty$} ;
+
+\end{tikzpicture}

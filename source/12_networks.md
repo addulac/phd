@@ -3,14 +3,15 @@
 
 ## Context of the study
 
-The study of complex networks is grounded by the graph theory and in particular, for the statistical analysis of networks, by the random graph theory [@albert2002statistical][@Newman03]. The latter approach is particularly well adapted for complex networks because, by definition, their associated graphs haven't a *rigid* topological structure such as being acyclic, complete, or other specific symmetries in their connectivity patterns, or at least, there are not assumed *a priori*. This can be resumed by the statement: *"a complex network is governed by simple assumptions"*.
+The study of complex networks is grounded by the graph theory and in particular, for the statistical analysis of networks, by the random graph theory [@albert2002statistical][@Newman03]. The latter approach is particularly well adapted for complex networks because, by definition, their associated graphs haven't a *rigid* topological structure such as being regular, acyclic, complete, or other specific symmetries in their connectivity patterns, or at least, there are not assumed *a priori*. This can be resumed by the statement: *"a complex network is governed by simple assumptions"*.
 Meanwhile, using random structures provides a rich formalism to encode data priors and model the uncertainty through representation (\ref{sec:network_model}) that are sound with the assumptions made on the network [@orbanz2015bayesian].
 A major difficulty in modelling complex networks is that they have several degrees of uncertainty regarding their topological structure and in the law that control their dynamics.
 This uncertainty makes the problem of finding a good model to explain the construction of a given network (and make prediction on it) ill-defined.
 Besides, there is an other source of uncertainty that comes from the fact that there is no strong consensus about the semantics behind the construction of the networks [@krackhardt1999ties]; what does it means that there exists a connection between two nodes in a network? Why and when a connection is established between two nodes? There is no obvious answer to those questions, and worse, the answer may not be the same depending on the type of the network considered (\ref{sec:network_type}). Even for two networks of similar type, the answer may differ for two different couple of nodes. For example, the notion of friendship in a social network can vary according to the country or the culture considered. Or, for a hyperlink network, such as the Web^[The World Wide Web], a web page could points to another because the content is related in some way, or maybe because it references a sponsor, which are two completely different reasons.
 Hence, to face this uncertainty we focus our study on probabilistic models as they provide a natural framework to build powerful and flexible model in this context [@ghahramani15_nature]. 
 
-In the rest of the section, we gives a quick review of the type of networks we are interested in. Then, we recall the basic properties of graphs and the application of interest our context.
+Therefore, to build pertinent probabilistic models, one needs to seek and identifies the characteristic properties of the data being modelled, in order to propose suitable assumptions.
+In the rest of the section, we gives a quick review of the type of networks we are interested in. Then, we recall the basic properties of graphs before exposing the applications of interest in the context of our study.
 <!--Finally, we introduce the models and inference scheme that are relevant to our work.-->
 
 
@@ -24,7 +25,7 @@ More generally, the category of **Social Interaction Networks** type are used to
 
 * *Social networks*: They represent set of entities with some relationship pattern between them. The pattern can be the friendship between individuals or business relation between company for example. They are the most representative networks in term of available datasets and academic research [@kunegis2013konect][@Newman03].
 * *Communication networks*: They represent communication pattern between entities. The pattern takes usually the form of a message or information delivered from a sender to a receiver. Such networks can be built from email exchange in a company [@klimt2004enron] or from phone call patterns [@aiello2001random] for example.
-* *Economic networks*: They represent transaction pattern between entities. Such transactions can take the form of user ratings of movies, user clicks over web content, or again, interaction based on money loan [@bell2007lessons]. Those networks have gain particular attention in the Recommender System community [@burke2002hybrid].
+* *Economic networks*: They represent transaction pattern between entities and are mostly based on human activities. For instance, one can think about user ratings of movies, user clicks over web content, or again, financial transactions [@bell2007lessons]. Those networks have gain particular attention in the Recommender System community [@burke2002hybrid].
 * *Sexual contacts*: Networks of sexual relation between individuals have also attracted some attentions [@liljeros2001web].
 
 An other important source of networks resides in the relations that can be extract from textual content or document. This type of networks are called **Information Networks** (sometimes called knowledge networks) and the semantics behind their construction is strongly dependant to the format used to represent the documents:
@@ -63,7 +64,7 @@ More recently, an effort has been done to build and maintains an index of the ex
 ## Network properties
 \label{sec:network_property}
 
-We will first provide some basic definitions use throughout the manuscript, and then recall some of the properties found in real-world networks. The table \ref{table:net_terms} recall the basic terminology of networks analysis.
+We will first provide some basic definitions used throughout the manuscript, and then recall some of the properties found in real-world networks. The table \ref{table:net_terms} recall the basic terminology of networks analysis.
 
 \begin{table}
 \centering
@@ -103,7 +104,7 @@ The properties that we will examine will be on directed graph unless we specify 
 Additionally, a graph can be *multi-relational* where the edges can belongs to several classes. In this case, the graph is represented by an adjacency tensor.
 However, in this work, we will focus only on *uni-relational* graph.
 
-Finally, a graph can be *dynamic* (sometimes call temporal or time-varying network) if one or several of its characteristic can evolve over time. This can translate into a birth and/or death process for both nodes an edges. A dynamic graph $\Graph$ can be represented by a sequence of graph snaphsots $\Graph=(G_1, G_2, G_3,...)$ where each graph $G_t$ represents the network at a time step $t$.
+Finally, a graph can be *dynamic* (sometimes call temporal or time-varying network) if one or several of its characteristic can evolve over time. This can translate into a birth and/or death process for both nodes an edges. A dynamic graph $\Graph$ can be represented by a sequence of graph snaphsots $\Graph=(G_1, G_2, G_3,\dotsc)$ where each graph $G_t$ represents the network at a time step $t$.
 
 
 In the next section, we will introduce the emerging properties that are often observed in real-world networks.
@@ -111,7 +112,7 @@ In the next section, we will introduce the emerging properties that are often ob
 ### Community structure
 <!-- Structral equivalence is more general ! see me) -->
 
-Real-world networks are known to exhibit a modular structure, where nodes group together according to some equivalence relation [@flake2002self][@girvan2002community][@Schwartz92discoveringshared]. Those groups are generally referred as communities where a *community* is  defined as a set of nodes that are tighter connected to each other than those outside the community. In this case, the nodes are grouped according to an equivalence relation based on their common neighborhood. This approach to defined communities is referred to as _**regular equivalence**_ [@holme2005role].
+Real-world networks are known to exhibit a modular structure, where nodes group together according to some equivalence relation [@flake2002self][@girvan2002community][@Schwartz92discoveringshared]. Those groups are generally referred to as communities where a *community* is  defined as a set of nodes that are tighter connected to each other than those outside the community. In this case, the nodes are grouped according to an equivalence relation based on their common neighborhood. This approach to defined communities is referred to as _**regular equivalence**_ [@holme2005role].
 
 Nevertheless, networks can also exhibits another form of modular structure based on a different definition of the equivalence relation. Instead of measuring the common neighbors, it measure the pattern of relations between nodes. That is, nodes in the same group are not necessarily tied together but instead, their connectivity to similar nodes are similar [@goldenberg2010survey]. This approach is called _**structural equivalence**_ [@lorrain1971structural] (sometimes called *stochastic equivalence* [@wasserman1994social]) and the groups are generally referred to as *blocks*^[Note that we may also refers to them as *classes* in this manuscipt.] [@leicht2006vertex][@sun2009information].
 
@@ -122,37 +123,45 @@ For formal definitions of equivalence relation in graphs, the reader can refer t
 
 ### Mixing patterns
 
-Mixing patterns refers to the tendency of certain types of nodes to connect to another type. For example, networks of married and unmarried couples has been analysed to show strong correlation between the age of the partner [@garfinkel2002assortative]. In general, this kind of selective linking depend on the similarity of two nodes based on characteristic dependent of the type of network analysed. For social networks, it has been admitted that individuals tend to associate between similar ones in some way. This is know as *assortative mixing* or _**homophily**_ and has been widely cover in the literature [@la2010randomization][@kim2017effect]. In contrast, when nodes tend to connect to dissimilar ones, the networks is said to be *disassortative* or *heterophilic*. Several metrics has been proposed to measure to what extent a networks exhibit assortative (homophilic) mixing patterns where some side information about nodes (type, features) are assumed to be know [@newman2003mixing]. A special case of assortative mixing that only use topological information have also received some attention [@Newman03], where the idea is to ask if either a node with a high degree prefer to connect to nodes with high degree or low-degree. It appears that both situation can occurs in some networks.
+Mixing patterns refers to the tendency of certain types of nodes to connect to another type. For example, networks of married and unmarried couples has been analysed to show strong correlation between the age of the partner [@garfinkel2002assortative]. In general, this kind of selective linking used nodes attributes or characteristics, which are dependent of the type of network analysed, to measure similarities between them. For social networks, it has been admitted that individuals tend to associate between similar ones in some way. This is know as *assortative mixing* or _**homophily**_ and has been widely cover in the literature [@la2010randomization][@kim2017effect]. In contrast, when nodes tend to connect to dissimilar ones, the networks is said to be *disassortative* or *heterophilic*. Several metrics has been proposed to measure to what extent a networks exhibit assortative (homophilic) mixing patterns where some side information about nodes (type, features) are assumed to be know [@newman2003mixing]. A special case of assortative mixing is to measure node similarity with the network topology information only, such as node's centrality. In particular, the measure of the degree has received attention [@Newman03], where the idea is to ask if either a node with a high degree prefer to connect to nodes with high degree or low-degree. It appears that both situation can occurs in some networks.
 
-### Burstiness and preferential attachment
+### Preferential attachment
 
-A key element to characterize the structural properties of networks is the study of the repartition of the node degrees. In particular, real-world networks have been found to exhibit degree distributions that lies in the family of *long-tailed* distributions which are a sub-class of heavy-tailed distributions [@clauset2009power]. The Long-tailed distributions includes well-known distribution such as the power-law and the Pareto distribution among others. They are characterized by events (the degrees in our case) with high-frequency that concentrate a large part of the population, called the head of the distribution, followed by events with low frequency that gradually decrease asymptotically, called the tail^[In this case we says that the distribution right-tailed, but is can also be left-tailed or both.].
-This property have been coin in many domain in science, for example in social science where it has been called the *Mattwew effect* in reference to biblical texts of the *Gospel of Matthew* [@merton1968matthew]. In statistics, the phenomenon is often referred as the *Pareto principle* after the Pareto distribution, where the least frequently occurring items (e.g.the degrees) represent 80\% of the population and the most frequent ones represent only 20\%. Lastly, it has been discovered in the words distribution of the natural language, which is know as the *Zipf law* [@zipf2016human].
+A key element to characterize the structural properties of networks is the study of the repartition of the node degrees. In particular, real-world networks have been found to exhibit degree distributions that lies in the family of *long-tailed* distributions which are a sub-class of heavy-tailed distributions [@clauset2009power]. They represents distribution with heavier tail than the exponential distribution, that is, with a slower decay, which are useful to represent represent event that are not independent. This is in contrast with the distribution of independent event that are generally represented by Normal distribution, due to the central limit theorem^[It concerns i.i.d. events to be precise.], which have in their cases, an exponential decay^[This also the case of the Poisson distribution often used to represents count processes.]. The Long-tailed distributions family includes the power-law and the Pareto distribution among others. They are characterized by events (the degrees in our case) with high-frequency that concentrate a large part of the population, called the head of the distribution, followed by events with low frequency that gradually decrease asymptotically, called the tail^[In this case we says that the distribution right-tailed, but is can also be left-tailed or both.]. 
+This property have been coin in many domain in science, for example in social science where it has been called the *Matthew effect* in reference to biblical texts of the *Gospel of Matthew* [@merton1968matthew]. In statistics, the phenomenon is often referred to as the *Pareto principle* after the Pareto distribution, where the least frequently occurring items (e.g.the degrees) represent 80\% of the population and the most frequent ones represent only 20\%. Lastly, it has been discovered in the words distribution of the natural language, which is know as the *Zipf law* [@zipf2016human].
 
-A proposed explanation of the emergence of fat-tailed distribution of degrees in networks is based in the *preferential attachment effect*. It states that a node in the network will attach with higher probability to nodes that have a high degree [@barabasi1999emergence], and leads to the famous Barab\acca{}si-Albert (BA) model that generates networks with power law degree distribution such that $$\p_k \sim k^{-\alpha},$$ where $p_k$ is the probability that a node chosen uniformly at random has degree $k$ and \alpha a constant exponent greater than zeros.
+A proposed explanation of the emergence of fat-tailed distribution of degrees in networks is based on the *preferential attachment effect* which encodes the idea idea that *the more you have, the more you will get*. It states that a node in the network will attach with higher probability to nodes that have a high degree [@barabasi1999emergence], and leads to the famous Barab\acca{}si-Albert (BA) model that generates networks with power law degree distribution such that $$\p_k \sim k^{-\alpha},$$ where $p_k$ is the probability that a node chosen uniformly at random has degree $k$ and $\alpha$ a constant exponent greater than zeros.
+Networks with power-law distributions are also referred to as *scale-free* networks as *"it is the only distribution that is the same whatever scale we look at it on."* [@newman2005power].
 
-Power-law distribution are also referred to as *scale-free* as *"it is the only distribution that is the same whatever scale we look at it on."* [@newman2005power].
+<!--
+A related notion proposed to characterise long-tailed response in wide range system is the *Burstiness*. 
+An other characterisation of this effect have been proposed 
+lambiotte2013burstiness
+goh2008burstiness
+-->
+
+
 
 #### Sparsity and scale-free networks
 
 
 
-Sparsity is a property observed on most of the real-world networks dataset and means that the number of edges $E$ is very low compared to network capacity $N^2$. The question we ask is how the sparsity is related to scale-free networks? We show here that scale-free networks leads to sparse networks if $\alpha > 2$.
+Sparsity is a property observed on most of the real-world networks dataset and means that the number of edges $E$ is very low compared to the network capacity which increase quadratically with the number of nodes $N$. The question we ask here is how the sparsity is related to scale-free networks? We show that scale-free networks leads to sparse networks if $\alpha > 2$.
 
 Formally we say that a network $G$ is sparse if the following limit is true:
 $$
-\frac{E}{N^2} \rightarrow 0 \qquad \text{as} \quad N \rightarrow \infty
+\frac{E}{N^2} \rightarrow 0 \qquad \text{as} \quad N \rightarrow \infty.
 $$
 
 Let $G$ be a scale-free undirected network of size $N$ with degree distribution $f(k)=C k^{-\alpha}$ with $C$ and $\alpha$ two positive constants. Let $f_k$ be the number of nodes having a degree equal to $k$. The number of edge of the network is then
 $$
-E = \frac{1}{2} \sum_{k=0}^{\infty} k f_k
+E = \frac{1}{2} \sum_{k=0}^{\infty} k f_k.
 $$
-Further, when N>>0, we assume that the empirical degree distribution converge towards the true degree distribution such that $f(k) = \frac{f_k}{N}$. Thus one obtains:
+Further, when $N\gg0$, we assume that the empirical degree distribution converge towards the true degree distribution such that $f(k) = \frac{f_k}{N}$. Thus one obtains:
 $$
-E = \frac{NC}{2} \zeta(\alpha-1)
+E = \frac{NC}{2} \zeta(\alpha-1),
 $$
-where $\zeta$ is the Riemann zeta function. Hence, $E$ is not divergent if $\alpha>2$ and has the edges growth has $O(N)$ which results to a sparse networks.
+where $\zeta$ is the Riemann zeta function. Hence, $E$ is not divergent if $\alpha>2$ and in this case, $E$ has a linear growth with $N$ as $E=O(N)$, which results to a sparse networks.
 
 
 <!--
@@ -207,7 +216,7 @@ In the *link prediction* task, one assumes a partially observed networks with mi
 
 ### Other applications
 
-Though not in the scope of this thesis, it is worth to mention another important application which consist of studying the *diffusion processes* in networks. From the diffusion of innovations to the spread of disease, or more generally, the propagation of information between network members, the question is to identify the impact of the structural properties on the diffusion process and localize the regions that either maximize or minimize the latter [@zhang2016dynamics][@pei2013spreading]. A related notion is the network resilience that study the impact of random deletions of nodes, and which can be studied through percolation processes [@callaway2000network].
+Though not in the scope of this thesis, it is worth to mention another important application which consist of studying the *diffusion processes* in networks. From the diffusion of innovations to the spread of disease, or more generally, the propagation of information between network members, the question is to identify the impact of the structural properties on the diffusion process and localize the regions that either maximize or minimize the latter [@zhang2016dynamics][@pei2013spreading]. A related notion is the network resilience that study the impact of random deletions of nodes and/or edges, and which can be studied through the percolation theory [@callaway2000network].
 
 Another application is the exploitation of the graph topology for *Information Retrieval*. Canonical example rely on random walk which is at the basis of the Page-Rank algorithm used by search engine to extract relevant web pages on the web [@kleinberg1999authoritative][@page1999pagerank].
 

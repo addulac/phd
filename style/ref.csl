@@ -23,6 +23,7 @@
     <updated>2014-01-02T17:13:57+00:00</updated>
     <rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
   </info>
+
   <macro name="editor">
     <names variable="editor" delimiter=", ">
       <name initialize-with=". " delimiter=", " delimiter-precedes-last="always"/>
@@ -97,6 +98,7 @@
       </else>
     </choose>
   </macro>
+
   <citation collapse="citation-number">
     <sort>
       <key variable="citation-number"/>
@@ -105,9 +107,10 @@
       <text variable="citation-number" font-style=""/>
     </layout>
   </citation>
+
   <bibliography et-al-min="6" et-al-use-first="1" second-field-align="flush">
     <layout suffix=".">
-      <text variable="citation-number" suffix=". "/>
+      <text variable="citation-number" prefix="[" suffix="] "/>
       <text macro="author" suffix=","/>
       <choose>
         <if type="thesis">
@@ -131,19 +134,22 @@
           <text macro="pages" prefix=", "/>
         </else-if>
         <else-if type="chapter paper-conference" match="any">
+          <group>
+            <text macro="title" prefix=" "/>
+          </group>
           <group prefix=" ">
             <text term="in"/>
             <text variable="container-title" font-style="italic" prefix=" " suffix=","/>
             <text variable="collection-title" prefix=" " suffix="."/>
             <text macro="editor" prefix=" "/>
-            <group prefix=" (" suffix=")" delimiter=", ">
-              <text macro="publisher"/>
-              <text macro="issued"/>
+            <group delimiter=", " prefix=", ">
+              <text macro="volume"/>
+              <text macro="pages"/>
             </group>
           </group>
-          <group delimiter=", " prefix=", ">
-            <text macro="volume"/>
-            <text macro="pages"/>
+          <group prefix=" (" suffix=")" delimiter=", ">
+            <text macro="publisher"/>
+            <text macro="issued"/>
           </group>
         </else-if>
         <else-if type="article-journal">

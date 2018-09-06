@@ -1,0 +1,28 @@
+\begin{tikzpicture}
+  \pgfmathsetmacro{\offs}{0.3cm}
+
+  % Define nodes
+  \node[latent                                 ] (beta) {$\beta^0$};
+  \node[const, right=of beta                   ] (gamma) {$\gamma$};
+  \node[latent, below=of beta, yshift=\offs    ] (pi) {$\pi_j$};
+  \node[const, right=of pi                     ] (alpha) {$\alpha_0$};
+  \node[latent, below= of pi, yshift=\offs     ] (z) {$z_{ji}$};
+  \node[obs, below= of z, yshift=\offs         ] (y) {$y_{ji}$};
+  \node[latent, below= of y, yshift=\offs-20pt ] (phi) {$\phi_k$};
+  \node[latent, right=of phi                   ] (H) {$H$};
+
+  % Connect the nodes
+  \edge {gamma} {beta};
+  \edge {alpha} {pi};
+  \edge {beta} {pi};
+  \edge {pi} {z};
+  \edge {z} {y};
+  \edge {phi} {y};
+  \edge {H} {phi};
+
+  % Plates
+  \plate[yshift=0] {p} {($(pi)!0.5!(z)$)(y)} {$N$} ;
+  \plate {} {($(beta)!0.5!(pi)$)(p)($(pi)!0.4!(alpha)$)} {$J$} ;
+  \plate {} {(phi)($(phi)!0.4!(H)$)} {$\infty$} ;
+
+\end{tikzpicture}

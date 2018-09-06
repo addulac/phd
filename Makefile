@@ -9,6 +9,9 @@ STYLEDIR=$(BASEDIR)/style
 
 BIBFILE=$(INPUTDIR)/references.bib
 
+#PDF_ENGINE=xelatex
+PDF_ENGINE=pdflatex
+
 help:
 	@echo ' 																	  '
 	@echo 'Makefile for the Markdown thesis                                       '
@@ -30,13 +33,11 @@ pdf:
 	-H "$(STYLEDIR)/preamble.tex" \
 	--template="$(STYLEDIR)/template.tex" \
 	--bibliography="$(BIBFILE)" 2>pandoc.log \
-	-V fontsize=12pt \
 	-V papersize=a4paper \
 	-V documentclass=report \
-	-V link-citations=true \
 	-N \
 	--verbose \
-	--pdf-engine=xelatex \
+	--pdf-engine=$(PDF_ENGINE) \
 	--filter pandoc-eqnos \
 	--filter pandoc-citeproc \
 	--highlight-style pygments \

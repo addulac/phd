@@ -1,0 +1,16 @@
+\begin{tikzpicture}
+    
+  % Define nodes
+  \node[latent]                              (G) {$G$};
+  \node[obs, below= of G]                              (theta) {$X_i$};
+  \node[const, above=of G, xshift=-0.8cm]   (alpha) {$\alpha_0$};
+  \node[latent, above=of G, xshift=0.8cm]   (H) {$H$};
+
+  % Connect the nodes
+  \edge {alpha, H} {G} ;
+  \edge {G} {theta} ;
+
+  % Plates
+  \plate {p} {($(G)!0.5!(theta)$)(theta)} {$N$} ;
+
+\end{tikzpicture}
