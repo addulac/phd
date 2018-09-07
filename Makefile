@@ -6,7 +6,6 @@ INPUTDIR=$(BASEDIR)/source
 OUTPUTDIR=$(BASEDIR)/output
 TEMPLATEDIR=$(INPUTDIR)/templates
 STYLEDIR=$(BASEDIR)/style
-
 BIBFILE=$(INPUTDIR)/references.bib
 
 #PDF_ENGINE=xelatex
@@ -55,6 +54,10 @@ tex:
 	--csl="$(STYLEDIR)/ref.csl" \
 	--latex-engine=xelatex \
 	--filter pandoc-eqnos
+	
+final:
+	./resolv_md.sh 2>pandoc.log
+	pdflatex thesis.tex
 
 docx:
 	pandoc "$(INPUTDIR)"/[^_]*.md \
@@ -79,5 +82,24 @@ html:
 	rm -rf "$(OUTPUTDIR)/source"
 	mkdir "$(OUTPUTDIR)/source"
 	cp -r "$(INPUTDIR)/figures" "$(OUTPUTDIR)/source/figures"
+
+clean:
+	find -name "*.dvi" -delete
+	find -name "*.log" -delete
+	find -name "*.lot" -delete
+	find -name "*.lof" -delete
+	find -name "*.aux" -delete
+	find -name "*.toc" -delete
+	find -name "*.out" -delete
+	find -name "*.bbl" -delete
+	find -name "*.blg" -delete
+	find -name "*.nav" -delete
+	find -name "*.snm" -delete
+	find -name "*.vrb" -delete
+	find -name "*.fls" -delete
+	find -name "*.fls" -delete
+	find -name "*.synctex.gz" -delete
+	find -name "*.fdb_latexmk" -delete
+
 
 .PHONY: help pdf docx html tex

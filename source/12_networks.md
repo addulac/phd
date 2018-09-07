@@ -177,17 +177,17 @@ Let us define $L$ as the mean geodesic (i.e. shortest) path between node pairs i
 $$
 L = \frac{2}{N(N+1)}\sum_{i<j}d_{ij}
 $$
-where $d_{ij}$ is the geodesic path from node $i$ to node $j$. Many real-world networks exhibits the small-world effect in the sense that it has been show that the value of $l$ scale logaritmically or slower with the number of nodes $N$ such as $L \propto \log N$ [@newman2001scientific][@newman2001structure]. Interestingly, Many random graph model are also known to exhibits the small-world effect [@bollobas1981diameter]. Other interesting results concerns the relation between scale-free networks and small-world phenomenon. In [@bollobas2004diameter], the authors have shown that networks with power law degree distributions increase no faster than $\log N / \log\log N$.
+where $d_{ij}$ is the geodesic path from node $i$ to node $j$. Many real-world networks exhibits the small-world effect in the sense that it has been show that the value of $l$ scale logaritmically or slower with the number of nodes $N$ such as $L \propto \log N$ [@newman2001scientific][@newman2001structure]. Interestingly, Many random graph model are also known to exhibits the small-world effect [@bollobas1981diameter]. Other interesting results concerns the relation between scale-free networks and small-world phenomenon. An highlighting exemple was provided by [@bollobas2004diameter], where the authors have shown that networks with power law degree distributions increase no faster than $\log N / \log\log N$.
 
 
 
 ## Applications
 \label{sec:network_application}
 
-Applications of network analysis aims at developing models and algorithms to performs various kind of tasks. Those tasks can be divided into two opposite categories:
+Applications of network analysis aims at developing models and algorithms to performs various kind of tasks. They can be divided into two opposite categories:
 
 * *Generative based*: Here the objective is to generate networks according to a model. Applications include the development of simulator that can be used for visualization purpose or to provide synthetic datasets for the scientific communities. The challenge of this problem is to generate graphs that have relevant properties according to the type of networks we want to simulate.
-* *Learning based*: Where the goal is to build models and algorithms that can extract knowledge from a given network (dataset) and predict future outcomes. The challenge here is twofold; the first is to make accurate prediction and the second is to scale the algorithms to large networks.
+* *Learning based*: Where the goal is to build models and algorithms that can extract knowledge from a given network (or a set of networks) and eventually predict future outcomes. The challenge here is twofold; the first is to make accurate predictions and the second is to scale the algorithms to large networks.
 
 In this thesis, we focus on learning based applications. Specifically we are interested in two sub-task that has been widely studied in the literature, namely the *community detection* and the *link prediction*.
 

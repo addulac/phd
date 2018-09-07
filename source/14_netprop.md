@@ -146,7 +146,7 @@ This shows that, for a model to be homophilic, it should be designed according t
 ## Preferential attachment
 \label{sec_4:burstiness} 
 
-As mentioned before, preferential attachement can be global, in which case nodes are connected across communities, and/or local to the network communities. Preferential attachment is reminiscent of a phenomenon called \textit{burstiness}, studied in different contexts (\cite{barabasi_burst}). We introduce here definitions for the local and global preferential attachment effects that are extensions of the definitions for burstiness proposed in \cite{clinchant2010information} for text collections. We will first study global preferential attachment for the models \ifm\ and \imb\ in the two contexts defined by $\mathcal{M}_g$ and $\mathcal{M}_e$. We will then turn our attention to local preferential attachment.
+As mentioned before, preferential attachement can be global, in which case nodes are connected across communities, and/or local to the network communities. Preferential attachment is reminiscent of a phenomenon called \textit{burstiness}, studied in different contexts [@barabasi_burst]. We introduce here definitions for the local and global preferential attachment effects that are extensions of the definitions for burstiness proposed in [@clinchant2010information] for text collections. We will first study global preferential attachment for the models \ifm\ and \imb\ in the two contexts defined by $\mathcal{M}_g$ and $\mathcal{M}_e$. We will then turn our attention to local preferential attachment.
 
 ### Global preferential attachment
 
@@ -283,7 +283,7 @@ We say that \imb, in $\me$, satisfies the local preferential attachment effect i
 
 This definition can be seen as the continuous counterpart of Definition\ref{def:locdeg-discrete}. If $\epsilon$ is too large, the probability is null and is independent on $x$, hence the compatibility requirement with the domain of definition of $x$ and $d_{i,k}$. 
 
-Because of the Hierarchical Dirichlet Process underlying the \imb\ model, $\mat{f}_i$ follows a Dirichlet distribution: $\mat{f}_i \sim \Dir((\alpha_0 \beta_k + N_{ik})_{1 \le k \le K})$, with $\mat{\beta}\sim \gem(\gamma)$ and $N_{ik}$ being the number of edges connecting node $i$ through class $k$ (see for example \cite{teh2006hierarchical}) and $K$ the number of latent classes obtained. The marginals $f_{ik}$ are thus distributed according to a Beta distribution: $f_{ik} \sim \Beta(a_{ik}, b_{ik})$ with $a_{ik} = \alpha_0\beta_k + N_{ik}$ and $b_{ik} = \sum_{k'=1, k' \ne k}^{K} \alpha_0\beta_k' + N_{ik'}$.
+Because of the Hierarchical Dirichlet Process underlying the \imb\ model, $\mat{f}_i$ follows a Dirichlet distribution: $\mat{f}_i \sim \Dir((\alpha_0 \beta_k + N_{ik})_{1 \le k \le K})$, with $\mat{\beta}\sim \gem(\gamma)$ and $N_{ik}$ being the number of edges connecting node $i$ through class $k$ (see for example [@teh2006hierarchical]) and $K$ the number of latent classes obtained. The marginals $f_{ik}$ are thus distributed according to a Beta distribution: $f_{ik} \sim \Beta(a_{ik}, b_{ik})$ with $a_{ik} = \alpha_0\beta_k + N_{ik}$ and $b_{ik} = \sum_{k'=1, k' \ne k}^{K} \alpha_0\beta_k' + N_{ik'}$.
 
 The following property displays a sufficient condition on $x$, $\epsilon$, $a_{ik}$ and $b_{ik}$ for \imb\ to satisfy the local preferential attachment.
 
