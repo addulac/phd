@@ -144,22 +144,20 @@ goh2008burstiness
 
 #### Sparsity and scale-free networks
 
-
-
 Sparsity is a property observed on most of the real-world networks dataset and means that the number of edges $E$ is very low compared to the network capacity which increase quadratically with the number of nodes $N$. The question we ask here is how the sparsity is related to scale-free networks? We show that scale-free networks leads to sparse networks if $\alpha > 2$.
 
 Formally we say that a network $G$ is sparse if the following limit is true:
 $$
-\frac{E}{N^2} \rightarrow 0 \qquad \text{as} \quad N \rightarrow \infty.
+\frac{E}{N^2} \rightarrow 0 \qquad \text{as} \quad N \rightarrow \infty \ .
 $$
 
 Let $G$ be a scale-free undirected network of size $N$ with degree distribution $f(k)=C k^{-\alpha}$ with $C$ and $\alpha$ two positive constants. Let $f_k$ be the number of nodes having a degree equal to $k$. The number of edge of the network is then
 $$
-E = \frac{1}{2} \sum_{k=0}^{\infty} k f_k.
+E = \frac{1}{2} \sum_{k=0}^{\infty} k f_k \ .
 $$
 Further, when $N\gg0$, we assume that the empirical degree distribution converge towards the true degree distribution such that $f(k) = \frac{f_k}{N}$. Thus one obtains:
 $$
-E = \frac{NC}{2} \zeta(\alpha-1),
+E = \frac{NC}{2} \zeta(\alpha-1) \ ,
 $$
 where $\zeta$ is the Riemann zeta function. Hence, $E$ is not divergent if $\alpha>2$ and in this case, $E$ has a linear growth with $N$ as $E=O(N)$, which results to a sparse networks.
 
