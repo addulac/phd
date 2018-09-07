@@ -1,6 +1,6 @@
 #!/bin/bash
 
-NAME=thesis
+NAME=paper
 
 BASEDIR="./"
 INPUTDIR=$BASEDIR/source
@@ -25,12 +25,12 @@ PANDOC_FLAGS="-t latex \
 	--highlight-style pygments \
 	--csl=$STYLEDIR/ref.csl" 
 
-echo '\\iffalse' >> ${NAME}.mdtt
+echo '\\iffalse' >> extra_ref.md
 # find [@...] markdowns. Note that there can be multiple @... inside a bracket. We don't care, just replace the whole if they are not converted. 1) use sed to put each citation markdown in one line 2) find those lines using grep 3) remove the text after the citation markdowns 3) make the mapping. keys are put inside a table to not be converted using pandoc, values are just ordinary citation markdowns. I use 1::-- and 0::-- to recognize the map later in the .tex
-sed ${NAME}.mdtt  -e 's/\(\[@\)/\n\1/g' |grep '\[[@a-zA-Z0-9_,\:\-\ ;]*\]'|  sed -e 's/.*\(\[[@a-zA-Z0-9_,\:\-\ ;]*\]\).*/\1/g' | sed -e 's/\[//g' -e 's/\]//g' | sed -e 's/\(.*\)/\\begin\{table\}1::-- \1\\end\{table\} 0::-- \[\1\]\n/g' >> ${NAME}.mdtt
-echo '\\fi' >> ${NAME}.mdtt
+sed source/[^_]*.md  -e 's/\(\[@\)/\n\1/g' |grep '\[[@a-zA-Z0-9_,\:\-\ ;]*\]'|  sed -e 's/.*\(\[[@a-zA-Z0-9_,\:\-\ ;]*\]\).*/\1/g' | sed -e 's/\[//g' -e 's/\]//g' | sed -e 's/\(.*\)/\\begin\{table\}1::-- \1\\end\{table\} 0::-- \[\1\]\n/g' >> extra_ref.md
+echo '\\fi' >> extra_ref.md
 
-pandoc $PANDOC_FLAGS $YAML_METADATA source/[^_]*.md  $NAME.mdtt  >$NAME.tex
+pandoc $PANDOC_FLAGS $YAML_METADATA source/[^_]*.md  extra_ref.md  >$NAME.tex
 
 #bring them back. It needs another .sh file if you use it in a MakeFile because it seems that sed labeling doesn't work in MakeFiles
 #put the mapping in a temp file, find the mapping using grep.  Sed expressions are to remove table environment, remove mapping arrow, concat lines (pandoc breaks lines after tables)!

@@ -222,8 +222,5 @@ Another application is the exploitation of the graph topology for *Information R
 
 ## Summary
 
-* We expose in this section the networks considered in the literature and specified on what particular real world networks we focus on this thesis, that is, social interaction networks and information networks
-* we review some of the important properties that arise in real world networks and that characterise them, nevertheless, other properties have been studied and are not present in this paper, in particular the one concerning temporal networks.
-* We discuss the application of network analysis and the different modeling and algorithmic existing approaches. 
-* In this context we are particularly interested by probabilistic model who are appealing because i) they can run on the two mode; generative based and learning based, and ii) they can answer several type a question. In particular, once the model inference is performed, they can be used for community detection as well as for link prediction. The next chapter introduce the probabilistic modeling paradigm and tools that we will rely on for the rest of this work.
+We presented in this chapter several class of complex networks found in the real-world, and in particular social an information networks on which we focus in this thesis. We review some of the emergent properties that arise in these networks as they constitute observation evidence and will be used to guide the assumption and evaluation of the network model throughout the next chapters. We also presented the typical applications that concerns network analysis and especially the one we've been considering in our empirical evaluations in chapters  \ref{sec:mmsb_prop} and \ref{sec:wmmsb}.
 

@@ -503,22 +503,34 @@ One can easily see that model representation encompass the ER and SB models. Pre
         \hline
         \hline
         \multirow{5}{*}{\shortstack[1]{Latent\\class}} &
-           SB      [@goldenberg2010survey] & Bernoulli & Multinomial           & no & ER \\
-         & IRM     [@IRM]                  & Bernoulli & DP                    & no & SB \\
-         & IHRM    [@IHRM]                 & Bernoulli & DP                    & no & IRM \\
-         & MMSB    [@MMSB]                 & Bernoulli & Multinomial-Dirichlet & yes & SB \\
-         & IMMSB   [@iMMSB;@diMMSB]  & Bernoulli & HDP                   & yes & MMSB, IRM \\
+           SB      [38] & Bernoulli & Multinomial           & no & ER \\
+         & IRM     [59]                  & Bernoulli & DP                    & no & SB \\
+         & IHRM    [160]                 & Bernoulli & DP                    & no & IRM \\
+         & MMSB    [118]                 & Bernoulli & Multinomial-Dirichlet & yes & SB \\
+         & IMMSB   [?;119]  & Bernoulli & HDP                   & yes & MMSB, IRM \\
         \hline
         \multirow{4}{*}{\shortstack[1]{Latent\\feature}} &
-           LFL    [@menon2010log]          & Bernoulli & -                     & no & softmax \\
-         & ILRM   [@ILFM]                 & Bernoulli & IBP                   & yes & IRM \\
-         & BPM    [@BMF]                   & Bernoulli & IBP                   & yes & IRM \\
-         & IMRM   [@IMRM]                  & Bernoulli & IBP                   & yes & ILFM \\
+           LFL    [161]          & Bernoulli & -                     & no & softmax \\
+         & ILRM   [117]                 & Bernoulli & IBP                   & yes & IRM \\
+         & BPM    [116]                   & Bernoulli & IBP                   & yes & IRM \\
+         & IMRM   [125]                  & Bernoulli & IBP                   & yes & ILFM \\
     \end{tabular}}
 \caption{Comparison of latent class and feature models found in the literature.}
 \label{table:dyadic_model}
 \end{table}
 
+<!--
+[@goldenberg2010survey]
+[@IRM]                 
+[@IHRM]                
+[@MMSB]                
+[@iMMSB;@diMMSB]  & Ber
+                       
+[@menon2010log]         
+[@ILFM]                 
+[@BMF]                  
+[@IMRM]                 
+-->
 
 In chapter \ref{sec:mmsb_prop}, we further explore and compare two general representative of latent class models and latent feature models. That is the IMMSB and ILFM model, that both allow overlapping communities with an infinite number, the former based on the HDP and the latter in the IBP. 
 
