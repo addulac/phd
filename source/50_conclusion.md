@@ -11,6 +11,8 @@ and outlining future areas for research
 * etude des limite des propiété des model mixed membership et impact applicatif.
 * extension de ces modeles pour travailler avec un plan grande gamme de réseaux.
 
+In this thesis we focuses on a set of probabilistic model to model complex networks.
+
 ## Future work
 
 du plus simple au plus interessant et difficile.

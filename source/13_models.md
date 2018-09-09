@@ -476,7 +476,7 @@ While the SBM is a strong baseline, it has several limitations due to the lack o
 
 ### Mixed-Membership Models
 
-As mentioned, a limitation of the SBM is that each nodes belongs to only one latent block. This assumptions is often considered too restrictive for modeling complex network and complex system in general. More expressive model can be built by relaxing the hard assignment and instead allowing the nodes to belong to several latent blocks. The edge likelihood can hence be view as a mixture model depending on the node membership (akin to overlapping communities and soft clustering topic). Mixture models have a long history that is related to matrix factorization in order to decompose a data matrix into latent factors [@DCA]. A whole framework, named *mixed-membership model*, has emerged to study and generalize mixture models in the case where the latent variables can themselves be shared among data instances, which have found many successful applications [@MMM]. In this settings, we are particularly interested in two subclass of mixed-membership model for networks analysis, referred to has *latent class model* and *latent feature model*.
+As mentioned, a limitation of the SBM is that each node belongs to only one latent block. This assumptions is often considered too restrictive for modeling complex network and complex system in general. More expressive model can be built by relaxing the hard assignment and instead allowing the nodes to belong to several latent blocks. The edge likelihood can hence be viewed as a mixture model over the multiple node membership to the latent block (akin to overlapping communities and soft clustering topic). Mixture models have a long history that is related to matrix factorization used to decompose a data matrix into latent factors [@DCA]. A whole framework, named *mixed-membership model*, has emerged to study and generalize mixture models in the case where the latent variables can themselves be shared among data instances, which have found many successful applications reviewed in [@MMM]. In this settings, we are particularly interested in two subclasses of mixed-membership model for networks analysis, referred to has *latent class model* and *latent feature model*.
 Many models have been proposed in this direction, though we do not intent to go into the details of each of them as it may not be relevant, we provide in Table \ref{table:dyadic_model} a comprehensive comparison of these models regarding theirs modeling assumptions. Generally, in latent class model, one suppose that the nodes belong to some latent communities on which depends the mixing pattern of the graph. Whereas, for latent feature model, one suppose that the nodes own some latent feature which control the mixing pattern. Interestingly, models that combine both aspect have been proposed, following [@mackey2010mixed].
 
 The two type of models can be expressed in a common framework. Let $\Theta = (\theta_{ik})_{N\times K}$ and $\Phi=(\phi_{kk'})_{K\times K}$ be two random matrix with $N$ be the number of nodes and $K$ the dimension of the latent space. The edge likelihood is then parametrized by a bilinear product such that
@@ -484,12 +484,12 @@ $$
     y_{ij} \sim \Bern(f(\theta_i^T \Phi \theta_j))
 $$ {#eq:mmm}
 where $f$ is a bijective function to map the support of the bilinear product to a probability space if necessary, otherwise $f$ is the identity.
-One can easily see that model representation encompass the ER and SB models. Precisely, the only difference between those random graph model, including the difference between latent class and latent feature models, is the prior knowledge and  parameters space of $\Theta$ and $\Phi$:
+One can easily see that this representation encompass the ER and SBM models. Precisely, the only difference between those random graph models, including the difference between latent class and latent feature models, within this representation is the prior knowledge and parameters space of $\Theta$ and $\Phi$:
 
-* if $K=1$ one fall on the ER model,
-* if $\theta_i\sim \Mult(1, \pi_k)$ and $\phi_{kk'}\sim \Uniform[0,1]$ with given hyper-parameter $\pi=(\pi_1,\dotsc,\pi_k)$ on fall on the SB model. Additionally, if $\pi_k \sim GEM(\gamma)$, the model is equivalent to the Infinite Relational Model (IRM), where the number of class $k$ can vary.
+* if $K=1$ and $\phi_{11}=p$ one fall on the ER model,
+* if $\theta_i\sim \Mult(1, \pi_k)$ and $\phi_{kk'}\sim \Uniform[0,1]$ with given hyper-parameter $\pi=(\pi_1,\dotsc,\pi_k)$ on fall on the SBM model. Additionally, if $\pi_k \sim GEM(\gamma)$, the model is equivalent to the Infinite Relational Model (IRM), where the number of class $k$ can vary.
 * if $\theta_i \sim \Dir((\alpha_1, \dotsc, \alpha_K))$ and $\phi_{kk'}\sim \Beta(a, b)$ the model is equivalent to the Mixed-Membership Stochastic Blockmodel (MMSB) ^[Proof: $P(y_{ij}|\Theta,\Phi)=\sum_{k_1=1}^K\sum_{k_2=1}^K P(y_{ij}|\Phi, \zij=k_1, \zji=k_2)P(\zij=k_1|\theta_i)P(\zji=k_2|\theta_j) = \sum_{k_1=1}^K\sum_{k_2=1}^K \phi_{k_1 k_2} \theta_{ik_1} \theta_{jk_2} = \theta_i^T \Phi \theta_j$.].
-* if $\Theta \sim \IBP(\alpha)$ and $\phi_{kk'} \sim \Normal(0, \sigma)$ then the model is the Infinite Latent Feature Model (ILFM).
+* if $\Theta \sim \IBP(\alpha)$ and $\phi_{kk'} \sim \Normal(0, \sigma)$ with the function $f$ being the sigmoid, then the model is the Infinite Latent Feature Model (ILFM).
 * etc.
 
 
@@ -531,7 +531,7 @@ One can easily see that model representation encompass the ER and SB models. Pre
 [@IMRM]                 
 -->
 
-In chapter \ref{sec:mmsb_prop}, we further explore and compare two general representative of latent class models and latent feature models. That is the IMMSB and ILFM model, that both allow overlapping communities with an infinite number, the former based on the HDP and the latter in the IBP. 
+In chapter \ref{sec:mmsb_prop}, we further explore and compare two general representative of the latent class model and latent feature model. That is the IMMSB and ILFM model, that both allow overlapping communities with a possibly infinite number communities, the former based on the HDP and the latter on the IBP. 
 
 <!--**Earosheva theorem**-->
 
@@ -539,26 +539,26 @@ In chapter \ref{sec:mmsb_prop}, we further explore and compare two general repre
 ### Representation theorem for exchangeable graphs
 \label{sec:random_graph_th}
 
-In section \ref{sec:non_parametric}, we mentioned the concept of exchangeability of random sequences and illustrated how it is related to the construction of the Dirichlet Process.
-What we have learned, is that the exchangeability assumptions over a sequence of observable data is equivalent to the existence of an integral decomposition (a mixture) of the probability density of this sequence under which the observation are i.i.d given a random probability measure.
-This results is known as the de Finetti' theorem and constitute justification for the existence of a latent variable generative model under the exchangeability assumption.
-An interesting question to ask though, is if an equivalent representation theorem exists for exchangeable random graph. The answer is yes, and it is know as the Aldous-Hoover theorem, that we will recall here. This theorem has a version adapted for bipartite but we will focus here on unipartite networks and thus symmetric adjacency matrix.
+In section \ref{sec:non_parametric}, we mentioned the concept of exchangeability of a random sequence and illustrated how it is related to the construction of the Dirichlet Process.
+What we have learned, is that the exchangeability assumption over a sequence of observable data is equivalent to the existence of an integral decomposition (a mixture) of the probability density of this sequence under which the observation are i.i.d given a random probability measure.
+This results is known as the de Finetti' theorem and constitutes a justification for the existence of latent variable models under the exchangeability assumption.
+An interesting question to ask though, is if an equivalent representation theorem exists for exchangeable random graph. The answer is yes, and it is know as the Aldous-Hoover theorem, that we will recall here. This theorem has a version adapted for bipartite graph but we will focus here on unipartite networks and thus square adjacency matrix.
 
 Let's consider an undirected graph an its adjacency matrix $Y$ (an array) of infinite size.
 \begin{definition}[Jointly exchangeable array]
 A random array $(y_{ij})_{i,j\in \Na}$ (denoted simply $(y_{ij})$ for short) is called jointly exchangeable if $$P((y_{ij})) = P((y_{\pi(i)\pi(j)})) $$
 holds for every permutation $\pi$ of $\Na$.
 \end{definition}
-As for exchangeable sequence, exchangeable graphs means that the probability of such a graph (generated by a given model) should not depend on the order in which we observe data.
+As for exchangeable sequences, exchangeable graphs means that the probability of a graph should not depend on the order in which we observe the data.
 
 \begin{theorem}[Aldous-Hoover for jointly exchangeable array] \label{th:aldous_hoover}
 Let $\mat{Y}$ be a sample space. A random array $(y_{ij})_{i,j\in \Na}$ is jointly exchangeable if and only if it can be represented as follows: There is a random measurable function $F : [0,1]^3\to \mat{Y}$ such that
 $$
 P((y_{ij})) = P((F(U_i, U_j, U_{\{i,j\}})))
 $$
-where $(U_i)_{i\in \Na}$ and $(U_{\{i,j\}})_{i,j \in \Na}$ are, respectively, a sequence and an array of i.i.d $\Uniform[0,1]$ random variable.
+where $(U_i)_{i\in \Na}$ and $(U_{\{i,j\}})_{i,j \in \Na}$ are, respectively, a sequence and an array of i.i.d $\Uniform[0,1]$ random variables.
 \end{theorem}
-In Bayesian language, the theorem state that there is a prior distribution $\mu$ over measurable function a exchangeable graph is always generated by a model of the form
+In Bayesian language, the theorem state that there is a prior distribution $\mu$ over measurable function such that an exchangeable graph is always generated by a model of the form
 \begin{align*}
 F &\sim \mu \\
 U_i &\sim \Uniform[0,1] \qquad \forall i \in \Na \\
@@ -566,9 +566,9 @@ U_{\{i,j\}} &\sim \Uniform[0,1] \qquad \forall i,j \in \Na \\
 &y_{ij} := F(U_i, U_j, U_{\{i,j\}})
 \end{align*}
 
-This powerful theorem gives again a justification for the use of latent variables and most important the form of theirs priors (and a model in entirely determined by the choice of the prior on $F$) for exchangeable graph. Although intuitive, it is not straitfoward to proove that the representation for mixed-membership model given in Eq. \ref{eq:mmm} generate exchangeable graph, it appears that it is a special case of theorem \ref{th:aldous_hoover}, which has been shown in [@aldous1981representations] and [@kallenberg2006probabilistic]. It derives from the fact the edges probabilities are conditionally independent and that the nodes are associated to i.i.d random variables. In particular, the exchangeability of IRM, IMMSB and ILFM models are also illustrated in [@orbanz2015bayesian]. Note that the Aldous-Hoover theorem also generalize for higher dimensional arrays (i.e tensors), which is akin to the representation of exchangeable multi-relational graphs.
+This powerful theorem gives again a justification for the use of latent variables and most important, the form of theirs priors (and a model is entirely determined by the choice of the prior on $F$) for exchangeable graphs. Although intuitive, it is not straitfoward to proove that the representation for mixed-membership model given in Eq. \ref{eq:mmm} generate exchangeable graphs, it appears that it is a special case of theorem \ref{th:aldous_hoover}, which has been shown in [@aldous1981representations] and [@kallenberg2006probabilistic]. It derives from the fact that the edge probabilities are conditionally independent and that the nodes are associated to i.i.d random variables. In particular, the exchangeability of IRM, IMMSB and ILFM models are also illustrated in [@orbanz2015bayesian]. Note that the Aldous-Hoover theorem also generalizes for higher dimensional arrays (i.e tensors), which is akin to the representation of exchangeable multi-relational graphs.
 
-An notable corollary of the theorem \ref{th:aldous_hoover} is that exchangeable graph are either dense (i.e the number of edges growth quadratically with $N$) or empty since their expected number of edges is independent of $N$. This may seem as a misspecification for the modeling of real-world network. In response to that, the study of representation for graph in the sparse regime has appears as an active and growing field of research [@veitch2015class;@caron2017sparse;@le2015sparse;@bollobas2011sparse;@borgs2014p].
+An notable corollary of the theorem \ref{th:aldous_hoover} is that exchangeable graphs are either dense (i.e the number of edges growth quadratically with $N$) or empty since their expected number of edges is independent of $N$. This may seem as a misspecification for the modeling of real-world networks. In response to that, the study of representation for graphs in the sparse regime has emerged as an active and growing field of research [@veitch2015class;@caron2017sparse;@le2015sparse;@bollobas2011sparse;@borgs2014p].
 
 
 <!--
@@ -595,4 +595,4 @@ Point to MMSB and IBP in later presentation.
 
 ## Summary
 
-The chapter presented the mathematical framework underlying the latent variable model for complex networks. We recall some fundamental results of probability theory and exposed a flexible class of Bayesian nonparametric prior that will be use in later study. We also presented the class of latent variable studied, (Mixed-Membership model) that will be studied in the two next chapters and we provide a  modest literature survey. We finally presented the theoretical foundation (through representation theorem) that justify the construction and expose limitations of this class of model.
+The chapter presented the mathematical framework underlying the latent variable models for complex networks. We recalled some fundamental results and notions of probability theory and exposed a flexible class of Bayesian nonparametric priors. We also presented the class of latent variable models (Mixed-Membership model) that will be studied in the two next chapters and we provided a modest literature survey. We finally presented the theoretical foundation (through representation theorem) that justify the construction and expose the limitations of this class of model.
