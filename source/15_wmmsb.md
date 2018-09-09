@@ -25,7 +25,7 @@ The original MMSB model was proposed in [@airoldi2009mixed] with a variational i
 
 A weighted version of the stochastic block model has been proposed in [@aicher2014learning]; it can be seen as a special case of the WMMSB model proposed in this chapter in which nodes are constrained to belong to only one latent class. More recently, another type of weighted stochastic block models has been proposed [@peixoto2018nonparametric] in which different kernels can be used to model different types of weights. An efficient MCMC method is used for inference. If this type of models is interesting, it nevertheless relies again on the assumption that a node belongs to only one class, which may be inappropriate for real world networks. Furthermore, unlike MMSB models, the lack of a hierarchical prior structure does not allow one to rely on efficient non-parametric extensions (hence the use of costly model selection techniques for non-parametric versions).
 
-Similar to our model, count processes with Poisson distributions and Gamma conjugate priors have been studied by different authors [@zhou2012augment][@zhou2015negative]. The relation of such processes with Negative Binomial processes is well-known and is highlighted by these authors. Such processes can be used for topic modeling, as the Beta-Gamma-Gamma-Poisson model of [@zhou2012beta] that relies on MCMC inference. The main difference between this model and WMMSB is that the former factorizes counts as Poisson variables of a sum of latent factors while, in WMMSB, counts are factorized as a convex sum of Poisson variable depending on class memberships.
+Similar to our model, count processes with Poisson distributions and Gamma conjugate priors have been studied by different authors [@zhou2012augment;@zhou2015negative]. The relation of such processes with Negative Binomial processes is well-known and is highlighted by these authors. Such processes can be used for topic modeling, as the Beta-Gamma-Gamma-Poisson model of [@zhou2012beta] that relies on MCMC inference. The main difference between this model and WMMSB is that the former factorizes counts as Poisson variables of a sum of latent factors while, in WMMSB, counts are factorized as a convex sum of Poisson variable depending on class memberships.
 
 The main theoretical contribution of this chapter is two-fold: firstly, we propose a mixed-membership stochastic block model, called WMMSB-bg, for weighted networks allowing nodes to belong to several classes, and secondly we show how to efficiently learn this model on large networks with a stochastic collapsed variational inference algorithm.
 
@@ -99,7 +99,7 @@ As for most hierarchical Bayesian model, exact inference is intractable and one 
 
 Standard inference method for MMSB models rely either on Gibbs sampling or variational approach [@airoldi2009mixed]. The former approach give generally better results than the latter as sampling methods approximate the true posterior distribution while variational ones makes stronger assumptions on the posterior distribution that leads to a biased estimation. On the other hand variational approach usually allow faster convergence due to its deterministic form.
 
-Collapsed variational Bayes inference presents the advantage, over standard variational inference, to rely on weaker assumptions and has proven to be efficient on the latent Dirichlet allocation model [@teh2007collapsed]. Recent advances in stochastic variational inference [@hoffman2013stochastic], notably based on well-designed sampling techniques [@gopalan2013efficient][@kim2013efficient], have furthermore shown that it is possible to speed-up (collapsed) variational inference with online updates based on minibatches.
+Collapsed variational Bayes inference presents the advantage, over standard variational inference, to rely on weaker assumptions and has proven to be efficient on the latent Dirichlet allocation model [@teh2007collapsed]. Recent advances in stochastic variational inference [@hoffman2013stochastic], notably based on well-designed sampling techniques [@gopalan2013efficient;@kim2013efficient], have furthermore shown that it is possible to speed-up (collapsed) variational inference with online updates based on minibatches.
 Coupling collapsed and stochastic variational inference thus leads here to an efficient inference method that can be used on large networks.
 
 We first provide below the results obtained through collapsed variational inference for MMSB and its weighted counterparts. A detailed derivation of these results is given in the appendix \ref{annexe:wmmsb}. We then detail how stochastic variational inference is used on these models.
@@ -121,11 +121,11 @@ with $q(z_{i \rightarrow j}, z_{i \leftarrow j}|\gamma_{ij})$ being multinomial 
 \log p(Y|\Omega) \geq \underbrace{\Er_{q}[\log p(Y, Z)] + \textrm{H}[q(Z)]}_{\L_Z}
 \end{equation*}
 
-Maximizing $\L_Z$ w.r.t $\gamma_{ijkk'}$ under a zero order Taylor expansion and a Gaussian approximation, following [@teh2007collapsed][@asuncion2009smoothing], yields the following updates:
+Maximizing $\L_Z$ w.r.t $\gamma_{ijkk'}$ under a zero order Taylor expansion and a Gaussian approximation, following [@teh2007collapsed;@asuncion2009smoothing], yields the following updates:
 \begin{equation} \label{eq:maximization}
 \gamma_{ijkk'} \propto (N_{\rightarrow ik}^{\Theta^{-j}} + \alpha_k) (N_{\leftarrow jk}^{\Theta^{-i}} + \alpha_{k'}) p(y_{ij} | Y^{-ij}, Z^{- ij}, \zij=k, \zji=k',\Omega)
 \end{equation}
-where the elements $N^{\Theta}$ are defined in Eqs \eqref{eq:sss}. Depending on the model considered, the predictive link distribution takes the following form:
+where the elements $N^{\Theta}$ are defined in Eqs \ref{eq:sss}. Depending on the model considered, the predictive link distribution takes the following form:
 \begin{align*}
 &p(y_{ij} | Y^{-ij}, Z^{- ij}, \zij=k, \zji=k',\Omega) = \\
 & \qquad \begin{cases}
@@ -190,7 +190,7 @@ Lastly, as for its true distribution, the variational distribution for $r_{kk'}$
 
 ### Stochastic Variational Inference with Stratified Sampling
 
-Stochastic variational inference aims at optimizing ELBO through noisy yet unbiased estimates of its natural gradient computed on sampled data points. Different sampling strategies [@gopalan2013efficient][@kim2013efficient] can be used. Following the study in [@gopalan2013efficient], we rely here on stratified sampling that allows one to control the number of links and non-links considered at each step of the inference process. For each node $i, \, 1 \le i \le N$, one first constructs a set, denoted $s_1^i$, containing all the nodes to which $i$ is connected to as well as $M$ sets of equal size, denoted $s_0^{i,m}, \, 1 \le m \le M$, each containing a sample of the nodes to which $i$ is not connected to^[The sampling is here uniform over the nodes not connected to $i$ with replacement; sampling without replacement led to poorer results in our experiments.]. We will denote by $S_0^i$ the set of all $s_0^{i,m}$ sets. Furthermore, we will denote by $S_0$ the union of all non-links set and $S_1$ the union of all links set. The sets thus obtained, for all nodes, constitute minibatches that can be sampled and used to update the global parameters in Eq. \ref{eq:sss}. The combined scheme is summarized below:
+Stochastic variational inference aims at optimizing ELBO through noisy yet unbiased estimates of its natural gradient computed on sampled data points. Different sampling strategies [@gopalan2013efficient;@kim2013efficient] can be used. Following the study in [@gopalan2013efficient], we rely here on stratified sampling that allows one to control the number of links and non-links considered at each step of the inference process. For each node $i, \, 1 \le i \le N$, one first constructs a set, denoted $s_1^i$, containing all the nodes to which $i$ is connected to as well as $M$ sets of equal size, denoted $s_0^{i,m}, \, 1 \le m \le M$, each containing a sample of the nodes to which $i$ is not connected to^[The sampling is here uniform over the nodes not connected to $i$ with replacement; sampling without replacement led to poorer results in our experiments.]. We will denote by $S_0^i$ the set of all $s_0^{i,m}$ sets. Furthermore, we will denote by $S_0$ the union of all non-links set and $S_1$ the union of all links set. The sets thus obtained, for all nodes, constitute minibatches that can be sampled and used to update the global parameters in Eq. \ref{eq:sss}. The combined scheme is summarized below:
 
 \begin{enumerate}
 \item Sample a node $i$ uniformly from all nodes in the graph; with probability $\frac{1}{2}$, either select $s_1^i$ or any set from $S_0^i$ (in the latter case, the selection is uniform over the sets in $S_0^i$). We will denote by $s_i$ the set selected and by $|s_i|$ its cardinality.
@@ -249,9 +249,9 @@ $t \gets 0$ \\
 \While{Convergence criteria not met}{
     Sample a minibatch $S$ from $h(S;m)$. \\
     \ForEach{$i,j \in S$}{
-        Maximize local parameters $\gamma_{ij}$ from \eqref{eq:maximization}.\\
+        Maximize local parameters $\gamma_{ij}$ from \ref{eq:maximization}.\\
         \If{burn-in finished}{
-            Compute intermediate gradient $\hat N^\Theta$ from \eqref{eq:sss}.\\
+            Compute intermediate gradient $\hat N^\Theta$ from \ref{eq:sss}.\\
             Update global parameter $N^{\Theta}$.\\
             Update gradient step $\rho^\Theta_t$.\\
         }
@@ -260,7 +260,7 @@ $t \gets 0$ \\
     Compute intermediate gradient $\hat N^\Phi$ and $\hat N^Y$  from \ref{local_gradient_chap5}.\\
     Update global parameters $N^{\Phi}$ and $N^{Y}$ from \ref{global_gradient_chap5}.\\
     Update gradient steps $\rho^\Phi_t$ and $\rho^Y_t$.\\
- Sample $P$ and $R$ from \eqref{eq:pk_update} \eqref{eq:rk_update}.\\
+ Sample $P$ and $R$ from \ref{eq:pk_update} \ref{eq:rk_update}.\\
     $t \gets t + 1$ .
     }
 }
@@ -274,7 +274,7 @@ $t \gets 0$ \\
 \label{sec_5:exps}
 
 
-We experimented our models on several real world networks, directed and undirected. Theirs statistics and properties are summarized in Table 5.1 and detailed descriptions are available in the online Koblenz network collection^[http://konect.uni-koblenz.de/networks/]. For both astro-ph and hep-ph datasets, we used the cleaned version available in the graph-tool framework.
+We experimented our models on several real world networks, directed and undirected. Theirs statistics and properties are summarized in Table \ref{table_5-chap5:corpus} and detailed descriptions are available in the online Koblenz network collection^[http://konect.uni-koblenz.de/networks/]. For both astro-ph and hep-ph datasets, we used the cleaned version available in the graph-tool framework.
 
 \begin{table}[h] 
 \bgroup

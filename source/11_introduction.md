@@ -23,10 +23,10 @@ The chapter 2 and 3 review the state of the art of the topic. They are devoted t
 * What learning processes and inference methods are used to fit the models with the data? (\ref{sec:network_inference}, \ref{sec:non_parametric})
 
 
-The Chapters 4 and 5 constitute the heart of the thesis. The contributions can be resumed as follows:
+The Chapters 4 and 5 constitute the heart of this thesis. The contributions can be resumed as follows:
 
 * In chapter 3, We ask whether a certain class of powerful probabilistic models, namely the class of stochastic block models, comply with two important properties find in real world networks, namely the preferential attachment and the homophily. More specifically we study two probabilistic models, the \ifm and the \imb and show that in their standard formulation they do not comply with the homophily and the preferential attachment. However, we show that \imb comply with the local preferential attachment were only edge within communities are considered.
-* In chapter 4, we proposed a new stochastic block model that extend the \imb model in order the model weighted networks. Particularly, a hierarchical beta-gamma prior is proposed to have a flexible block-block distributions parameters. We develop an efficient inference algorithm able to scale on networks with millions of edges and we evaluate and compare the model with various type of large real-world networks. We empirically show that the performance on the link prediction task can be improved when the networks are partially observed when modelling weights.
+* In chapter 4, we proposed a new stochastic block model that extend the \imb model in order the model weighted networks. Particularly, a hierarchical Beta-Gamma prior is proposed to have a flexible block-block distributions parameters. We develop an efficient inference algorithm able to scale on networks with millions of edges and we evaluate and compare the model with various type of large real-world networks. We empirically show that the performance on the link prediction task can be improved when the networks are partially observed when modelling weights.
 
 <!--In chapter 6, we present our model implementation through a platform that we released under an open source license. The platform implement a design pattern to help the development and sharing of complex experiments.-->
 
