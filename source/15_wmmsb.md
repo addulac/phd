@@ -64,7 +64,7 @@ Mixed-membership stochastic block (MMSB) models extend stochastic block models [
 
 1. For each node $i$, draw $$\theta_i \sim \textrm{Dir}(\alpha),$$ where $\theta_i$ and $\alpha$ are $K$-dimensional vectors, $K$ denoting the number of classes considered;
 2. Generate two sets of latent class memberships for each possible interactions, $$Z_\rightarrow = \{z_{i\rightarrow j} \sim \textrm{Cat}(\theta_i), 1 \le i,j \le N\}$$ and $$Z_\leftarrow = \{z_{i\leftarrow j} \sim \textrm{Cat}(\theta_j), 1 \le i,j \le N\},$$ with categorical draws;
-3. Generate or not a link between two nodes $(i,j)$ according to $$y_{ij} \sim F(\phi_{z_{i \rightarrow j}z_{i \leftarrow j}}),$$ where $F$ is a distribution in the exponential family and $\phi_{z_{i \rightarrow j}z_{i \leftarrow j}}$ an associated (usually conjugate) distribution that represents the relations between classes. For unweighted graphs, $F$ is usually Bernoulli and $\phi$ its conjugate Beta distribution.
+3. Generate or not a link between two nodes $(i,j)$ according to $$y_{ij} \sim F(\phi_{z_{i \rightarrow j}z_{i \leftarrow j}}),$$ where $F$ is a distribution in the exponential family and $\phi_{z_{i \rightarrow j}z_{i \leftarrow j}}$ an associated (usually drawn from a conjugate distribution) parameter that represents the relations between classes. For unweighted graphs, $F$ is usually Bernoulli and $\phi$ its conjugate Beta distribution.
 
 Many real networks nevertheless rely on graphs in which edges are naturally weighted. In co-authorship networks, for example, it is standard to consider edges weighted according to the number of collaborations between authors [@newman2001scientific]. In communication networks, the weights are based on the number of messages sent from the sender to the receiver. In text mining and natural language processing applications, it is also common to use word graphs in which edges are weighted on the basis of the number of times the words co-occur (in a sentence, paragraph or document). In all these cases, weights are integers that can naturally be modeled with Poisson distributions. Relying on its conjugate Gamma distribution for $\phi$, one finally obtains the following models, denoted MMSB for unweighted graphs and WMMSB for weighted graphs:
 $$
@@ -190,7 +190,7 @@ Lastly, as for its true distribution, the variational distribution for $r_{kk'}$
 
 ### Stochastic Variational Inference with Stratified Sampling
 
-Stochastic variational inference aims at optimizing ELBO through noisy yet unbiased estimates of its natural gradient computed on sampled data points. Different sampling strategies [@gopalan2013efficient;@kim2013efficient] can be used. Following the study in [@gopalan2013efficient], we rely here on stratified sampling that allows one to control the number of links and non-links considered at each step of the inference process. For each node $i, \, 1 \le i \le N$, one first constructs a set, denoted $s_1^i$, containing all the nodes to which $i$ is connected to as well as $M$ sets of equal size, denoted $s_0^{i,m}, \, 1 \le m \le M$, each containing a sample of the nodes to which $i$ is not connected to^[The sampling is here uniform over the nodes not connected to $i$ with replacement; sampling without replacement led to poorer results in our experiments.]. We will denote by $S_0^i$ the set of all $s_0^{i,m}$ sets. Furthermore, we will denote by $S_0$ the union of all non-links set and $S_1$ the union of all links set. The sets thus obtained, for all nodes, constitute minibatches that can be sampled and used to update the global parameters in Eq. \ref{eq:sss}. The combined scheme is summarized below:
+Stochastic variational inference aims at optimizing ELBO through noisy yet unbiased estimates of its natural gradient computed on sampled data points. Different sampling strategies [@gopalan2013efficient;@kim2013efficient] can be used. Following the study in [@gopalan2013efficient], we rely here on stratified sampling that allows one to control the number of links and non-links considered at each step of the inference process. For each node $i, \, 1 \le i \le N$, one first constructs a set, denoted $s_1^i$, containing all the nodes to which $i$ is connected to as well as $M$ sets of equal size, denoted $s_0^{i,m}, \, 1 \le m \le M$, each containing a sample of the nodes to which $i$ is not connected to^[The sampling is here uniform over the nodes not connected to $i$ with replacement; sampling without replacement led to poorer results in our experiments.]. We will denote by $S_0^i$ the set of all $s_0^{i,m}$ sets. Furthermore, we will denote by $S_0$ the union of all non-links set and $S_1$ the union of all links set. The sets thus obtained, for all nodes, constitute minibatches that can be sampled and used to update the global statistics in Eq. \ref{eq:sss}. The combined scheme is summarized below:
 
 \begin{enumerate}
 \item Sample a node $i$ uniformly from all nodes in the graph; with probability $\frac{1}{2}$, either select $s_1^i$ or any set from $S_0^i$ (in the latter case, the selection is uniform over the sets in $S_0^i$). We will denote by $s_i$ the set selected and by $|s_i|$ its cardinality.
@@ -223,8 +223,8 @@ Lastly, to be able to efficiently compute such quantities as $N^{\Phi^{-ij}}$ us
 
 #### Robbins-Monro condition and implementation remarks
 
-The convergence of stochastic variational inference is guaranteed under the Robbin-Monro condition [@robbins1951stochastic] that imposes constraints on the gradient step, $\sum \rho_t = \infty$ and $\sum \rho_t^2 < \infty$ which can be obtained with $\rho_t = \frac{1}{(\tau +t)^\kappa}$ with $\kappa \in (0.5, 1]$. Thus, we maintain a gradient step for each of the global parameters $\rho^\Phi$ and $\rho^Y$ accounting respectively for $N^\Phi$ and $N^Y$. For $N^\Theta$, we maintain individual gradient steps $\rho_i^{\Theta}$ for $1\leq i\leq N$, following [@miller2009nonparametric]; this improved both convergence and prediction performance. Furthermore, to increase the speed of the inference, we update the global parameter $N^\Phi$ and $N^Y$ only after a minibatch round. For the global parameter $N^\Theta$, we update it after a burn-in period $T_{burnin}$ such that $T_{burnin} \leq |S|$.
-This heuristic provides a trade-off between updating the global parameters after each observation, which slows down the inference and may result in bad local optima, and updating them only after minibatches that are potentially large (proportional to the number of nodes).
+The convergence of stochastic variational inference is guaranteed under the Robbin-Monro condition [@robbins1951stochastic] that imposes constraints on the gradient step, $\sum \rho_t = \infty$ and $\sum \rho_t^2 < \infty$ which can be obtained with $\rho_t = \frac{1}{(\tau +t)^\kappa}$ with $\kappa \in (0.5, 1]$. Thus, we maintain a gradient step for each of the global statistics $\rho^\Phi$ and $\rho^Y$ accounting respectively for $N^\Phi$ and $N^Y$. For $N^\Theta$, we maintain individual gradient steps $\rho_i^{\Theta}$ for $1\leq i\leq N$, following [@miller2009nonparametric]; this improved both convergence and prediction performance. Furthermore, to increase the speed of the inference, we update the global statistic $N^\Phi$ and $N^Y$ only after a minibatch round. For the global statistic $N^\Theta$, we update it after a burn-in period $T_{burnin}$ such that $T_{burnin} \leq |S|$.
+This heuristic provides a trade-off between updating the global statistics after each observation, which slows down the inference and may result in bad local optima, and updating them only after minibatches that are potentially large (proportional to the number of nodes).
 
 <!--
 %%% Two more point exists:
@@ -252,13 +252,13 @@ $t \gets 0$ \\
         Maximize local parameters $\gamma_{ij}$ from \ref{eq:maximization}.\\
         \If{burn-in finished}{
             Compute intermediate gradient $\hat N^\Theta$ from \ref{eq:sss}.\\
-            Update global parameter $N^{\Theta}$.\\
+            Update global statistic $N^{\Theta}$.\\
             Update gradient step $\rho^\Theta_t$.\\
         }
     }
 
     Compute intermediate gradient $\hat N^\Phi$ and $\hat N^Y$  from \ref{local_gradient_chap5}.\\
-    Update global parameters $N^{\Phi}$ and $N^{Y}$ from \ref{global_gradient_chap5}.\\
+    Update global statistics $N^{\Phi}$ and $N^{Y}$ from \ref{global_gradient_chap5}.\\
     Update gradient steps $\rho^\Phi_t$ and $\rho^Y_t$.\\
  Sample $P$ and $R$ from \ref{eq:pk_update} \ref{eq:rk_update}.\\
     $t \gets t + 1$ .
@@ -302,7 +302,7 @@ We experimented our models on several real-world networks, directed and undirect
 
 As standard in social network analysis, the evaluation of the models is based on the missing link prediction task using the AUC-ROC score. For weighted models, we consider the probability that an edge exists between two unobserved nodes $(i,j)$ belonging to the test set, namely:
 $$
-p(y_{ij} \geq 1 | \Thetah, \Phih) = 1 - \sum_{kk'} \thetah_{ik} \thetah_{jk'} e^{\phih_{kk'}}
+p(y_{ij} \geq 1 | \Thetah, \Phih) = 1 - \sum_{kk'} \thetah_{ik} \thetah_{jk'} e^{-\phih_{kk'}}
 $$
 
 
