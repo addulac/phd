@@ -16,7 +16,7 @@ $\mat{\Theta}$ \> matrix of nodes' latent classes/features \\
 $\mat{\Phi}$ \> matrix of latent class/feature interaction strength \\
 $\theta_i$ \> vector of latent class/feature of node $i$ \\
 $\phi_{mn}$ \> strengh of interaction between class/feature $m$ and $n$ \\
-$\mat{Z}$ \> tensor of block membership assignements \\
+$\mat{Z}$ \> tensor of block membership assignments \\
 $\zij$ \> block membership of node $i$ interacting with $j$ \\
 $\zji$ \> block membership of node $j$ interacting with $i$ \\
 $\gamma_{ij}$ \> matrix of variational parameters for the interaction between node $i$ and $j$ \\

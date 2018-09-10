@@ -24,7 +24,7 @@ and add the centred logo
         \vspace*{1.0cm}
         
         \huge
-        A Study of Mixed Membersip Stochastic Block Models for Complex Networks Analysis
+        A Study of Mixed-Membersip Models for Complex Networks Analysis
         
         
         \vspace{1.4cm}

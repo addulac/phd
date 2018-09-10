@@ -1,14 +1,14 @@
 # Appendix 2: Gibbs updates for ILFM
 \label{annexe:wmmsb}
 
-We change the variable name from $\Theta, \Phi$ to $F, W$ in order to have consistent notation with the original ILFM paper.
+We change the variable name from $\Theta, \Phi$ to $F, W$ in order to have consistent notations with the original ILFM paper.
 
 The goal of the inference is to recover the posterior densities $P(W,F \mid Y) \propto P(Y \mid F, W)P(F)P(W)$.
 
-We use use a sampling approach by MCMC method to learn the hidden variables of the model F and W. Namely we use a Gibbs sampling for features matrix $F$ and a Metropolis-Hasting for sampling the new features from the IPB as well as the weight matrix $W$ since it is not in a conjugate of the likelihood. The sampling algorithm is summarized in Algorithm \ref{algo:mcmc_ilfm}.
+We use a MCMC sampling approach to learn the hidden variables of the model F and W. Namely we use a Gibbs sampling for features matrix $F$ and a Metropolis-Hasting for sampling the new features from the IPB as well as the weight matrix $W$ since it is not in a conjugate of the likelihood. The sampling procedure is summarized in Algorithm \ref{algo:mcmc_ilfm}.
 
 ## Feature updates
-The learning of the feature matrix $F$ is computed in 2 stages. For each entity we need to update each non-unique features \footnote{Non-unique means that feature belongs to more than one entity.}. Then, for the unique features to this entity we need to add possibly $k^{new}$ features.
+The learning of the feature matrix $F$ is computed in 2 stages. For each entity we need to update each non-unique features \footnote{Non-unique means that feature belongs to more than one entity.}. Then, for the unique features of this entity we need to add possibly $k^{new}$ features.
 
 
 The sampling of each $f_{ik}$ is given by the following conditional posterior:
@@ -21,14 +21,13 @@ The result from the IPB give us the following results for the Gibbs update for t
 & P(f_{ik} = 1 \mid F_{-(ik)}) = \frac{m_{-i,k}}{N} \\
 & P(f_{ik} = 0 \mid F_{-(ik)}) = 1 - \frac{m_{-i,k}}{N}
 \end{align}
-
-Where $m_{-i,k}$ represent the number of active features $k$ for all entities excluding entity $i$, hence $m_{-i,k} = \sum_{j\neq i}f_{jk}$. 
+where $m_{-i,k}$ represents the number of active features $k$ for all entities excluding entity $i$, hence $m_{-i,k} = \sum_{j\neq i}f_{jk}$. 
 After sampling $k$ features for a particular entity $i$, we need to evaluate the new features who should be associated with this entity $i$. The probability to have $k_i^{new}$ features is proportional to this density:
 \begin{equation} \label{eq:1}
 P(k_i^{new} \mid Y, F, \alpha) \propto P(Y \mid F^{new})P(k_i^{new} \mid \alpha)
 \end{equation}
 
-The probability of having $k_i^{new}$ features is drawn from a $\mathrm{Poisson(\frac{\alpha}{N})}$ distribution in the IPB process. However, we also need to sample the $\mathbf{w}_i$ weights associated with those features, and in our case, the density of weights are not conjugate of the likelihood. In consequence, we cannot integrate them out as explicitly assumed in the equation \eqref{eq:1}. We follow the approach of [@BMF] to jointly sample the new features and the weights using a Metropolis-Hasting method. Thanks to the  exchangeability of the IPB we only need to consider features unique to entity $i$ to either propose or reject new features. Therefore, we reference by a superscript $B$ the set of model parameters corresponding to unique features. A convenient choice of jumping distribution is:
+The probability of having $k_i^{new}$ features is drawn from a $\mathrm{Poisson(\frac{\alpha}{N})}$ distribution in the IPB process. However, we also need to sample the $\mathbf{w}_i$ weights associated with those features, and in our case, the density of weights are not conjugate of the likelihood. In consequence, we cannot integrate them out as explicitly assumed in the equation \eqref{eq:1}. We follow the approach of [@BMF] to jointly sample the new features and the weights using a Metropolis-Hasting method. Thanks to the  exchangeability of the IPB we only need to consider features unique to entity $i$ to either propose or reject new features. We reference by a superscript $B$ the set of model parameters corresponding to unique features. A convenient choice of jumping distribution is:
 
 \begin{equation} \label{eq:j_knew}
 J(k_i^{new}, \mathbf{w}_i^{new} \mid k_i^B, \mathbf{w}_i^B) = \mathrm{Poisson}(k_i^{new} \mid \alpha) \mathcal{N}(\mathbf{w}_i^{new} \mid \sigma_w)
@@ -53,7 +52,6 @@ P(w_{kl} \mid Y, F, W_{-kl}, \sigma_w) \propto P(Y \mid F, W) P(w_{kl} \mid \sig
 \end{equation}
 
 We choose a jumping distribution in the same family of our prior on weight centered around the previous sample:
-
 \begin{equation} \label{eq:j_w}
 J(w_{kl}^* \mid w_{kl}) = \mathcal{N}(w_{kl}, \eta)
 \end{equation}
@@ -67,6 +65,8 @@ r_{w_{kl}\rightarrow w_{kl}^*} = \frac{ P(Y \mid F, W^*)P(w_{kl}^* \mid \sigma_w
 ## Hyper-parameter optimization
 
 Optimization rules for  $\alpha$ is given in \ref{sec:ibp_inference}.
+
+
 
 \begin{algorithm}
 %\dontprintsemicolon
@@ -87,9 +87,7 @@ Optimization rules for  $\alpha$ is given in \ref{sec:ibp_inference}.
     Draw candidate for $w_{kl}^*$ using equation \eqref{eq:j_w} \\
     Accept candidate with probability $\mathrm{min}(1, r_{w_{kl}\rightarrow w_{kl}^*} )$
 }
-
 Sample $\alpha$ from eq. \eqref{eq:alpha_ibp}
-
 \caption{Parameters sampling of ILFM for one iteration step.}
 \label{algo:mcmc_ilfm}
 \end{algorithm}
