@@ -50,7 +50,7 @@ In the latent feature model, each node is represented by a finite vector of bina
 y_{ij} \sim \mathrm{Bern}(\sigma(\mat{\theta}_{i} \mat{\Phi} \mat{\theta}_{j}^\top))
 \end{equation*}
 \end{enumerate}
-where $^\top$ dentotes the transpose and $\sigma()$ is the sigmoid function, mapping $[-\infty, +\infty]$ values to [0,1], and where $y_{ij}$ is a binary variable indicating that a link has been generated ($y_{ij}=1$) or not ($y_{ij}=0$). We will denote by $\mat{Y}$ the $N \times N$ matrix with elements $y_{ij}$. Finally, $\mat{f}_{i}$ denotes the row feature vector corresponding to the $i^{th}$ row of $\mat{\Theta}$.
+where $^\top$ dentotes the transpose and $\sigma()$ is the sigmoid function, mapping $[-\infty, +\infty]$ values to [0,1], and where $y_{ij}$ is a binary variable indicating that a link has been generated ($y_{ij}=1$) or not ($y_{ij}=0$). We will denote by $\mat{Y}$ the $N \times N$ matrix with elements $y_{ij}$. Finally, $\mat{\theta}_{i}$ denotes the row feature vector corresponding to the $i^{th}$ row of $\mat{\Theta}$.
 
 This model makes use of two real hyper-parameters, one for the IBP process ($\alpha$), and one for the variance of the normal distribution underlying the weight matrix ($\sigma_w$). In the case of undirected networks, the matrices $\mat{Y}$ and $\mat{\Phi}$ are symmetric and only their upper (or lower) diagonal parts are generated. Lastly, both $\mat{\Theta}$ and $\mat{\Phi}$ are infinite matrices. In practice however, one always deals with a finite number of latent features. A graphical representation of this model is given in Figure \ref{fig_4:mmm} (left).
 
@@ -281,24 +281,22 @@ As one can note, such a local degree is not necessarily an integer and the defin
 We say that \imb, in $\me$, satisfies the local preferential attachment effect iff for any indexing, for any node $i, \, 1\leq i \leq N$ such that $\theta_{ik}=1$, for any step $p, \, 1\leq p < N$, and for all $\epsilon$ compatible with the domain of definition of $d_{i,k}$ and $x$, $P(d_{i,k}^{(N)} \geq x+\epsilon | d_{i,k}^{(p)} \geq x,\me)$ increases with $x$. If $P(d_{i,k}^{(N)} \geq x+\epsilon | d_{i,k}^{(p)} \geq x,\me)$ is independent of $x$, the model is said to be neutral wrt to the local preferential attachment effect.
 \end{definition}
 
-This definition can be seen as the continuous counterpart of Definition\ref{def:locdeg-discrete}. If $\epsilon$ is too large, the probability is null and is independent on $x$, hence the compatibility requirement with the domain of definition of $x$ and $d_{i,k}$. 
+This definition can be seen as the continuous counterpart of Definition \ref{def:locdeg-discrete}. If $\epsilon$ is too large, the probability is null and is independent on $x$, hence the compatibility requirement with the domain of definition of $x$ and $d_{i,k}$. 
 
-Because of the Hierarchical Dirichlet Process underlying the \imb\ model, $\mat{f}_i$ follows a Dirichlet distribution: $\mat{f}_i \sim \Dir((\alpha_0 \beta_k + N_{ik})_{1 \le k \le K})$, with $\mat{\beta}\sim \gem(\gamma)$ and $N_{ik}$ being the number of edges connecting node $i$ through class $k$ (see for example [@teh2006hierarchical]) and $K$ the number of latent classes obtained. The marginals $f_{ik}$ are thus distributed according to a Beta distribution: $f_{ik} \sim \Beta(a_{ik}, b_{ik})$ with $a_{ik} = \alpha_0\beta_k + N_{ik}$ and $b_{ik} = \sum_{k'=1, k' \ne k}^{K} \alpha_0\beta_k' + N_{ik'}$.
+Because of the Hierarchical Dirichlet Process underlying the \imb\ model, $\mat{\theta}_i$ follows a Dirichlet distribution: $\mat{\theta}_i \sim \Dir((\alpha_0 \beta_k + N_{ik})_{1 \le k \le K})$, with $\mat{\beta}\sim \gem(\gamma)$ and $N_{ik}$ being the number of edges connecting node $i$ through class $k$ (see for example [@teh2006hierarchical]) and $K$ the number of latent classes obtained. The marginals $\theta_{ik}$ are thus distributed according to a Beta distribution: $\theta_{ik} \sim \Beta(a_{ik}, b_{ik})$ with $a_{ik} = \alpha_0\beta_k + N_{ik}$ and $b_{ik} = \sum_{k'=1, k' \ne k}^{K} \alpha_0\beta_k' + N_{ik'}$.
 
 The following property displays a sufficient condition on $x$, $\epsilon$, $a_{ik}$ and $b_{ik}$ for \imb\ to satisfy the local preferential attachment.
 
 
 \begin{proposition}\label{prop:IMBlocal}
-Let $F_k^p = \sum_{j=1}^p \hat{f}_{jk}$, $x'=\frac{x}{F_k^p \phi_{kk}}$ and $\epsilon'=\frac{\epsilon}{F_k^N \phi_{kk}}$. In the region where $x$ and $\epsilon$ are such that:
-%
+Let $T_k^p = \sum_{j=1}^p \hat{f}_{jk}$, $x'=\frac{x}{T_k^p \phi_{kk}}$ and $\epsilon'=\frac{\epsilon}{T_k^N \phi_{kk}}$. In the region where $x$ and $\epsilon$ are such that:
 \[
-F_k^N a_{ik} x'^{a_{ik}-1} (1-\epsilon') > F_k^p a_{ik} x'^{a_{ik}} + b_{ik} F_k^p (1-x'^{a_{ik}}),
+	T_k^N a_{ik} x'^{a_{ik}-1} (1-\epsilon') > T_k^p a_{ik} x'^{a_{ik}} + b_{ik} T_k^p (1-x'^{a_{ik}}),
 \]
-%
 $P(d_{i,k}^{(N)} \geq x+\epsilon | d_{i,k}^{(p)} \geq x,\me)$ increases with $x$.
 \end{proposition}
 
-As one can note, when $F_k^p$ is small (typically in the first steps of the process), then the above condition is likely to be met and \imb\ satisfies the preferential attachment effect. However, when $F_k^p$ gets closer to $F_k^N$ the above condition is no longer met.
+As one can note, when $T_k^p$ is small (typically in the first steps of the process), then the above condition is likely to be met and \imb\ satisfies the preferential attachment effect. However, when $T_k^p$ gets closer to $T_k^N$ the above condition is no longer met.
 
 
 \begin{proof}

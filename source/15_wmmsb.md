@@ -172,11 +172,9 @@ $$
 $$
 
 Setting $q(P) = p(P|Y,Z,\Omega)$ where $p$ is the true distribution and exploiting the conjugacy of the Beta and the negative binomial distributions leads to a Beta distribution for $p_{kk'}$: 
-
 \begin{equation} \label{eq:pk_update}
   p_{kk'} \sim \textrm{Beta}(c\epsilon + N^Y_{kk'}, c(1-\epsilon) + N^\Phi_{kk'}\Er_{q}[r_{kk'}])
 \end{equation}
-
 so that: 
 $$
 \Er_{q}[p_{kk'}] = \frac{c\epsilon + N^Y_{kk'}}{c\epsilon + N^Y_{kk'} + c(1-\epsilon) + N^\Phi_{kk'}\Er_{q}[r_{kk'}]}
@@ -209,7 +207,7 @@ where $C$ is a constant that is $2$ for undirected graphs and $1$ for directed g
   &N^{\Theta}_{\rightarrow ik} \leftarrow (1 - \rho^{i,\Theta}_t) N^{\Theta}_{\rightarrow ik} + \rho^{i,\Theta}_t \hat N^{\Theta}_{\rightarrow ik} \\
   &N^{\Theta}_{\leftarrow jk'} \leftarrow (1 - \rho^{i,\Theta}_t) N^{\Theta}_{\leftarrow jk'} + \rho^{i,\Theta}_t \hat N^{\Theta}_{\leftarrow jk'}  \\
   &N^{\Phi}_{.kk'} \leftarrow (1 - \rho^{\Phi}_t) N^{\Phi}_{.kk'} + \rho^{\Phi}_t \hat N^{\Phi}_{.kk'} \\
-  &N^{Y}_{kk'} \leftarrow (1 - \rho^{Y}_t) + \rho^{Y}_t \hat N^{Y}_{kk'}
+  &N^{Y}_{kk'} \leftarrow (1 - \rho^{Y}_t) N^{Y}_{kk'} + \rho^{Y}_t \hat N^{Y}_{kk'}
 \end{align*}
 \item $\rho^*_t = \frac{1}{(\tau +t)^\kappa}$ with $\kappa \in (0.5, 1]$.
 \item Go back to step 1 till convergence.
@@ -260,7 +258,7 @@ $t \gets 0$ \\
     Compute intermediate gradient $\hat N^\Phi$ and $\hat N^Y$  from \ref{local_gradient_chap5}.\\
     Update global statistics $N^{\Phi}$ and $N^{Y}$ from \ref{global_gradient_chap5}.\\
     Update gradient steps $\rho^\Phi_t$ and $\rho^Y_t$.\\
- Sample $P$ and $R$ from \ref{eq:pk_update} \ref{eq:rk_update}.\\
+ Sample $P$ and $R$ from \ref{eq:pk_update} and \ref{eq:rk_update}.\\
     $t \gets t + 1$ .
     }
 }
@@ -280,7 +278,7 @@ We experimented our models on several real-world networks, directed and undirect
 \bgroup
 \def\arraystretch{1} % 1 is the default, change whatever you need
     \input{source/figures/chap5/img/corpus}
-
+    \label{table_5-chap5:corpus}
 \egroup
 \tiny{
   $1$ \url{http://konect.uni-koblenz.de/networks/ca-AstroPh}. We used the cleaned version available in the graph-tool framework.\\
@@ -293,7 +291,6 @@ We experimented our models on several real-world networks, directed and undirect
   $9$ \url{hhttp://konect.uni-koblenz.de/networks/link-dynamic-simplewiki}\\
   $10$ \url{hhttp://konect.uni-koblenz.de/networks/prosper-loans}
 }
-\label{table_5-chap5:corpus}
 \end{table}
 
 

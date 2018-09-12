@@ -46,41 +46,61 @@ tex:
 	pandoc "$(INPUTDIR)"/[^_]*.md \
 	-o "$(OUTPUTDIR)/thesis.tex" \
 	-H "$(STYLEDIR)/preamble.tex" \
+	--template="$(STYLEDIR)/template.tex" \
 	--bibliography="$(BIBFILE)" \
+	--csl="$(STYLEDIR)/ref.csl" \
+	--toc \
+	-N \
 	-V fontsize=12pt \
 	-V papersize=a4paper \
 	-V documentclass=report \
-	-N \
-	--csl="$(STYLEDIR)/ref.csl" \
-	--latex-engine=xelatex \
-	--filter pandoc-eqnos
+	--filter pandoc-eqnos \
+	--filter pandoc-citeproc \
+	--pdf-engine=xelatex \
 	
 final:
 	./resolv_md.sh 2>pandoc.log
 	pdflatex thesis.tex
 
+doc: tex
+	pandoc -f latex -t docx -o output/thesis.docx output/thesis.tex
+
+
 docx:
 	pandoc "$(INPUTDIR)"/[^_]*.md \
 	-o "$(OUTPUTDIR)/thesis.docx" \
+	-H "$(STYLEDIR)/preamble.tex" \
+	--template="$(STYLEDIR)/template.tex" \
 	--bibliography="$(BIBFILE)" \
 	--csl="$(STYLEDIR)/ref.csl" \
 	--toc \
-	--filter pandoc-eqnos
+	-V fontsize=12pt \
+	-V papersize=a4paper \
+	-V documentclass=report \
+	--filter pandoc-eqnos \
+	--filter pandoc-citeproc \
+	--highlight-style pygments \
 
 html:
 	pandoc "$(INPUTDIR)"/[^_]*.md \
 	-o "$(OUTPUTDIR)/thesis.html" \
 	--standalone \
+	-H "$(STYLEDIR)/preamble.tex" \
 	--template="$(STYLEDIR)/template.html" \
 	--bibliography="$(BIBFILE)" \
 	--csl="$(STYLEDIR)/ref.csl" \
 	--include-in-header="$(STYLEDIR)/style.css" \
 	--toc \
+	-V fontsize=12pt \
+	-V papersize=a4paper \
+	-V documentclass=report \
+	--metadata title="Mixed-Membership Models" \
 	--number-sections \
 	--mathjax \
-	--filter pandoc-eqnos
-	rm -rf "$(OUTPUTDIR)/source"
-	mkdir "$(OUTPUTDIR)/source"
+	--filter pandoc-eqnos \
+	--filter pandoc-citeproc
+	rm -rf "$(OUTPUTDIR)/source/"
+	mkdir -p "$(OUTPUTDIR)/source/"
 	cp -r "$(INPUTDIR)/figures" "$(OUTPUTDIR)/source/figures"
 
 clean:

@@ -26,7 +26,7 @@ Bayesian inference is an inversion procedure that consists of estimating the mod
 $$
 P(\Pi | X, \Omega) = \frac{P(X|\Pi)P(\Pi| \Omega)}{P(X|\Omega)}
 $$
-where $P(X | \Omega)=\sum_{\Pi} P(X, \Pi|\Omega)$ is referred to as the *marginal likelihood* or model *evidence*. For simple model, the inference method of the posterior is generally based on either the Maximum Likelihood Estimation (MLE) or the Maximum a Posteriori (MAP) algorithm. These methods are called *point estimation* as they give a single value that tries to maximize the posterior distribution. However, for more complex model, the posterior cannot be computed directly, due to non closed-form expression of the evidence, and one must resort to approximate inference methods. Two main concurrent approaches have been explored in the literature to approximate the posterior distribution. The first relies on sampling techniques grounded by Markov Chain Monte Carlo (MCMC) theory [@neal1993probabilistic;@geyer2011introduction]; MCMC based methods are stochastic procedures where successive sampling steps are performed to approximate the true posterior distribution. The second relies on Variational Inference (VI) (equiv. Variational Bayes) methods; In this inference scheme, one tries to minimize the divergence between the true posterior and a given proxy distribution. A major advantage of this approach is that it allows to develop deterministic inference procedure and thus, open the door to the framework of gradient descent based algorithms. Nevertheless, the price to pay is that the proxy distribution incorporates a bias often hard to evaluate [@blei2017variational]. As a final note on approximate inference, it is worth to mention the Expectation-Maximization (EM) algorithm which can be viewed as a special case of VI but used to estimate model parameters that lack of prior distribution.
+where $P(X | \Omega)=\sum_{\Pi} P(X, \Pi|\Omega)$ is referred to as the *marginal likelihood* or model *evidence*. For simple model, the inference method of the posterior is generally based on either the Maximum Likelihood Estimation (MLE) or the Maximum a Posteriori (MAP) algorithm. These methods are called *point estimation* as they give a single value that tries to maximize the posterior distribution. However, for more complex model, the posterior cannot be computed directly, due to non closed-form expression of the evidence, and one must resort to approximate inference methods. Two main concurrent approaches have been explored in the literature to approximate the posterior distribution. The first relies on sampling techniques grounded by Markov Chain Monte Carlo (MCMC) theory [@neal1993probabilistic;@geyer2011introduction]; MCMC based methods are stochastic procedures where successive sampling steps are performed to approximate the true posterior distribution. The second relies on Variational Inference (VI) (equiv. Variational Bayes) methods; In this inference scheme, one tries to minimize the divergence between the true posterior and a given proxy distribution. A major advantage of this approach is that it allows to develop deterministic inference procedure and thus, open the door to the framework of gradient descent based algorithms. Nevertheless, the price to pay is that the proxy distribution incorporates a bias often hard to evaluate [@blei2017variational]. As a final note on approximate inference, it is worth to mention the Expectation-Maximization (EM) algorithm which can be viewed as a special case of VI but used to estimate model where the parameters lack of prior distribution.
 
 The estimation of the posterior distribution is achieved through a fitting procedure that, for approximate inference, consists of iterative updates of an objective towards a maximizer.
 The (approximate) posterior can then be used to "answer questions" through the prediction of future outcomes as
@@ -44,8 +44,8 @@ P(X|\eta) = \exp(\eta^T S(X) -A(\eta) - H(X))
 $$
 where $S(X)$ is a measurable map, $A$, called the log-partition function, and $H$ are two known measurable real-valued functions.
 
-Distributions in the Exponential family have convenient properties that make them theoretically appealing and hence, constitute a core topic in the Bayesian framework [@orbanz2009functional] and noticeably in the field of Information Geometry [@amari2007methods]. For instance, they convey the key notion of *sufficient statistic* regarding the measure of the information in a data sample. There are also at the basis of the *generalized linear models* who allow straightforward generalization of simpler models to work in different contexts. Another very useful property of the exponential family, that we shall highlight in this section, is the existence of *conjugate priors*.
-More Precisely, let $P(X|\eta)$ be a model with parameter space $\Omega_\eta$, and let $\mathcal{H}$ be a set of prior distribution on $\Omega_\eta$. Then the model $P(X|\eta)$ and the set $\mathcal{H}$ are said to be conjugate if for every prior $P_\eta \in \mathcal{H}$ and observation set $X=x$, the corresponding posterior $P(\eta|X)$ is an element of $\mathcal{H}$.
+Distributions in the Exponential family have convenient properties that make them theoretically appealing and hence, constitute a core topic in the Bayesian framework [@orbanz2009functional] and noticeably in the field of Information Geometry [@amari2007methods]. For instance, they convey the key notion of *sufficient statistic* regarding the measure of the information in a data sample. There are also at the basis of the *generalized linear models* which allow straightforward generalization of simpler models to work in different contexts. Another very useful property of the exponential family, that we shall highlight in this section, is the existence of *conjugate priors*.
+More Precisely, let $P(X|\eta)$ be a model with parameter space $\Omega_\eta$, and let $\mathcal{H}$ be a set of prior distribution on $\Omega_\eta$. Then, the model $P(X|\eta)$ and the set $\mathcal{H}$ are said to be conjugate if for every prior $P_\eta \in \mathcal{H}$ and observation set $X=x$, the corresponding posterior $P(\eta|X)$ is an element of $\mathcal{H}$.
 
 Conjugate priors, as well as the notion of sufficient statistics, are inextricably linked to the exponential family [@halmos1949application]. Notably, it has been showed that an exponential family representation always implies the existence of a sufficient statistic and a conjugate prior. Furthermore, under mild regularity conditions, the converse is also true.
 
@@ -53,7 +53,6 @@ A conjugate prior of $P(X|\eta)$ has the following representation
 $$
 P(\eta|\tau, \eta_0) = \exp(\tau^T\eta - \eta_0A(\eta) - H(\tau, \eta_0))
 $$ {#eq:conjugate_prior}
-
 The practical advantage of using conjugate prior is that it leads to closed-form updates for inference applications. This is in particular, often the case for predictive distribution in conjugate model which is of great interest to develop efficient inference scheme. Note, that the use of conjugate prior in machine learning model is further justified by its mathematical convenience than for its epistemological meaning [@blei2003latent].
 To conclude on exponential family, we recall a theorem proved in [@diaconis1979conjugate], that characterizes the predictive distribution in a conjugate model, and that highlight its linear form that the reader will be able to rediscover in different parts of this manuscript.
 \begin{theorem}[Diaconis-Ylvisaker characterization of conjugate priors]
@@ -213,11 +212,26 @@ To conclude on the DP, here some assertion found in the literature:
 \end{itemize}
 -->
 
+### Two-parameter extension
+
+The DP has a two-parameter extension called the Pitman-Yor Process (PYP) with discount parameter $0 \leq d \leq 1$ and concentration parameter $\alpha_0$. If $G$ is a PYP with the given parameters and base measure $H$, we write $G \sim \PYP(d,\alpha, H)$. When $d=0$, the PYP reduces to the DP. The stick breaking process for the PYP is generalized as follows:
+\begin{align*}
+ \beta_k &\sim \mathrm{Beta}(1-d, \alpha_0+ kd) \qquad\qquad X_k^* \sim H  \\
+ \pi_k &= \beta_k \prod_{l=1}^{k-1}(1-\beta_l) \qquad G = \sum_{k=1}^\infty \pi_k \delta_{X_k^*}
+\end{align*}
+and we refer to the distribution of $\mat{\beta}=(\beta_1, \beta_2,\dotsc)=GEM(d, \alpha_0)$.
+
+The CRP for the PYP generalizes to the following urn scheme:
+$$
+X_i| X_1,\dotsc,X_{i-1},\alpha,d,H = \frac{\alpha_0 + Kd}{\alpha_0+i-1}H + \sum_{k=1}^K \frac{n_k-d}{\alpha_0+i-1}\delta_{X_k^*}
+$$
+The PYP preserves the clustering and the rich-get-richer properties of the DP. Furthermore, it exhibits a power-law nature as under its Stick-breaking formulation one has $\Er[\beta_k] = \bigO(k^{-1/d})$ if $0<d<1$, which means that the cluster sizes decay according to a power-law. This fact makes the PYP often a better choice than the DP to model natural phenomena.
+
 ### Hierarchical Dirichlet Process
 
-The Hierarchical Dirichlet Process (HDP) is a two-stage DP process [@HDP]. It allows to share the same mixture components^[The term component is used in a general case here but depending on the context, the component may be called differently. For instance the term of latent topic is common for text analysis and block, class or communities for network modeling.] across the data which is not possible with a unique DP (i.e. all tables have a different dish in the CRP metaphor.). By overcoming this limitation, the HDP constitutes a flexible prior to build hierarchical models able to capture complex semantic patterns in the data. In his canonical form, the HDP assumes that the observed data are composed of $J$ instances, and each instance is composed of $N$ data point occurrences. For example, in text analysis,  the instances typically represent documents and the data point occurrences the words. In network analysis instances would be the nodes and data occurrences the edges.
+The Hierarchical Dirichlet Process (HDP) is a two-stage DP process [@HDP]. It allows to share the same mixture components^[The term component is used in a general case here but depending on the context, the component may be called differently. For instance the term of latent topic is common for text analysis and block, class or communities for network modeling.] across the data which is not possible with a unique DP (i.e. all tables have a different dish in the CRP metaphor.). By overcoming this limitation, the HDP constitutes a flexible prior to build hierarchical models able to capture complex semantic patterns in the data. In his canonical form, the HDP assumes that the observed data are composed of $J$ instances, and each instance is composed of $N$ data point occurrences. For example, in network analysis instances would be the nodes and data occurrences the edges. In text analysis (topic modeling), the instances typically represent documents and the data point occurrences the words. In the following, we go through the orignal HDP model proposed which was used for topic modelling. Notice that the adaption of the HDP for relational models need a slight modification that will be further examined in chapter \ref{sec:mmsb_prop}.
 The generative process of the HDP is as follows:
-\begin{align*}
+\begin{align*} \label{eq_chap3:hdp}
  G_0 \mid \alpha_0, H &\sim \DP(\gamma, H) \\
  G_j \mid \gamma, G_0 &\sim \DP(\alpha_0, G_0) \\
  \theta_{ji} \mid G_j &\sim G_j \\
@@ -264,7 +278,14 @@ The second level of DP corresponds to $\pi_j$. It defines the mixture of the sha
 &t_{ji} \sim \Mult(\mat{\beta}_j^1)  \qquad \quad z_ {ji} = k_{j_{t_{ji}}} 
 \end{align*}
 
-The graphical models for the three representations of HDP are shown in Figure \ref{fig:hdp}. As for the DP, one can obtain closed-form expressions for the predictive distributions of the HDP by marginalizing out the base measures. We discuss this approach in the next section.
+The graphical models for the three representations of HDP are shown in Figure \ref{fig:hdp}. When $F$ is a Multinomial distribution, the model is sometimes referred to as the HDP-LDA as a generalization of the Latent Dirichlet Allocation (LDA) with a potentially infinite number of topics. 
+
+<!--
+**HDP for relationnal model**
+The generative process for relational models under an HDP prior slightly differs from the formulation given in \ref{eq_chap3:hdp}. In relational model, each node $i$ is drawn for two-stage DP, as for HDP-LDA, but then each node pair interactions, each nodes draws a latent component (or class) membership. The edge likelihood only depend of Nodes membership  that is used by the kernel likelihood 
+-->
+
+As for the DP, one can obtain closed-form expressions for the predictive distributions of the HDP by marginalizing out the base measures. We discuss this approach in the next section.
 	
 #### Chinese Restaurant Franchise
 \label{sec:CRF}
@@ -331,21 +352,19 @@ To accomplish the construction of $G_0$, one can resort to an augmented represen
 & \qquad\qquad\qquad\qquad  G_0 = \sum_{k=1}^K \beta_k \delta_{\phi_k} + \beta_u G_u
 \end{align*}
 Under this representation, by omitting the reference to $\alpha_0$ and $\gamma$, one can write the conditional distribution for a component $k$:
-\begin{equation*} \label{eq:k_hdp}
-    \pr(z_{ji}=k \mid \bm{y}, \bm{z}^{-ji}, \bm{m}, \mat{\beta} ) \propto
+\begin{equation} \label{eq:k_hdp}
+    \pr(z_{ji}=k \mid \bm{y}, \bm{z}^{-ji}, \bm{m}, \mat{\beta} ) \propto 
 \begin{cases} 
     (n_{j\bm{.}k}^{-ji} + \alpha_0\beta_k) f_k^{-y_{ji}}(y_{ji}) \quad \mathrm{if \ } k  \mathrm{previously\ used,} \\ 
 \alpha_0 \beta_u f_{k^{\mathrm{new}}}^{-y_{ji}}(y_{ji}) \qquad\qquad\quad \mathrm{if \ } k = k^{\mathrm{new}.} 
 \end{cases}
-\end{equation*}
+\end{equation}
 where $f_k^{-y_{ji}}$ denotes the conditional likelihood of $y_{ij}$ under the component $k$ given all data except $y_{ij}$ such that $f_k^{-y_{ji}} = p(y_{ij}|\mat{z}^{-ij},z_{ji}=k)$ and $f_{k^{\mathrm{new}}}^{-y_{ji}}(y_{ji})=\int f(x_{ij}|\phi)h(\phi)d\phi$ is simply the prior density of $y_{ij}$ and $f(.|\phi)$ and $h(.)$ are respectively the density of $F(\phi)$ and $H$.
-
 The sampling of the table configuration $\bm{m}$ can be done using the unsigned Stirling of the first kind $s(n,m)$ [@antoniak1974mixtures]:
 $$
     \pr(m_{jk}=m \mid \bm{z}, \bm{m}^{-jk}, \mat{\beta} ) = \frac{\Gamma(\alpha_0 \beta_k)}{\Gamma(\alpha_0 \beta_k + n_{j\bm{.}k})} s(n_{j\bm{.}k}, m) (\alpha_0 \beta_k)^m
 $$
-
-We notice that if $h(.)$ and $f(.)$ are usually chosen to be conjugate because it allows then to obtain a closed-form for equation \ref{eq:k_hdp}.
+We notice that if $h(.)$ and $f(.)$ are usually chosen to be conjugate because it allows then to obtain a closed-form for the updates of the components assignment given in Eq. \ref{eq:k_hdp}.
 The given updates complete the sampling procedure of the CRP since $\theta_{ji}$ and $\psi_{jt}$ can be reconstructed from their index variables.
 
 
@@ -389,7 +408,7 @@ We mention here some additional important properties of the IBP [@tutorial2012tu
 
 A constructive approach of the IBP is obtained through the infinite limit of a Beta-Bernoulli process. Let $F$ defined by the following process:
 \begin{align*}
-	\pi_k \sim \mathrm{Beta}(\frac{\alpha \beta}{K}, 1), \\
+	\pi_k \sim \mathrm{Beta}(\frac{\alpha \beta}{K}, \beta), \\
 	f_{ik} \mid \pi_k \sim \mathrm{Bernoulli}(\pi_k)
 \end{align*}
 When $K\rightarrow \infty$, one can show that $P(F|\alpha)$ is consistent with equation \ref{eq:ibp_density}, modulo the size of the equivalence class (under the lof transformation).
@@ -460,7 +479,7 @@ $$
 A case of interest is for the so-called large graph, when $N\rightarrow \infty$. In this case, the degree distribution converges to a Poisson law as $P(d=n)\approx \Poisson(n;z)$ where $z=p(N-1)$ is the mean degree^[Where the self-loops are not considered.]. The class of graphs $G_{N,p}$ generated by the ER model are consequently sometimes referred to as the *Poisson random graph*. This result leads to another interesting property of the ER model worth to mention; let's define a *component* as a maximal subset of nodes that can all be reached from another in the same subset (through edge traversal). There is a so called *phase transition*, from low value of $p$, where there are many small components with exponential size distribution, to high value of $p$ with very few small components and one, so-called, *giant component*.
 A consequence of this is that the ER model satisfies the small world effect as its typical distance between two nodes is $l=\frac{\log N}{\log z}$ [@bollobas1998random]. Nevertheless, the ER model do not satisfy all the other properties found in real-world networks. Its degree distribution is Poisson and thus has exponential decay, it has random mixing patterns and no clustering structure. Though, it is not adapted for modeling real systems, the ER model still gives insight on the way network can behave and constitutes a baseline regarding the emergence of phase transitions and giant components that are also studied in other random graph models.
 
-Among the many extensions of the ER model proposed in the literature, we focus here on the Stochastic Block Model that provides a very general framework to model graph with community structure.
+Among the many extensions of the ER model proposed in the literature [@goldenberg2010survey;@goldenberg2010survey], we focus here on the Stochastic Block Model that provides a very general framework to model graph with community structure.
 
 ### Stochastic Block Model
 
@@ -542,7 +561,7 @@ In chapter \ref{sec:mmsb_prop}, we further explore and compare two general repre
 In section \ref{sec:non_parametric}, we mentioned the concept of exchangeability of a random sequence and illustrated how it is related to the construction of the Dirichlet Process.
 What we have learned, is that the exchangeability assumption over a sequence of observable data is equivalent to the existence of an integral decomposition (a mixture) of the probability density of this sequence under which the observation are i.i.d given a random probability measure.
 This result is known as the de Finetti' theorem and constitutes a justification for the existence of latent variable models under the exchangeability assumption.
-An interesting question to ask though, is if an equivalent representation theorem exists for exchangeable random graphs. The answer is yes, and it is known as the Aldous-Hoover theorem, that we will recall here. This theorem has a version adapted for bipartite graphs, but we will focus here on unipartite graph and thus square adjacency matrix.
+An interesting question to ask though, is if an equivalent representation theorem exists for exchangeable random graphs. The answer is yes, and it is known as the Aldous-Hoover theorem, that we shall recall here. This theorem has a version adapted for bipartite graphs, but we will focus here on unipartite graph and thus square adjacency matrix.
 
 Let's consider an undirected graph and its adjacency matrix $Y$ (an array) of infinite size.
 \begin{definition}[Jointly exchangeable array]

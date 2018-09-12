@@ -6,6 +6,12 @@ urlcolor: blue
 linkcolor: red
 ---
 
+<!-- Space before/after equation block
+\setlength{\abovedisplayskip}{8pt}
+\setlength{\belowdisplayskip}{5pt}
+-->
+
+
 <!--
 === Put all the reference in bib in a papers
 nocite: '@*' 
