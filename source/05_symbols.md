@@ -19,7 +19,7 @@ $\phi_{mn}$ \> strengh of interaction between class/feature $m$ and $n$ \\
 $\mat{Z}$ \> tensor of block membership assignments \\
 $\zij$ \> block membership of node $i$ interacting with $j$ \\
 $\zji$ \> block membership of node $j$ interacting with $i$ \\
-$\gamma_{ij}$ \> matrix of variational parameters for the interaction between node $i$ and $j$ \\
+$\gamma_{ij}$ \> matrix of variational parameters for the interaction between nodes $i$ and $j$ \\
 
 \end{tabbing}
 

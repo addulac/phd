@@ -60,7 +60,7 @@ tex:
 	
 final:
 	./resolv_md.sh 2>pandoc.log
-	pdflatex thesis.tex
+	pdflatex paper.tex
 
 doc: tex
 	pandoc -f latex -t docx -o output/thesis.docx output/thesis.tex

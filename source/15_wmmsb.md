@@ -34,7 +34,7 @@ The main theoretical contribution of this chapter is two-fold: firstly, we propo
 
 Most of the real networks exhibit a topology more complex than just binary relationship between nodes. Instead, the relations can be weighted and dynamic. For example, co-authorship networks can be constructed such that the edge covariates correspond to the number of collaborations between the underlying authors [@newman2001scientific]. In a communication network, the weight can be the number of messages sent from the sender to the receiver. In the web, documents are connected with hyperlinks where the counts of those are for example used to construct the PageRank algorithm. Finally, in a linguistic network, a network of words can be built where the weight between two words is the number of times where they follow each other. Another useful case where weighted networks can be useful is temporal networks. For instance, in communication networks, messages are sent at a specific time, thus taking into account the number of messages sent during a period of time allows to represent the strength of the relation over the time.
 
-In this paper we consider the weighted relations as a measure for the number of times each node has interacted. Thus, a natural prior for count edge covariate is the Poisson distribution. Furthermore, it has several nice properties:
+In this study, we consider the weighted relations as a measure for the number of times each node has interacted. Thus, a natural prior for count edge covariate is the Poisson distribution. Furthermore, it has several nice properties:
 
 \begin{itemize}
 \item{Additivity}: If $K_1 \sim \mathrm{Poi}(\alpha_1)$ and $K_2 \sim \mathrm{Poi}(\alpha_2)$ then,

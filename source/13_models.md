@@ -3,7 +3,7 @@
 \label{sec:network_model}
 
 Machine Learning can be though of as inferring plausible models to explain observed data. A major difficulty of this task is that the data can be consistent with many models and choosing an appropriate model is uncertain. Therefore, being able to represent the uncertainty plays a key role in order to build flexible yet powerful model [@ghahramani15_nature]. 
-For network analysis, one can think about a clustering task such as the *community detection* for instance; Should the clusters to detect should satisfy the *regular equivalence* or the *structural equivalence*? Should the node memberships to clusters should be soft or strict? How many clusters should be detected? The Answers to those questions can either be known or uncertain and therefore, one should be able to incorporate various kinds of prior knowledge and with different levels of confidence.
+For network analysis, one can think about a clustering task such as the *community detection* for instance; Should the clusters to detect should satisfy the *regular equivalence* or the *structural equivalence*? Should the node memberships to clusters should be soft or strict? How many clusters should be detected? The answers to those questions can either be known or uncertain and therefore, one should be able to incorporate various kinds of prior knowledge and with different levels of confidence.
 In this direction, a well-grounded framework to control the uncertainty is the Bayesian Inference, grounded by the probability theory, and which allows the actual learning procedure behind probabilistic models.
 
 In this chapter, we introduce the probabilistic framework upon which the models studied in this thesis are based.
@@ -13,12 +13,12 @@ In particular, we expose the key distributions and the processes harnessed withi
 ## Bayesian inference
 \label{sec:network_inference}
 
-Bayesian modeling is a probabilistic framework used to formalize causal theory. Given a set of observable data $X$, let $\Pi$ be a set of random variables and $\Omega$ a set of hyper-parameters. A Bayesian model defines the conditional relations between those variables whom describe how the data are generated. In a nutshell, the generative process consists firstly to generate random parameters from a *prior distribution* $\Pi \sim P(\Pi | \Omega)$, then the data are generated from a *data likelihood distribution* given the parameters such that $X \sim P(X|\Pi)$. The model can be represented as a Directed Acyclic Graph (DAG), called a Bayesian Network or Graphical model, where the conditional relations between the different variables are emphasized as illustrated in Fig. \ref{fig:bayes_net}. The graphical model is a means of expressing the causal relations underlying a probabilistic model in a visual and synthetic way.
+Bayesian modeling is a probabilistic framework used to formalize causal theory [@fong2013causal]. Given a set of observable data $X$, let $\Pi$ be a set of random variables and $\Omega$ a set of hyper-parameters. A Bayesian model defines the conditional relations between those variables whom describe how the data are generated. In a nutshell, the generative process consists firstly to generate random parameters from a *prior distribution* $\Pi \sim P(\Pi | \Omega)$, then the data are generated from a *data likelihood distribution* given the parameters such that $X \sim P(X|\Pi)$. The model can be represented as a Directed Acyclic Graph (DAG), called a Bayesian Network or Graphical model, where the conditional relations between the different variables are emphasized as illustrated in Fig. \ref{fig:bayes_net}. The graphical model is a means of expressing the causal relations underlying a probabilistic model in a visual and synthetic way.
 
 \begin{figure}[h]
     \centering
     \input{source/figures/draw/bnet.tex}
-    \caption{A simple Bayesian network. The circled nodes represent random variables, and the non-circled one represent constant generally called hyper-parameters. The grey circles represent the observed data and the white circles are for the model parameters. The directed edges represent causal relations between the variables.}
+    \caption{A simple Bayesian network. The circled nodes represent random variables, and the non-circled one represent constant generally called hyper-parameters. The grey circles represent the observed data and the white circles correspond to the model parameters. The directed edges represent causal relations between the variables.}
     \label{fig:bayes_net}
 \end{figure}
 
@@ -26,7 +26,7 @@ Bayesian inference is an inversion procedure that consists of estimating the mod
 $$
 P(\Pi | X, \Omega) = \frac{P(X|\Pi)P(\Pi| \Omega)}{P(X|\Omega)}
 $$
-where $P(X | \Omega)=\sum_{\Pi} P(X, \Pi|\Omega)$ is referred to as the *marginal likelihood* or model *evidence*. For simple model, the inference method of the posterior is generally based on either the Maximum Likelihood Estimation (MLE) or the Maximum a Posteriori (MAP) algorithm. These methods are called *point estimation* as they give a single value that tries to maximize the posterior distribution. However, for more complex model, the posterior cannot be computed directly, due to non closed-form expression of the evidence, and one must resort to approximate inference methods. Two main concurrent approaches have been explored in the literature to approximate the posterior distribution. The first relies on sampling techniques grounded by Markov Chain Monte Carlo (MCMC) theory [@neal1993probabilistic;@geyer2011introduction]; MCMC based methods are stochastic procedures where successive sampling steps are performed to approximate the true posterior distribution. The second relies on Variational Inference (VI) (equiv. Variational Bayes) methods; In this inference scheme, one tries to minimize the divergence between the true posterior and a given proxy distribution. A major advantage of this approach is that it allows developing deterministic inference procedure and thus, open the door to the framework of gradient descent based algorithms. Nevertheless, the price to pay is that the proxy distribution incorporates a bias often hard to evaluate [@blei2017variational]. As a final note on approximate inference, it is worth to mention the Expectation-Maximization (EM) algorithm, which can be viewed as a special case of VI but used to estimate model where the parameters lack of prior distribution.
+where $P(X | \Omega)=\sum_{\Pi} P(X, \Pi|\Omega)$ is referred to as the *marginal likelihood* or model *evidence*. For simple model, the inference method of the posterior is generally based on either the Maximum Likelihood Estimation (MLE) or the Maximum a Posteriori (MAP) algorithm. These methods are called *point estimation* as they give a single value that tries to maximize the posterior distribution. However, for more complex models, the posterior cannot be computed directly, due to non closed-form expression of the evidence, and one must resort to approximate inference methods. Two main concurrent approaches have been explored in the literature to approximate the posterior distribution. The first relies on sampling techniques grounded by Markov Chain Monte Carlo (MCMC) theory [@neal1993probabilistic;@geyer2011introduction]; MCMC based methods are stochastic procedures where successive sampling steps are performed to approximate the true posterior distribution. The second relies on Variational Inference (VI) (equiv. Variational Bayes) methods; In this inference scheme, one tries to minimize the divergence between the true posterior and a given proxy distribution. A major advantage of this approach is that it allows developing deterministic inference procedure and thus, open the door to the framework of gradient descent based algorithms. Nevertheless, the price to pay is that the proxy distribution incorporates a bias often hard to evaluate [@blei2017variational]. As a final note on approximate inference, it is worth mentioning the Expectation-Maximization (EM) algorithm, which can be viewed as a special case of VI but used to estimate model where the parameters lack of prior distribution.
 
 The estimation of the posterior distribution is achieved through a fitting procedure that, for approximate inference, consists of iterative updates of an objective towards a maximizer.
 The (approximate) posterior can then be used to "answer questions" through the prediction of future outcomes as
@@ -68,9 +68,9 @@ That is, given observation $x_1,\dotsc,x_n$ the expected value of new draw $x$ u
 \label{sec:non_parametric}
 
 When modeling natural phenomena, we mentioned the importance of having flexible model able to adapt to the complexity of the data. 
-Flexibility can be obtained through Bayesian nonparametric that refers to Bayesian models that use nonparametric processes as prior knowledge. The class of nonparametric process can be though as the generalization of parametrized distributions^[Such as distributions in the exponential family.] to an infinite dimensional parameter space. Hence, the dimension of the model becomes itself a random parameter that can be learned from the data.
+Flexibility can be obtained through Bayesian nonparametric that refers to Bayesian models that use nonparametric processes as prior knowledge. The class of nonparametric process can be though as the generalization of parametric distributions^[Such as distributions in the exponential family.] to an infinite dimensional parameter space. Hence, the dimension of the model becomes itself a random parameter that can be learned from the data.
 
-Nonparametric processes include major models that are worth to mention. The Gaussian Process, that generalizes the multivariate Normal distributions [@rasmussen2004gaussian], is particularly adapted for modeling continuous data such as time series and image processing [@lawrence2007hierarchical]. The Poisson Process  can be defined as a counting process on a measurable space, where each region is associated to a finite-dimensional Poisson distribution. It is ubiquitous in queuing theory [@nelson2013probability], and has been used in a wide range of applications, from earthquake occurrence modeling [@ogata1988statistical], to the analysis of photon emission [@jager2009analysis]. In this work, we are particularly interested in the two others following nonparametric processes:
+Nonparametric processes include major models that are worth mentioning. The Gaussian Process, that generalizes the multivariate Normal distributions [@rasmussen2004gaussian], is particularly adapted for modeling continuous data such as time series and image processing [@lawrence2007hierarchical]. The Poisson Process  can be defined as a counting process on a measurable space, where each region is associated to a finite-dimensional Poisson distribution. It is ubiquitous in queuing theory [@nelson2013probability], and has been used in a wide range of applications, from earthquake occurrence modeling [@ogata1988statistical], to the analysis of photon emission [@jager2009analysis]. In this work, we are particularly interested in the two others following nonparametric processes:
 
 * The *Dirichlet Process* is the generalization of the Dirichlet distribution in the infinite case. It is adapted for categorical data and often used as a prior for infinite mixture models and clustering applications.
 * The *Indian Buffet Process* is a prior over categorical matrices with infinite columns. It has been used for discrete matrix factorization, overlapping community detection and model selection.
@@ -123,13 +123,13 @@ The predictive distribution for $X_{n+1}$ is therefore equal to the base measure
 
 Using the predictive distribution, Eq. \ref{eq:bm}, one can construct the distribution over the sequence $X_1,X_2,\dotsc$ by iteratively drawing each $X_i$ given $X_1,\dotsc,X_{i-1}$ such that
 $$
-P(X_1,\dotsc,X_n) = \prod_{i=1}^n P(X_i|X_1,\dotsc,X_{i-1}).
+P(X_1,\dotsc,X_n) = \prod_{i=1}^n P(X_i|X_{i-1},\dotsc,X_1).
 $$
 It is straightforward to show that this joint distribution is infinitely exchangeable, meaning that the probability of the sequence $X_1,\dotsc,X_n$ is the same for any other order of that sequence. Or said differently, the probability of that sequence doe not depend on the order in which we draw samples. Formally, given any permutation $\sigma$ over natural number, one has
 $$
 P(X_1,\dotsc,X_n) = P(X_{\sigma(1)},\dotsc,X_{\sigma(n)}).
 $$
-On the other hand, de Finetti's theorem states that for any infinitely exchangeable sequence $X_1,X_2,\dots$ there is a random measure G such that the sequence is composed of  i.i.d draws from it^[Or says differently, that draws are conditionally independent given $G$.]:
+On the other hand, de Finetti's theorem states that [@kingman1978uses] for any infinitely exchangeable sequence $X_1,X_2,\dots$ there is a random measure G such that the sequence is composed of  i.i.d draws from it^[Or says differently, that draws are conditionally independent given $G$.]:
 $$
 P(X_1,\dotsc,X_n) = \int \prod_{i=1}^n G(X_i) dP(G).
 $$
@@ -142,11 +142,12 @@ In the Blackwell-MacQueen urn scheme, the prior over the random measure $P(G)$ i
 
 A characteristic of the predictive distribution of the DP is that its draws belong to some points mass (or atoms) and that there is a positive probability that new draws will take the value of a preceding atom. Therefore, the sequence $(X_1,\dots,X_n)$ will take values in a set $(X_1^*,\dots,X_T^*)$ with $T\leq n$. Hence, the posterior distribution is a weighted average sum of new draw from the base measure $H$ and the empirical distribution. Let $(n_1,\dotsc, n_T)$ be the counts associated to uniques atom values, one can rewrite the empirical distribution of draws as
 $$\sum_{i=1}^n \frac{\delta_{X_i}}{n}=\sum_{k=1}^T n_k \frac{\delta_{X_k^*}}{n}.$$ 
-It follows that, by rewriting Eq. \ref{eq:bm}, it makes appear a **rich-get-richer** phenomenon over the atoms, as the probability to draw an element equal to a given atom value $X_k^*$ increase (is proportional) with the number of atoms having this value $n_k$. This clustering effect of the DP leads to Chinese Restaurant Process metaphor while the discrete aspect of the DP leads to another construction of it called the Stick Breaking Process. Note that this discrete aspect of the DP is true whether the base measure is discrete or continuous.
+It follows that, by rewriting Eq. \ref{eq:bm}, it makes appear a **rich-get-richer** phenomenon over the atoms, as the probability to draw an element equal to a given atom value $X_k^*$ increases (is proportional) with the number of atoms having this value $n_k$. This clustering effect of the DP leads to Chinese Restaurant Process metaphor (\ref{sec5:crp}) while the discrete aspect of the DP leads to another construction of it called the Stick Breaking Process (\ref{sec5:sbp}). Note that this discrete aspect of the DP is true whether the base measure is discrete or continuous.
 
-It is worth to mention that the DP has other interesting properties such as being self-similar (fractal property) and tail-free. We refer the interested reader to [@ferguson1992bayesian] for further details. 
+It is worth mentioning that the DP has other interesting properties such as being self-similar (fractal property) and tail-free. We refer the interested reader to [@ferguson1992bayesian] for further details. 
 
 ### Chinese Restaurant Process
+\label{sec5:crp}
 
 The discreteness and clustering property of the DP, as mentioned previously, make repeated draws $(X_1,\dotsc, X_n)$ a particular partition taking values into $(X_1^*,\dotsc, X_T^*)$. 
 The predictive distribution can then be rewritten as:
@@ -171,11 +172,11 @@ Figure \ref{fig:crp} gives an illustration of tables an customers in the CRP.
 	\centering
 	\scalebox{1}{
 		\input{source/figures/draw/crp}}
-	\caption{Illustrution of a Chinese Restaurant Process. Each customer (X) can seat at a table $k$ or start on new one according to a rich-get-richer phenomenon.}
+	\caption{Illustration of a Chinese Restaurant Process. Each customer (X) can seat at a table $k$ or start on new one according to a rich-get-richer phenomenon.}
 	\label{fig:crp}
 \end{figure}
 
-In addition, the CRP gives hint about the distribution of the number of clusters (=tables) depending on the number of data $n$ (=customers); Let $m$ be the number of tables generated by the DP. From the CRP, one knows that the probability of generating a new table for each draw is $\frac{\alpha_0}{\alpha_0+i-1}$, and so is independent of the previous number of tables. Thus, the mean and variance of the number of tables for $n$ draws are
+In addition, the CRP gives hint about the distribution of the number of clusters (i.e. tables) depending on the number of data $n$ (i.e. customers). Let $m$ be the number of tables generated by the DP. From the CRP, one knows that the probability of generating a new table for each draw is $\frac{\alpha_0}{\alpha_0+i-1}$, and so is independent of the previous number of tables. Thus, the mean and variance of the number of tables for $n$ draws are
 \begin{align*}
     \quad\Er[m | n] &= \sum_{i=1}^n \frac{\alpha_0}{\alpha_0 + i -1} = \alpha_0 (\psi(\alpha_0 + n) - \psi(\alpha_0)) \\
     \quad       &\approx \alpha_0\log(1+\frac{n}{\alpha_0}) \quad\qquad \text{ for } N,\alpha_0 \gg 0\\
@@ -188,6 +189,7 @@ where $\psi$ is the Digamma function.
 A final note about the CRP is that this process is useful to construct Gibbs Sampler of models that use DP prior, in particular, the CRP equations relate to the Collapse Gibbs Sampling updates for DPs based model as the base measure is marginalized out [@antoniak1974mixtures].
 
 ### Stick Breaking Process
+\label{sec5:sbp}
 
 The Stick-Breaking construction goes beyond the previous definition of predictive distribution of the DP. It provides a more general and constructive process to make explicit the random measure $G$. As mentioned, the DP is a discrete distribution made of weighted sum of point mass such that
 $$
@@ -266,7 +268,7 @@ In order to capture in a more constructive way the distributions of the variable
 &\mat{\beta}^0 \sim \gem(\gamma) \qquad  \phi_k \sim H \\
 &\quad G_0 = \sum_{k=1}^{\infty} \beta_k^0 \delta_{\phi_k} 
 \end{align*}
-This first DP level represents the shared components $\phi_k$ across the observed data of the HDP with the proportion $\mat{\beta}^0$. Then, one can expess the data instance's distribution of components using $\pi_j$ as a function of a DP parametrized by $\mat{\beta}^0$. Thus, the generative process at the instance level becomes:
+This first DP level represents the shared components $\phi_k$ across the observed data of the HDP with the proportion $\mat{\beta}^0$. Then, one can expess the data instance's distribution of components using $\pi_j$ as a function of a DP parameterized by $\mat{\beta}^0$. Thus, the generative process at the instance level becomes:
 \begin{align*}
 \pi_j &\sim \DP(\alpha_0, \mat{\beta}^0) \\
 z_{ji} &\sim \Mult(\pi_j)  \\
@@ -394,7 +396,7 @@ The Indian Buffet Process (IBP) is a stochastic process analogous to the CRP but
 * The first customer starts selecting dishes, and stops after having selected $\Poisson(\alpha)$ dishes,
 * The $i$-th customer comes, and starts selecting dishes with probability $\frac{m_k}{i}$, where $m_k$ is the number of times dish $k$ has been selected $m_k=\sum_{i=1}^N f_{ik}$. When all previously sampled dishes have been tried, he selects $\Poisson(\frac{\alpha}{i})$ new dishes.
 
-Each row $i$ of the matrix $F$ obtained can be interpreted as the (latent) "features" of $i$ and, in the sampling process described, one can see that the distribution over row depend on $i$. Indeed, the new features (dishes) are not ordered arbitrarily and the number of active feature increase with $i$. However, the law of the matrix $F$ generated by the process should be invariant under row-permutations. Therefore, an operation on the matrix $F$ is required to make the matrix independent of the ordering of the rows as well as the columns. This operation consists of finding an equivalence class of all the matrices that are equivalent by a permutation of the columns (note that this also makes it row-exchangeable), and it is called the *left-ordering-form* (*lof*) of the matrix. Under this transformation, the probability of any matrix $F$ of the exchangeable IBP is given by
+Each row $i$ of the matrix $F$ obtained can be interpreted as the (latent) "features" of $i$ and, in the sampling process described, one can see that the distribution over row depends on $i$. Indeed, the new features (dishes) are not ordered arbitrarily and the number of active features increases with $i$. However, the law of the matrix $F$ generated by the process should be invariant under row-permutations. Therefore, an operation on the matrix $F$ is required to make the matrix independent of the ordering of the rows as well as the columns. This operation consists of finding an equivalence class of all the matrices that are equivalent by a permutation of the columns (note that this also makes it row-exchangeable), and it is called the *left-ordering-form* (*lof*) of the matrix. Under this transformation, the probability of any matrix $F$ of the exchangeable IBP is given by
 $$ 
 P(F \mid \alpha) = \frac{\alpha^{K_+}}{\prod_{h=1}^{2^N-1} K_h!} \exp(-\alpha H_N) \prod_{k=1}^{K_+} \frac{(N - m_k)!(m_k - 1)!}{N!}
 $$ {#eq:ibp_density}
@@ -403,7 +405,7 @@ where $H_N$ is $N$-th harmonic number $H_N=\sum_{j=1}^N\frac{1}{j}$, $K_h$ denot
 We mention here some additional important properties of the IBP [@tutorial2012tutorials]:
 
 * The IBP gives birth to a rich-get-richer phenomenon at the feature level; The more a feature is active, the more it will be. 
-* The distribution of the number of active feature in $F$ is $K_+\sim \Poisson(\alpha H_n)$.
+* The distribution of the number of active features in $F$ is $K_+\sim \Poisson(\alpha H_n)$.
 * The distribution of the total of non-zeros entries in $F$ is $\Poisson(\alpha N)$.
 
 A constructive approach of the IBP is obtained through the infinite limit of a Beta-Bernoulli process. Let $F$ defined by the following process:
@@ -444,7 +446,7 @@ We know from the IPB that the probability of generating a feature matrix F is
 $$
     P(F \mid \alpha) \propto P(\alpha \mid F) P(F) 
 $$
-Then, one can isolate the part of the equation depending only on $\alpha$ to be:
+Then, one can isolate the part of the equation depending only on $\alpha$ to be
 $$
     P(F \mid \alpha) \propto \alpha^{K_+ } \exp(-\alpha H_N) \propto \Gmma(1+K_+, 1/H_N) 
 $$
@@ -476,7 +478,7 @@ In the ER model, an undirected graph with $N$ nodes is generated by connecting e
 $$
 P(d=n) = \dbinom{N}{n} p^n (1-p)^{N-n} \ .
 $$
-A case of interest is for the so-called large graph, when $N\rightarrow \infty$. In this case, the degree distribution converges to a Poisson law as $P(d=n)\approx \Poisson(n;z)$ where $z=p(N-1)$ is the mean degree^[Where the self-loops are not considered.]. The class of graphs $G_{N,p}$ generated by the ER model are consequently sometimes referred to as the *Poisson random graph*. This result leads to another interesting property of the ER model worth to mention; let's define a *component* as a maximal subset of nodes that can all be reached from another in the same subset (through edge traversal). There is a so called *phase transition*, from low value of $p$, where there are many small components with exponential size distribution, to high value of $p$ with very few small components and one, so-called, *giant component*.
+A case of interest is for the so-called large graph, when $N\rightarrow \infty$. In this case, the degree distribution converges to a Poisson law as $P(d=n)\approx \Poisson(n;z)$ where $z=p(N-1)$ is the mean degree^[Where the self-loops are not considered.]. The class of graphs $G_{N,p}$ generated by the ER model are consequently sometimes referred to as the *Poisson random graph*. This result leads to another interesting property of the ER model wich is worth mentioning; let's define a *component* as a maximal subset of nodes that can all be reached from another in the same subset (through edge traversal). There is a so called *phase transition*, from low value of $p$, where there are many small components with exponential size distribution, to high value of $p$ with very few small components and one, so-called, *giant component*.
 A consequence of this is that the ER model satisfies the small world effect as its typical distance between two nodes is $l=\frac{\log N}{\log z}$ [@bollobas1998random]. Nevertheless, the ER model do not satisfy all the other properties found in real-world networks. Its degree distribution is Poisson and thus has exponential decay, it has random mixing patterns and no clustering structure. Though, it is not adapted for modeling real systems, the ER model still gives insight on the way network can behave and constitutes a baseline regarding the emergence of phase transitions and giant components that are also studied in other random graph models.
 
 Among the many extensions of the ER model proposed in the literature [@goldenberg2010survey;@goldenberg2010survey], we focus here on the Stochastic Block Model that provides a very general framework to model graph with community structure.
@@ -488,7 +490,7 @@ The Stochastic Block Model (SBM), originally proposed in [@holland1983stochastic
 c_i &\sim \Cat(\mat{\pi})  \qquad \text{ for } i \in \{1,\dotsc,K\} \\
 y_{ij} &\sim \Bern(\phi_{c_ic_j}) \qquad \text{ for } i,j \in \V\times\V
 \end{align*}
-As one can notice, if $K=1$ the model reduces to the ER model, otherwise, all the sub-networks restricting nodes to single a block interaction (inner block interaction if $k=k'$, and outer block interaction if $k\neq k'$) locally behave like the ER model. The main challenge in the SBM is to infer a "good" partition of the nodes with the corresponding weight matrix. Note that the combination of possible assignments is $K^N$. The optimization of parameters is generally accomplished with a variant of the EM algorithm [@latouche2012variational]. Recently, efficient inference based on MCMC has also been proposed, with revisited versions of the SBM [@peixoto2017nonparametric].
+As one can notice, if $K=1$ the model reduces to the ER model, otherwise all the sub-networks, restricting nodes to a single block interaction (inner block interaction if $k=k'$, and outer block interaction if $k\neq k'$), locally behave like the ER model. The main challenge in the SBM is to infer a "good" partition of the nodes with the corresponding weight matrix. Note that the combination of possible assignments is $K^N$. The optimization of parameters is generally accomplished with a variant of the EM algorithm [@latouche2012variational]. Recently, efficient inference based on MCMC has also been proposed, with revisited versions of the SBM [@peixoto2017nonparametric].
 
 While the SBM is a strong baseline, it has several limitations due to the lack of prior over its parameters. In particular, the assumption of a fixed number of blocks is difficult to justify and a bad choice of $K$ can lead to sub-optimal solutions. This problem has been addressed by using DP prior over the node assignment vector. The resulting model is referred to as the Infinite Relational model (IRM) [@kemp2006learning]. Another limitation is the hard assignment of nodes to blocks, which may not be adapted to capture the diversity of interaction in real-world networks. Those limitations have been addressed in several directions that we will explore in the rest of the manuscript.
 
@@ -498,7 +500,7 @@ While the SBM is a strong baseline, it has several limitations due to the lack o
 As mentioned, a limitation of the SBM is that each node belongs to only one latent block. This assumption is often considered too restrictive for modeling complex network and complex system in general. More expressive models can be built by relaxing the hard assignment and instead allowing the nodes to belong to several latent blocks. The edge likelihood can hence be viewed as a mixture model over the multiple node memberships to the latent blocks (akin to overlapping communities and soft clustering topic). Mixture models have a long history that is related to matrix factorization used to decompose a data matrix into latent factors [@DCA]. A whole framework named *mixed-membership model*, has emerged to study and generalize mixture models in the case where the latent variables can themselves be shared among data instances, which have found many successful applications reviewed in [@MMM]. In this setting, we are particularly interested in two subclasses of mixed-membership model for networks analysis, referred to as *latent class model* and *latent feature model*.
 Many models have been proposed in this direction, though we do not intent to go into the details of each of them as it may not be relevant, we provide in Table \ref{table:dyadic_model} a comprehensive comparison of these models regarding their modeling assumptions. Generally, in latent class models, one supposes that the nodes belong to some latent communities on which depend the mixing pattern of the graph. Whereas, for latent feature model, one supposes that the nodes own some latent feature, which control the mixing pattern. Interestingly, models that combine both aspects have been proposed, following [@mackey2010mixed].
 
-The two type of models can be expressed in a common framework. Let $\Theta = (\theta_{ik})_{N\times K}$ and $\Phi=(\phi_{kk'})_{K\times K}$ be two random matrices with $N$ be the number of nodes and $K$ the dimension of the latent space. The edge likelihood is then parametrized by a bilinear product such that
+The two type of models can be expressed in a common framework. Let $\Theta = (\theta_{ik})_{N\times K}$ and $\Phi=(\phi_{kk'})_{K\times K}$ be two random matrices with $N$ be the number of nodes and $K$ the dimension of the latent space. The edge likelihood is then parameterized by a bilinear product such that
 $$
     y_{ij} \sim \Bern(f(\theta_i^T \Phi \theta_j))
 $$ {#eq:mmm}
@@ -525,11 +527,11 @@ One can easily see that this representation encompasses the ER and SBM models. P
          & IRM     [59]                  & Bernoulli & DP                    & no & SB \\
          & IHRM    [160]                 & Bernoulli & DP                    & no & IRM \\
          & MMSB    [118]                 & Bernoulli & Multinomial-Dirichlet & yes & SB \\
-         & IMMSB   [?;119]  & Bernoulli & HDP                   & yes & MMSB, IRM \\
+         & IMMSB   [119]  & Bernoulli & HDP                   & yes & MMSB, IRM \\
         \hline
         \multirow{4}{*}{\shortstack[1]{Latent\\feature}} &
            LFL    [161]          & Bernoulli & -                     & no & softmax \\
-         & ILRM   [117]                 & Bernoulli & IBP                   & yes & IRM \\
+         & ILFM   [117]                 & Bernoulli & IBP                   & yes & IRM \\
          & BPM    [116]                   & Bernoulli & IBP                   & yes & IRM \\
          & IMRM   [125]                  & Bernoulli & IBP                   & yes & ILFM \\
     \end{tabular}}
@@ -537,18 +539,16 @@ One can easily see that this representation encompasses the ER and SBM models. P
 \label{table:dyadic_model}
 \end{table}
 
-<!--
 [@goldenberg2010survey]
 [@IRM]                 
 [@IHRM]                
 [@MMSB]                
-[@iMMSB;@diMMSB]  & Ber
+[@iMMSB;@diMMSB]
                        
 [@menon2010log]         
 [@ILFM]                 
 [@BMF]                  
 [@IMRM]                 
--->
 
 In chapter \ref{sec:mmsb_prop}, we further explore and compare two general representative of the latent class model and latent feature model. That is the IMMSB and ILFM model, that both allow overlapping communities with a possibly infinite number of communities, the former based on the HDP and the latter on the IBP. 
 
@@ -559,9 +559,9 @@ In chapter \ref{sec:mmsb_prop}, we further explore and compare two general repre
 \label{sec:random_graph_th}
 
 In section \ref{sec:non_parametric}, we mentioned the concept of exchangeability of a random sequence and illustrated how it is related to the construction of the Dirichlet Process.
-What we have learned, is that the exchangeability assumption over a sequence of observable data is equivalent to the existence of an integral decomposition (a mixture) of the probability density of this sequence under which the observation are i.i.d given a random probability measure.
+What we have learned, is that the exchangeability assumption over a sequence of observable data is equivalent to the existence of an integral decomposition (a mixture) of the probability density of this sequence under which the observations are i.i.d given a random probability measure.
 This result is known as the de Finetti' theorem and constitutes a justification for the existence of latent variable models under the exchangeability assumption.
-An interesting question to ask, though is if an equivalent representation theorem exists for exchangeable random graphs. The answer is yes, and it is known as the Aldous-Hoover theorem, that we shall recall here. This theorem has a version adapted for bipartite graphs, but we will focus here on unipartite graph and thus square adjacency matrix.
+An interesting question to ask, though is if an equivalent representation theorem exists for exchangeable random graphs. The answer is yes, and it is known as the Aldous-Hoover theorem, that we shall recall here [@orbanz2015bayesian]. This theorem has a version adapted for bipartite graphs, but we will focus here on unipartite graph and thus square adjacency matrix.
 
 Let's consider an undirected graph and its adjacency matrix $Y$ (an array) of infinite size.
 \begin{definition}[Jointly exchangeable array]
@@ -577,7 +577,7 @@ P((y_{ij})) = P((F(U_i, U_j, U_{\{i,j\}})))
 $$
 where $(U_i)_{i\in \Na}$ and $(U_{\{i,j\}})_{i,j \in \Na}$ are, respectively, a sequence and an array of i.i.d $\Uniform[0,1]$ random variables.
 \end{theorem}
-In Bayesian language, the theorem state that there is a prior distribution $\mu$ over measurable function such that an exchangeable graph is always generated by a model of the form
+In Bayesian language, the theorem states that there is a prior distribution $\mu$ over measurable functions such that an exchangeable graph is always generated by a model of the form
 \begin{align*}
 F &\sim \mu \\
 U_i &\sim \Uniform[0,1] \qquad \forall i \in \Na \\
@@ -585,7 +585,7 @@ U_{\{i,j\}} &\sim \Uniform[0,1] \qquad \forall i,j \in \Na \\
 &y_{ij} := F(U_i, U_j, U_{\{i,j\}})
 \end{align*}
 
-This powerful theorem again gives a justification for the use of latent variables and most important, the form of their priors (and a model is entirely determined by the choice of the prior on $F$) for exchangeable graphs. Although intuitive, it is not straightforward to prove that the representation for mixed-membership models given in Eq. \ref{eq:mmm} generate exchangeable graphs, it appears that it is a special case of theorem \ref{th:aldous_hoover}, which has been shown in [@aldous1981representations] and [@kallenberg2006probabilistic]. It derives from the fact that the edge probabilities are conditionally independent and that the nodes are associated to i.i.d random variables. In particular, the exchangeability of IRM, IMMSB and ILFM models are also illustrated in [@orbanz2015bayesian]. Note that the Aldous-Hoover theorem also generalizes for higher dimensional arrays (i.e. tensors), which is akin to the representation of exchangeable multi-relational graphs.
+This powerful theorem again gives a justification for the use of latent variables and most important, the form of their priors (and a model is entirely determined by the choice of the prior on $F$) for exchangeable graphs. Although intuitive, it is not straightforward to prove that the representation for mixed-membership models given in Eq. \ref{eq:mmm} generates exchangeable graphs, it appears that it is a special case of theorem \ref{th:aldous_hoover}, which has been shown in [@aldous1981representations] and [@kallenberg2006probabilistic]. It derives from the fact that the edge probabilities are conditionally independent and that the nodes are associated to i.i.d random variables. In particular, the exchangeability of IRM, IMMSB and ILFM models are also illustrated in [@orbanz2015bayesian]. Note that the Aldous-Hoover theorem also generalizes for higher dimensional arrays (i.e. tensors), which is akin to the representation of exchangeable multi-relational graphs.
 
 A notable corollary of the theorem \ref{th:aldous_hoover} is that exchangeable graphs are either dense (i.e. the number of edges growth quadratically with $N$) or empty since their expected number of edges is independent of $N$. This may seem like a misspecification for the modeling of real-world networks. In response to that, the study of representation for graphs in the sparse regime has emerged as an active and growing field of research [@veitch2015class;@caron2017sparse;@le2015sparse;@bollobas2011sparse;@borgs2014p].
 
