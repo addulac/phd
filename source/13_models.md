@@ -86,7 +86,7 @@ $$
 $$
 and we write $G \sim \DP(\alpha_0, H)$ and where $\Dir(\alpha_1,\dotsc,\alpha_k)$ is the Dirichlet distribution which is defined by a degenerate density on simplex $\Delta_k = \{p_1,\dotsc, p_k\}\in \Re_+^k$ such that $P(p_1,\dotsc, p_k) \propto p_1^{\alpha_1-1}\dotsm p_k^{\alpha_k-1}$ and $\sum_i p_i=1$.
 
-The existence of the DP was established by Ferguson [@ferguson_dp] and has the following properties [@yyt_dp]:
+The existence of the DP was established by Ferguson [@ferguson1973bayesian] and has the following properties [@teh2010dirichlet]:
 
 * The expectation of a DP for any sets $A, B \subset \X$ is: $$\Er[G(A)] = H(A),$$
 sometimes simply noted $\Er G=H$. This result is analogous to the expectation of a Dirichlet distribution where $\Er[p_i] = \alpha_i / \alpha_{\pt}$. Further, the variance of $G$ is $\Vr[G(A)]= \frac{H(A)(1-H(A))}{1+\alpha_0}$ and its covariance is $\text{Cov}(G(A), G(B)) = \frac{H(A\cap B) - H(A)H(B)}{1+\alpha_0}$.
@@ -231,7 +231,7 @@ The PYP preserves the clustering and the rich-get-richer properties of the DP. F
 
 ### Hierarchical Dirichlet Process
 
-The Hierarchical Dirichlet Process (HDP) is a two-stage DP process [@HDP]. It allows sharing the same mixture components^[The term component is used in a general case here but depending on the context, the component may be called differently. For instance the term of latent topic is common for text analysis and block, class or communities for network modeling.] across the data, which is not possible with a unique DP (i.e. all tables have a different dish in the CRP metaphor.). By overcoming this limitation, the HDP constitutes a flexible prior to build hierarchical models able to capture complex semantic patterns in the data. In his canonical form, the HDP assumes that the observed data are composed of $J$ instances, and each instance is composed of $N$ data point occurrences. For example, in the context of network analysis, the instances would be the nodes and data occurrences the edges. In the context of text analysis (topic modeling), the instances typically represent documents and the data point occurrences the words. In the following, we go through the original HDP model proposed which was used for topic modeling. Notice that the adaption of the HDP for relational models need a slight modification that will be further examined in chapter \ref{sec:mmsb_prop}.
+The Hierarchical Dirichlet Process (HDP) is a two-stage DP process [@teh2006hierarchical]. It allows sharing the same mixture components^[The term component is used in a general case here but depending on the context, the component may be called differently. For instance the term of latent topic is common for text analysis and block, class or communities for network modeling.] across the data, which is not possible with a unique DP (i.e. all tables have a different dish in the CRP metaphor.). By overcoming this limitation, the HDP constitutes a flexible prior to build hierarchical models able to capture complex semantic patterns in the data. In his canonical form, the HDP assumes that the observed data are composed of $J$ instances, and each instance is composed of $N$ data point occurrences. For example, in the context of network analysis, the instances would be the nodes and data occurrences the edges. In the context of text analysis (topic modeling), the instances typically represent documents and the data point occurrences the words. In the following, we go through the original HDP model proposed which was used for topic modeling. Notice that the adaption of the HDP for relational models need a slight modification that will be further examined in chapter \ref{sec:mmsb_prop}.
 The generative process of the HDP is as follows:
 \begin{align*} \label{eq_chap3:hdp}
  G_0 \mid \alpha_0, H &\sim \DP(\gamma, H) \\
@@ -337,7 +337,7 @@ The predictive distribution of $\theta_{ji}$ and $\psi_{jt}$ have thus a closed-
 
 #### Inference
 
-Several inference methods have been proposed for the HDP in the literature that mostly, either rely on Markov Chain Monte Carlo method (MCMC) or Variational Inference. In their seminal paper [@HDP], the authors propose different sampling schemes. In this section, we give the main results needed to derive the Gibbs updates for the model parameters.
+Several inference methods have been proposed for the HDP in the literature that mostly, either rely on Markov Chain Monte Carlo method (MCMC) or Variational Inference. In their seminal paper [@teh2006hierarchical], the authors propose different sampling schemes. In this section, we give the main results needed to derive the Gibbs updates for the model parameters.
 
 \noindent
 **Sampling by Direct Assignment**
@@ -348,7 +348,7 @@ Furthermore, one also needs to concurrently sample the potential new components,
 $$
 	G_0 \mid \bm{\psi}, H, \gamma \sim \DP\left(\gamma+m_{\bm{..}}, \frac{\gamma H + \sum_{k=1}^K m_{\bm{.}k}\delta_{\psi_k}} {\gamma + m_{\bm{..}}}\right)
 $$
-To accomplish the construction of $G_0$, one can resort to an augmented representation in order to have an explicit construction of it [@HDP], written as
+To accomplish the construction of $G_0$, one can resort to an augmented representation in order to have an explicit construction of it [@teh2006hierarchical], written as
 \begin{align*}
 & \mat{\beta} = (\beta_1,\dotsc,\beta_K, \beta_u) \sim Dir(m_{\bm{.}1},\dotsc, m_{\bm{.}K}, \gamma) \qquad G_u \sim \DP(\gamma, H) \\
 & \qquad\qquad\qquad\qquad  G_0 = \sum_{k=1}^K \beta_k \delta_{\phi_k} + \beta_u G_u
@@ -373,7 +373,7 @@ The given updates complete the sampling procedure of the CRP since $\theta_{ji}$
 \noindent
 **Optimization of concentration parameter**
 
-In the CRF, $G_0$ and $G_j$ have been integrated out, thus the component assignment are only conditioned by the base measure $H$ and the concentration parameters $\gamma$ and $\alpha_0$. One way to optimize those concentration parameters, proposed by [@HDP], is to use auxiliary variable sampling method [@escobar1995bayesian]. In this scheme, auxiliary variables $u$ and $v$ are introduced, and we assume that priors for concentration parameters are gamma distributed. 
+In the CRF, $G_0$ and $G_j$ have been integrated out, thus the component assignment are only conditioned by the base measure $H$ and the concentration parameters $\gamma$ and $\alpha_0$. One way to optimize those concentration parameters, proposed by [@teh2006hierarchical], is to use auxiliary variable sampling method [@escobar1995bayesian]. In this scheme, auxiliary variables $u$ and $v$ are introduced, and we assume that priors for concentration parameters are gamma distributed. 
 
 Keeping the CRF notations and given the tables configuration $m_j.$ and the client configuration $n_{j\bm{..}}$ in the CRF, we have for the parameter $\alpha_0$, governing the number of tables $m_{\bm{..}}$, the following posterior distribution:
 \begin{gather*}
@@ -497,7 +497,7 @@ While the SBM is a strong baseline, it has several limitations due to the lack o
 
 ### Mixed-Membership Models
 
-As mentioned, a limitation of the SBM is that each node belongs to only one latent block. This assumption is often considered too restrictive for modeling complex network and complex system in general. More expressive models can be built by relaxing the hard assignment and instead allowing the nodes to belong to several latent blocks. The edge likelihood can hence be viewed as a mixture model over the multiple node memberships to the latent blocks (akin to overlapping communities and soft clustering topic). Mixture models have a long history that is related to matrix factorization used to decompose a data matrix into latent factors [@DCA]. A whole framework named *mixed-membership model*, has emerged to study and generalize mixture models in the case where the latent variables can themselves be shared among data instances, which have found many successful applications reviewed in [@MMM]. In this setting, we are particularly interested in two subclasses of mixed-membership model for networks analysis, referred to as *latent class model* and *latent feature model*.
+As mentioned, a limitation of the SBM is that each node belongs to only one latent block. This assumption is often considered too restrictive for modeling complex network and complex system in general. More expressive models can be built by relaxing the hard assignment and instead allowing the nodes to belong to several latent blocks. The edge likelihood can hence be viewed as a mixture model over the multiple node memberships to the latent blocks (akin to overlapping communities and soft clustering topic). Mixture models have a long history that is related to matrix factorization used to decompose a data matrix into latent factors [@buntine2006discrete]. A whole framework named *mixed-membership model*, has emerged to study and generalize mixture models in the case where the latent variables can themselves be shared among data instances, which have found many successful applications reviewed in [@airoldi2014handbook]. In this setting, we are particularly interested in two subclasses of mixed-membership model for networks analysis, referred to as *latent class model* and *latent feature model*.
 Many models have been proposed in this direction, though we do not intent to go into the details of each of them as it may not be relevant, we provide in Table \ref{table:dyadic_model} a comprehensive comparison of these models regarding their modeling assumptions. Generally, in latent class models, one supposes that the nodes belong to some latent communities on which depend the mixing pattern of the graph. Whereas, for latent feature model, one supposes that the nodes own some latent feature, which control the mixing pattern. Interestingly, models that combine both aspects have been proposed, following [@mackey2010mixed].
 
 The two type of models can be expressed in a common framework. Let $\Theta = (\theta_{ik})_{N\times K}$ and $\Phi=(\phi_{kk'})_{K\times K}$ be two random matrices with $N$ be the number of nodes and $K$ the dimension of the latent space. The edge likelihood is then parameterized by a bilinear product such that
@@ -523,32 +523,34 @@ One can easily see that this representation encompasses the ER and SBM models. P
         \hline
         \hline
         \multirow{5}{*}{\shortstack[1]{Latent\\class}} &
-           SB      [38] & Bernoulli & Multinomial           & no & ER \\
-         & IRM     [59]                  & Bernoulli & DP                    & no & SB \\
-         & IHRM    [160]                 & Bernoulli & DP                    & no & IRM \\
-         & MMSB    [118]                 & Bernoulli & Multinomial-Dirichlet & yes & SB \\
-         & IMMSB   [119]  & Bernoulli & HDP                   & yes & MMSB, IRM \\
+           SB      [6] & Bernoulli & Multinomial           & no & ER \\
+         & IRM     [128]                  & Bernoulli & DP                    & no & SB \\
+         & IHRM    [176]                 & Bernoulli & DP                    & no & IRM \\
+         & MMSB    [10]                 & Bernoulli & Multinomial-Dirichlet & yes & SB \\
+         & IMMSB   [140,141]  & Bernoulli & HDP                   & yes & MMSB, IRM \\
         \hline
         \multirow{4}{*}{\shortstack[1]{Latent\\feature}} &
-           LFL    [161]          & Bernoulli & -                     & no & softmax \\
-         & ILFM   [117]                 & Bernoulli & IBP                   & yes & IRM \\
-         & BPM    [116]                   & Bernoulli & IBP                   & yes & IRM \\
-         & IMRM   [125]                  & Bernoulli & IBP                   & yes & ILFM \\
+           LFL    [90]          & Bernoulli & -                     & no & softmax \\
+         & ILFM   [139]                 & Bernoulli & IBP                   & yes & IRM \\
+         & BPM    [171]                   & Bernoulli & IBP                   & yes & IRM \\
+         & IMRM   [143]                  & Bernoulli & IBP                   & yes & ILFM \\
     \end{tabular}}
 \caption{Comparison of latent class and feature models found in the literature.}
 \label{table:dyadic_model}
 \end{table}
 
+<!--
 [@goldenberg2010survey]
-[@IRM]                 
-[@IHRM]                
-[@MMSB]                
-[@iMMSB;@diMMSB]
+[@kemp2006learning]                 
+[@xu2006learning]
+[@airoldi2009mixed]                
+[@koutsourelakis2008finding;@fan2015dynamic]
                        
 [@menon2010log]         
-[@ILFM]                 
-[@BMF]                  
-[@IMRM]                 
+[@miller2009nonparametric]
+[@meeds2006modeling]                  
+[@morup2011infinite]                 
+-->
 
 In chapter \ref{sec:mmsb_prop}, we further explore and compare two general representative of the latent class model and latent feature model. That is the IMMSB and ILFM model, that both allow overlapping communities with a possibly infinite number of communities, the former based on the HDP and the latter on the IBP. 
 
@@ -614,4 +616,4 @@ Point to MMSB and IBP in later presentation.
 
 ## Summary
 
-The chapter presented the mathematical framework underlying the latent variable models for complex networks. We recalled some fundamental results and notions of probability theory and exposed a flexible class of Bayesian nonparametric priors. We also presented the class of latent variable models (Mixed-Membership model) that will be studied in the two next chapters, and we provided a modest literature survey. We finally presented the theoretical foundation (through representation theorem) that justify the construction and expose the limitations of this class of models.
+The chapter presented the mathematical framework underlying the latent variable models for complex networks. We recalled some fundamental results and notions of probability theory and exposed a flexible class of Bayesian nonparametric priors. We also presented the class of latent variable models (Mixed-Membership model) that will be studied in the two next chapters, and we provided a modest literature survey. We finally presented the theoretical foundation (through representation theorem) that justify the construction and exposed the limitations of this class of models.

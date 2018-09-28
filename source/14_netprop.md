@@ -3,7 +3,7 @@
 
 ## Introduction
 
-Several powerful relational learning models have been proposed to solve the problem commonly referred to as \textit{link prediction} that consists in predicting the likelihood of a future association between two nodes in a network [@LibenNowell07;@HassanZaki11]. Among such models, the class of stochastic mixed membership models has received much attention as such models can be used to discover hidden properties and infer new links in social networks. Two main models in this class have been proposed and studied in the literature: the latent feature model [@BMF] and its non-parametric extension [@ILFM], and the mixed-membership stochastic block model [@MMSB], and its non parametric extension [@iMMSB;@fan2015dynamic]. These models fall in the category of mixed-membership models that encompass a wide range of models (such as admixture and topic model) able to learn complex patterns from structured data [@airoldi2014handbook].
+Several powerful relational learning models have been proposed to solve the problem commonly referred to as \textit{link prediction} that consists in predicting the likelihood of a future association between two nodes in a network [@LibenNowell07;@HassanZaki11]. Among such models, the class of stochastic mixed membership models has received much attention as such models can be used to discover hidden properties and infer new links in social networks. Two main models in this class have been proposed and studied in the literature: the latent feature model [@meeds2006modeling] and its non-parametric extension [@miller2009nonparametric], and the mixed-membership stochastic block model [@airoldi2009mixed], and its non parametric extension [@koutsourelakis2008finding;@fan2015dynamic]. These models fall in the category of mixed-membership models that encompass a wide range of models (such as admixture and topic model) able to learn complex patterns from structured data [@airoldi2014handbook].
 
 Nevertheless, although drawn from a wide range of domains, real-world social networks exhibit general properties and one can wonder if these models are able to capture these properties. In this work, we focus on the *homophily* and the *preferential attachment* effect [@Newman2010;@Barabasi2003].Homophily is verified in a network when similar vertices tend to be more connected than dissimilar ones. On the other hand, preferential attachment states that a nodes is more likely to create connections with nodes having many connections. In graph theory, preferential attachment is used to explain the emergence of scale-free networks that are characterized by a power-law degree distribution. 
 In social network analysis, the interest of these properties has been widely emphasized notably for modeling networks but also for improving the results obtained in classical tasks such as community detection or link prediction.
@@ -18,7 +18,7 @@ The remainder of the chapter is organized as follows: Section \ref{sec_4:rel-wor
 ## Related work
 \label{sec_4:rel-work} 
 
-Recently, the class of stochastic mixed membership models have been successfully used for link prediction and structure discovery in social networks. For example, in [@AMMSB], the authors propose an adaptation of mixed-membership stochastic block model (MMSB) called a-MMSB, where "a" stands for assortative, and they use it for discovering overlapping communities in large networks having millions of nodes. The weight matrix is constrained to have a fixed small value outside its diagonal. A non parametric dynamic version of MMSB model has also been introduced to handle temporal networks [@fan2015dynamic]. The latent feature model (LFM) has also been extended in several ways, to handle non-negative weights in [@IMRM] and with a more subtle latent feature structure in [@ILAM]. Nevertheless, the characterization of these models with regards to the properties of the networks remains to be explored, with several challenges and oppurtunities as mentioned in [@jacobs2014unified]. 
+Recently, the class of stochastic mixed membership models have been successfully used for link prediction and structure discovery in social networks. For example, in [@gopalan2013efficient], the authors propose an adaptation of mixed-membership stochastic block model (MMSB) called a-MMSB, where "a" stands for assortative, and they use it for discovering overlapping communities in large networks having millions of nodes. The weight matrix is constrained to have a fixed small value outside its diagonal. A non parametric dynamic version of MMSB model has also been introduced to handle temporal networks [@fan2015dynamic]. The latent feature model (LFM) has also been extended in several ways, to handle non-negative weights in [@morup2011infinite] and with a more subtle latent feature structure in [@palla2012infinite]. Nevertheless, the characterization of these models with regards to the properties of the networks remains to be explored, with several challenges and oppurtunities as mentioned in [@jacobs2014unified]. 
 
 In this chapter, we focus on two important properties of social networks, namely \textit{homophily} and \textit{preferential attachment} [@Newman2010;@Barabasi2003]. Those property has been emphasized in previous studies, for example for modeling and generating artificial networks reflecting properties of real networks, as in the model by Barab\`asi-Albert [@albert2002statistical], the model by Buckley and Osthus [@Buckley2001], which integrates a preferential attachment mechanism, or in the Dancer model for generating dynamic attributed networks with community structures and homophilic networks [@Largeron2017]. Preferential attachment has also been exploited for improving methods for solving classical tasks such as community detection [@Ciglan2013] or link prediction [@Zeng2016]. 
   That said, few theoretical works have been conducted to study to what extent stochastic models comply with this property. Orbanz and Roy pointed out that models belonging to the family of infinitely exchangeable Bayesian graph models cannot generate sparse networks and are thus less compatible with power law degree distributions [@orbanz2015bayesian]. Consequently, Lee \textit{et al.} proposed a random network model in order to capture the power law typical of the degree distribution in social networks [@Lee2015]. However the model remains challenging to use in practice, especially for link prediction, due to the relaxation of the exchangeability assumption.
@@ -39,7 +39,7 @@ In the remainder, we denote by $N$ the number of nodes in this graph ($N = |\V|$
 
 Stochastic mixed membership models are characterized by the fact that each node can "belong" to several latent factors, which reflects the fact that each individual usually has several properties, for example can belong to several communities^[As mentioned in [@goldenberg2010survey], the reader should however bear in mind that the notion of latent factors is of stochastic nature and is an approximation of the notions of communities and shared properties.]. The relation between a node $i$ and the latent factors is encoded in a vector denoted $\mat{\theta}_{i}$, of finite dimension $K$ in standard versions of the models, and of infinite dimension in non-parametric versions. The collection of all vectors $\mat{\theta}_{i}$ ($1 \le i \le N$) constitutes the factor matrix $\mat{\Theta}$. Furthermore, a weight matrix $\mat{\Phi}$ is used to encode the relations between the latent factors.
 
-Stochastic mixed membership models differ on the way the vectors $\mat{\theta}_{i}$ ($1 \le i \le N$) and the matrix $\mat{\Phi}$ are generated. As mentioned before, and to be as general as possible, we consider here the non-parametric versions of the latent feature model [@ILFM], referred to as \ifm, and of the mixed-membership stochastic block model [@iMMSB;@fan2015dynamic], referred to as \imb. This leads to a dynamic number of classes that allows the dimensions of the models to grow with the complexity of the data. This is done in practice by the use of non-parametric prior, the Indian Buffet Process (IBP) for \ifm\ and the Hierarchical Dirichlet Process (HDP) for \imb. All our results are nevertheless also valid for the finite versions of these models.
+Stochastic mixed membership models differ on the way the vectors $\mat{\theta}_{i}$ ($1 \le i \le N$) and the matrix $\mat{\Phi}$ are generated. As mentioned before, and to be as general as possible, we consider here the non-parametric versions of the latent feature model [@miller2009nonparametric], referred to as \ifm, and of the mixed-membership stochastic block model [@koutsourelakis2008finding;@fan2015dynamic], referred to as \imb. This leads to a dynamic number of classes that allows the dimensions of the models to grow with the complexity of the data. This is done in practice by the use of non-parametric prior, the Indian Buffet Process (IBP) for \ifm\ and the Hierarchical Dirichlet Process (HDP) for \imb. All our results are nevertheless also valid for the finite versions of these models.
 
 In the latent feature model, each node is represented by a finite vector of binary features. The probability of linking two nodes is then based on a weighted similarity between their feature vectors, the weight matrix being generated according to a normal distribution. In its non-parametric version \ifm, the feature vectors are now generated according to an IBP, leading to feature vectors of infinite dimensions (even though only a finite number of dimensions is actually active). The following steps summarize this process:
 
@@ -65,7 +65,7 @@ The non-parametric version \imb\ parallels this development but considers, in li
        \mat{\beta} &\sim \gem(\gamma) \nonumber \\
     \mat{\theta}_i &\sim \DP(\alpha_0, \beta) \quad\text{ for } i \in \{1, \dotsc, N\} \nonumber
    \end{align}
-where $\gem$ (named after Griffiths, Engen and McCloskey) denotes the Stick Breaking Process distribution over the set of natural numbers and $\DP$ a Dirichlet Process [@HDP];
+where $\gem$ (named after Griffiths, Engen and McCloskey) denotes the Stick Breaking Process distribution over the set of natural numbers and $\DP$ a Dirichlet Process [@teh2006hierarchical];
 * Generate a weight matrix for each latent class from i.i.d Beta distribution:
 $$ \phi_{mn} \sim \mathrm{Beta}(\lambda_0,\lambda_1), \, m,n \in \mathbb{N}^{+*} $$
 * For any node $i$ and any node $j$, choose a class from their class membership distribution according to a Categorical distribution and generate or not a link according to a Bernoulli distribution:
@@ -102,7 +102,7 @@ However, the typical use of the above models corresponds to the scenario in whic
 \begin{equation}
     \p(\Theta, \Phi | Y, \mg) = \frac{\p(Y|\Theta,\Phi)\p(\Theta|\mg)\p(\Phi|\mg)}{\p(Y|\mg)}
 \end{equation}
-and usually makes use of standard Gibbs sampling and Metropolis-Hastings algorithms^[We do not detail the inference of $\mat{\hat{\Theta}}$ and $\mat{\hat{\Phi}}$ here and refer the interested reader to [@ILFM;@IBP;@HDP;@fan2015dynamic].].
+and usually makes use of standard Gibbs sampling and Metropolis-Hastings algorithms^[We do not detail the inference of $\mat{\hat{\Theta}}$ and $\mat{\hat{\Phi}}$ here and refer the interested reader to [@miller2009nonparametric;@griffiths2011indian;@teh2006hierarchical;@fan2015dynamic].].
 
 In the remainder, we denote by $\mat{\hat{\Theta}}$ and $\mat{\hat{\Phi}}$, for both \ifm\ and \imb, the estimates of $\mat{\Theta}$ and $\mat{\Phi}$ obtained from $\mg$ and $Y$, and furthermore set $\me = \{\mat{\hat{\Theta}},\mat{\hat{\Phi}}\}$. Whether, from the learned parameters $\mat{\hat{\Theta}}$ and $\mat{\hat{\Phi}}$, the new links generated produce networks that comply with the preferential attachment effect is the second question we ask ourselves in this study.
 
@@ -141,7 +141,7 @@ Dropping the correlation between latent factors in the natural similarity leads 
 \end{align}
 as $\hat{\phi}_{kk} = 0$. Let us now consider $\mat{\hat{\theta}}_i=\mat{\hat{\theta}}_j=(0,1,0)$ and $\mat{\hat{\theta}}_{i'}=(0.5,0,0.5)$ and $\mat{\hat{\theta}}_{j'}=(0,1,0)$. Then, $s_l(i,j)=1$ and $s_l(i',j')=0$. However, $\pr(y_{ij}=1 \mid \me) = 0$ whereas $\pr(y_{i'j'}=1 \mid \me) > 0$. \imb\ is thus not homophilic under $s_l$. The same example, replacing $\mat{\hat{\theta}}_{i'}=(0.5,0,0.5)$ by $\mat{\hat{\theta}}_{i'}=(1,0,1)$, can be used to show that \ifm\ is neither homophilic under $s_l$.
 
-This shows that, for a model to be homophilic, it should be designed according to the similarity at the basis of the proximity between individuals. Both \ifm\ and \imb\ have been designed on the basis of the natural similarity $s_n$, and directly encode the fact that similar nodes, according to $s_n$, are more likely to be connected.  It is furthermore possible to make these models homophilic under $s_l$ by imposing constraints on the weight matrix $\mat{\Phi}$ (and hence its estimate $\mat{\hat{\Phi}}$); for example, considering positive, diagonal matrices with equal values on the diagonal leads to homophilic models. In that case, the latent factors can be interpreted as community indicators, each community being of equal importance. This is in line with what is done in the study presented in [@AMMSB] to find overlapping communities through assortativity constraints in the mixed membership stochastic block model.
+This shows that, for a model to be homophilic, it should be designed according to the similarity at the basis of the proximity between individuals. Both \ifm\ and \imb\ have been designed on the basis of the natural similarity $s_n$, and directly encode the fact that similar nodes, according to $s_n$, are more likely to be connected.  It is furthermore possible to make these models homophilic under $s_l$ by imposing constraints on the weight matrix $\mat{\Phi}$ (and hence its estimate $\mat{\hat{\Phi}}$); for example, considering positive, diagonal matrices with equal values on the diagonal leads to homophilic models. In that case, the latent factors can be interpreted as community indicators, each community being of equal importance. This is in line with what is done in the study presented in [@gopalan2013efficient] to find overlapping communities through assortativity constraints in the mixed membership stochastic block model.
 
 
 
@@ -291,19 +291,53 @@ The following property displays a sufficient condition on $x$, $\epsilon$, $a_{i
 
 
 \begin{proposition}\label{prop:IMBlocal}
-Let $T_k^p = \sum_{j=1}^p \hat{f}_{jk}$, $x'=\frac{x}{T_k^p \phi_{kk}}$ and $\epsilon'=\frac{\epsilon}{T_k^N \phi_{kk}}$. In the region where $x$ and $\epsilon$ are such that:
-\[
-	T_k^N a_{ik} x'^{a_{ik}-1} (1-\epsilon') > T_k^p a_{ik} x'^{a_{ik}} + b_{ik} T_k^p (1-x'^{a_{ik}}),
-\]
+Let $F_k^p = \sum_{j=1}^p \hat{f}_{jk}$ and $E_{d_{ik}}=\sum_{j=1}^N \theta_{ik}\phi_{kk}\theta_{jk}$. In the regions where $x$ and $\epsilon$ are such that
+\begin{equation*}
+x^{a_{ik}-1}\frac{\theta_{ik}}{E_{d_{ik}}}\left(a_{ik}(1-\epsilon) -x(a_{ik}-b_{ik}) \right) \geq b_{ik}\frac{(F_k^p)^{a_{ik}}\phi_{kk}^{a_{ik}-1}}{F_k^N}
+\end{equation*}
 $P(d_{i,k}^{(N)} \geq x+\epsilon | d_{i,k}^{(p)} \geq x,\me)$ increases with $x$.
 \end{proposition}
 
-As one can note, when $T_k^p$ is small (typically in the first steps of the process), then the above condition is likely to be met and \imb\ satisfies the preferential attachment effect. However, when $T_k^p$ gets closer to $T_k^N$ the above condition is no longer met.
-
+As one can note, when $x$ is large, $\epsilon$ is small and $b_{ik}-a_{ik}>0$ (which roughly means that the class $k$ concentrates less than half of the capacaity of the network) then the above condition is likely to be met and \imb satisfies the local preferential attachment effect. 
 
 \begin{proof}
-\end{proof}
 
+We consider IMMSB in $\me$. Let $F_k^P=\sum_{j=1}^p \hat \theta_{jk}$ and $F_k^N=\sum_{j=1}^N \hat \theta_{jk}$. 
+Using the change of variables $x'=\frac{x}{F_k^p \phi_{kk'}}$ and $\epsilon' = \frac{\epsilon}{F_k^N \phi_{kk'}}$, one gets
+\begin{align*}
+p(d_{ik}^{(N)} > x+\epsilon | d_{ik}^{(p)} > x, \me) &= p(\theta_{ik} > qx'+\epsilon' | \theta_{ik} > x') \\
+&=\frac{P(\hat \theta_{ik} > qx'+\epsilon')}{P(\hat \theta_{ik} > x')} = g(x')
+\end{align*}
+where $q=\frac{F_{ik}^p}{F_{ik}^N}$. The conditional distribution $g(x')$ is not trivially equal to one in the case where $qx'+\epsilon' > x' \Leftrightarrow \epsilon' > x'(1-q)$. Further, the survival function of $\hat \theta_{ik}$ is $P(\hat \theta_{ik} >x') = 1-\int_0^{x'} f(x')$ where $f(x')$ is the density of $\hat \theta_{ik}$. One can show that the marginal distribution of $\hat \theta_{ik}$ is a Beta of the form $f(x')=\Beta(a_{ik}, b_{ik})$  where $a_{ik} = \alpha_0\beta_k + N_{ik}$ and $b_{ik} = \sum_{k'\neq k} \alpha_0\beta_{k'} + N_{ik'}$  (this is a consequence of the form of the posterior distribution of the DP). In the following we ommit the references to $i$ and $k$ for the parameters of the Beta, simply noting $\Beta(a, b)$ for short. The derivative of $g$ is
+\begin{align*}
+g'(x') &= (-q (qx'+\epsilon')^{a-1}(1-qx'-\epsilon')^{b-1}\int_{x'}^1t^{a-1} (1-t)^{b-1} dt \\
+    &\qquad + x'^{a-1}(1-x')^{b-1}\int_{qx'+\epsilon'}^1 t^{a-1}(1-t)^{b-1} dt)\frac{1}{\left(\int_{x'}^1t^{a-1}(1-t)^{b-1}dt\right)^2}
+\end{align*}
+But one has
+\begin{equation*}
+\int_{qx'+\epsilon'}^1 t^{a-1}(1-t)^{b-1}dt \geq (qx'+\epsilon')^{a-1}\int_{qx'+\epsilon'}^1 (1-t)^{b-1}dt = (qx'+a)^{a-1}\frac{(1-qx'-\epsilon')^b}{b}
+\end{equation*}
+and
+\begin{equation*}
+\int_{x'}^1 t^{a-1}(1-t)^{b-1}dt \leq (1-x')^{b-1}\int_{x'}^1 t^{a-1}dt = (1-x')^{b-1}\frac{(1-x'^a)}{a}
+\end{equation*}
+Thus one can show that
+\begin{align*}
+Cg'(x') &\geq x'^{a-1} \frac{1-qx'-\epsilon'}{b} -q\frac{1-x'^a}{a}  \\
+        &= \frac{1}{abF_k^N} \left[ ax'^{a-1}(1-\epsilon')F_k^N + F_k^P (b(x'^a-1) - ax'^a) \right]
+\end{align*}
+where $C=\frac{\left(\int_{x'}^1t^{a-1}(1-t)^{b-1}dt\right)^2}{(qx'+\epsilon')^{a-1}(1-qx'-\epsilon')^{b-1}(1-x')^{b-1}}$, is a positive constant. Thus, A sufficient condition for $g$ to be increasing is that
+\begin{align*}
+&F_k^N a x'^{a-1} (1-\epsilon') \geq F_k^p a x'^a + b F_k^p (1-x'^a) \\
+&\Leftrightarrow x'^{a-1} a(1-\epsilon') \geq \frac{F_k^p}{F_k^N} ( x'^a(a-b) + b) \\
+&\Leftrightarrow x'^{a-1} \left(a(1-\epsilon') - x'(a-b)\frac{F_k^p}{F_k^N} \right) \geq b \frac{F_k^p}{F_k^N}
+\end{align*}
+Finally, let $E_{d_{ik}}=\sum_{j=1}^N \theta_{ik}\phi_{kk}\theta_{jk}=\theta_{ik}\phi_{kk'}F_k^N$, by rolling back the variable changes,  one obtains
+\begin{equation*}
+x^{a-1}\frac{\theta_{ik}}{E_{d_{ik}}}\left(a(1-\epsilon) -x(a-b) \right) \geq b\frac{(F_k^p)^{a}\phi_{kk}^{a-1}}{F_k^N}
+\end{equation*}
+
+\end{proof}
 
 We now present an experimental illustration of the above theoretical results.
 
@@ -407,7 +441,7 @@ Figure \ref{fig_4:homo_mustach} presents boxplots describing the distributions o
 
 ### Preferential attachment in $\me$
 
-For each dataset, we estimated the model parameters through a Markov Chain Monte Carlo inference consisting of 200 iterations. For \imb, the concentration parameters of HDP were optimized using vague gamma priors $\alpha_0 \sim \text{Gamma}(1,1)$ and $\gamma \sim \text{Gamma}(1,1)$ following [@HDP]. The parameters for the matrix weights $\lambda_0$ and $\lambda_1$ were fixed to 0.1. For \ifm, the hyper-parameter $\sigma_w$ was fixed to 1 and the IBP hyper-parameter $\alpha$ to 0.5. <!--in order to have comparable number of classes with \imb.-->
+For each dataset, we estimated the model parameters through a Markov Chain Monte Carlo inference consisting of 200 iterations. For \imb, the concentration parameters of HDP were optimized using vague gamma priors $\alpha_0 \sim \text{Gamma}(1,1)$ and $\gamma \sim \text{Gamma}(1,1)$ following [@teh2006hierarchical]. The parameters for the matrix weights $\lambda_0$ and $\lambda_1$ were fixed to 0.1. For \ifm, the hyper-parameter $\sigma_w$ was fixed to 1 and the IBP hyper-parameter $\alpha$ to 0.5. <!--in order to have comparable number of classes with \imb.-->
 Once the models have been learned, they are used to generate links (or non-links) between the entire set of network nodes. The whole procedure is repeated 10 times and the average values are reported as final results.
 
 \input{source/tables/preferential_attachment}

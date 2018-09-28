@@ -4,6 +4,7 @@ link-citations: true
 citecolor: green
 urlcolor: blue
 linkcolor: red
+nocite: '@*' 
 ---
 
 <!-- Space before/after equation block
@@ -14,7 +15,6 @@ linkcolor: red
 
 <!--
 === Put all the reference in bib in a papers
-nocite: '@*' 
 -->
 
 <!-- 
