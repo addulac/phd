@@ -552,7 +552,7 @@ One can easily see that this representation encompasses the ER and SBM models. P
 [@morup2011infinite]                 
 -->
 
-In chapter \ref{sec:mmsb_prop}, we further explore and compare two general representative of the latent class model and latent feature model. That is the IMMSB and ILFM model, that both allow overlapping communities with a possibly infinite number of communities, the former based on the HDP and the latter on the IBP. 
+In chapter \ref{sec:mmsb_prop}, we further explore and compare two general representatives of the latent class model and latent feature model. That is the IMMSB and ILFM model, that both allow overlapping communities with a possibly infinite number of communities, the former based on the HDP and the latter on the IBP. 
 
 <!--**Earosheva theorem**-->
 
