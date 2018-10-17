@@ -1,31 +1,31 @@
-# Stochastic Mixed Membership Models and Properties
+# Stochastic Mixed Membership Models and Their Properties
 \label{sec:mmsb_prop}
 
 ## Introduction
 
 Several powerful relational learning models have been proposed to solve the problem commonly referred to as \textit{link prediction} that consists in predicting the likelihood of a future association between two nodes in a network [@LibenNowell07;@HassanZaki11]. Among such models, the class of stochastic mixed membership models has received much attention as such models can be used to discover hidden properties and infer new links in social networks. Two main models in this class have been proposed and studied in the literature: the latent feature model [@meeds2006modeling] and its non-parametric extension [@miller2009nonparametric], and the mixed-membership stochastic block model [@airoldi2009mixed], and its non parametric extension [@koutsourelakis2008finding;@fan2015dynamic]. These models fall in the category of mixed-membership models that encompass a wide range of models (such as admixture and topic model) able to learn complex patterns from structured data [@airoldi2014handbook].
 
-Nevertheless, although drawn from a wide range of domains, real-world social networks exhibit general properties, as exposed in section \ref{sec:network_property}, and one can wonder if these models are able to capture these properties. In this work, we focus on the *homophily* and the *preferential attachment* effect [@Newman2010;@Barabasi2003]. Homophily is verified in a network when similar vertices tend to be more connected than dissimilar ones. On the other hand, preferential attachment states that a nodes is more likely to create connections with nodes having many connections. In graph theory, preferential attachment is used to explain the emergence of scale-free networks that are characterized by a power-law degree distribution. 
+Nevertheless, although drawn from a wide range of domains, real-world social networks exhibit general properties, as exposed in section \ref{sec:network_property}, and one can wonder if these models are able to capture these properties. In this work, we focus on the *homophily* and the *preferential attachment* effect [@Newman2010;@Barabasi2003]. Homophily is verified in a network when similar vertices tend to be more connected than dissimilar ones. On the other hand, preferential attachment states that a nodes is more likely to create connections with nodes having many connections. In graph theory, preferential attachment is used to explain the emergence of scale-free networks that are characterized by a power-law degree distribution.
 In social network analysis, the interest of these properties has been widely emphasized notably for modeling networks but also for improving the results obtained in classical tasks such as community detection or link prediction.
 The aim of our study is to assess to which extent stochastic mixed membership models comply with those properties
 
 <!--
-However, as these models belong to the family of Bayesian model, we can study their behavior in two settings. In the first one, denoted $\mathcal{M}_g$, we consider the model as a pure generative model and given the parameters, we use it to generate artificial networks. Like this, we can study the model properties based on their expectation over the random parameters. In the second setting, denoted $\mathcal{M}_e$ and corresponding to the typical use of these models for link prediction, we consider that the parameters are unknown but some observations (\textit{i.e.} an existing network ) are available and are used to estimate the distribution underlying the models. 
+However, as these models belong to the family of Bayesian model, we can study their behavior in two settings. In the first one, denoted $\mathcal{M}_g$, we consider the model as a pure generative model and given the parameters, we use it to generate artificial networks. Like this, we can study the model properties based on their expectation over the random parameters. In the second setting, denoted $\mathcal{M}_e$ and corresponding to the typical use of these models for link prediction, we consider that the parameters are unknown but some observations (\textit{i.e.} an existing network ) are available and are used to estimate the distribution underlying the models.
 -->
 
-The remainder of the chapter is organized as follows: Section \ref{sec_4:rel-work} discusses related work. Section \ref{sec_4:background} describes the two main stochastic mixed membership models used for link prediction in social networks and the settings in which they are used. Section \ref{sec_4:homophily} and \ref{sec_4:burstiness} respectively introduces formal definitions of homophily and preferential attachment in a probabilistic settings and studies how stochastic mixed membership models relate to them. Section \ref{sec_4:exps} illustrates the theoretical results on two synthetic and two real networks and Section \ref{sec_4:concl} concludes the study. 
+The remainder of the chapter is organized as follows: Section \ref{sec_4:rel-work} discusses related work. Section \ref{sec_4:background} describes the two main stochastic mixed membership models used for link prediction in social networks and the settings in which they are used. Section \ref{sec_4:homophily} and \ref{sec_4:burstiness} respectively introduces formal definitions of homophily and preferential attachment in a probabilistic settings and studies how stochastic mixed membership models relate to them. Section \ref{sec_4:exps} illustrates the theoretical results on two synthetic and two real networks and Section \ref{sec_4:concl} concludes the study.
 
 ## Related work
-\label{sec_4:rel-work} 
+\label{sec_4:rel-work}
 
-Recently, the class of stochastic mixed membership models have been successfully used for link prediction and structure discovery in social networks. For example, in [@gopalan2013efficient], the authors propose an adaptation of mixed-membership stochastic block model (MMSB) called a-MMSB, where "a" stands for assortative, and they use it for discovering overlapping communities in large networks having millions of nodes. The weight matrix is constrained to have a fixed small value outside its diagonal. A non parametric dynamic version of MMSB model has also been introduced to handle temporal networks [@fan2015dynamic]. The latent feature model (LFM) has also been extended in several ways, to handle non-negative weights in [@morup2011infinite] and with a more subtle latent feature structure in [@palla2012infinite]. Nevertheless, the characterization of these models with regards to the properties of the networks remains to be explored, with several challenges and oppurtunities as mentioned in [@jacobs2014unified]. 
+Recently, the class of stochastic mixed membership models have been successfully used for link prediction and structure discovery in social networks. For example, in [@gopalan2013efficient], the authors propose an adaptation of mixed-membership stochastic block model (MMSB) called a-MMSB, where "a" stands for assortative, and they use it for discovering overlapping communities in large networks having millions of nodes. The weight matrix is constrained to have a fixed small value outside its diagonal. A non parametric dynamic version of MMSB model has also been introduced to handle temporal networks [@fan2015dynamic]. The latent feature model (LFM) has also been extended in several ways, to handle non-negative weights in [@morup2011infinite] and with a more subtle latent feature structure in [@palla2012infinite]. Nevertheless, the characterization of these models with regards to the properties of the networks remains to be explored, with several challenges and oppurtunities as mentioned in [@jacobs2014unified].
 
-In this chapter, we focus on two important properties of social networks, namely \textit{homophily} and \textit{preferential attachment} [@Newman2010;@Barabasi2003]. Those property has been emphasized in previous studies, for example for modeling and generating artificial networks reflecting properties of real networks, as in the model by Barab\`asi-Albert [@albert2002statistical], the model by Buckley and Osthus [@Buckley2001], which integrates a preferential attachment mechanism, or in the Dancer model for generating dynamic attributed networks with community structures and homophilic networks [@Largeron2017]. Preferential attachment has also been exploited for improving methods for solving classical tasks such as community detection [@Ciglan2013] or link prediction [@Zeng2016]. 
+In this chapter, we focus on two important properties of social networks, namely \textit{homophily} and \textit{preferential attachment} [@Newman2010;@Barabasi2003]. Those property has been emphasized in previous studies, for example for modeling and generating artificial networks reflecting properties of real networks, as in the model by Barab\`asi-Albert [@albert2002statistical], the model by Buckley and Osthus [@Buckley2001], which integrates a preferential attachment mechanism, or in the Dancer model for generating dynamic attributed networks with community structures and homophilic networks [@Largeron2017]. Preferential attachment has also been exploited for improving methods for solving classical tasks such as community detection [@Ciglan2013] or link prediction [@Zeng2016].
   That said, few theoretical works have been conducted to study to what extent stochastic models comply with this property. Orbanz and Roy pointed out that models belonging to the family of infinitely exchangeable Bayesian graph models cannot generate sparse networks and are thus less compatible with power law degree distributions [@orbanz2015bayesian]. Consequently, Lee \textit{et al.} proposed a random network model in order to capture the power law typical of the degree distribution in social networks [@Lee2015]. However the model remains challenging to use in practice, especially for link prediction, due to the relaxation of the exchangeability assumption.
 
 Concerning the homophily effect, [@hoff2008modeling] pointed out that the latent eigen model (called MLFM, an extension of LFM) can comply with both homophily and stochastic equivalence in undirected graphs but without providing a formal definitions of these properties. Furthermore, Li \textit{et al.}, suggest that the latent eigen model MLFM fails to model homophily for directed graphs and, for correcting that, designed the GLFM model [@Li11].
 
-A preliminary version of this study was published in [@dulac2017study]. However, the definitions of preferential attachment and local degrees we proposed in this previous work are not entirely satisfying inasmuch as the dynamic aspect of preferential attachment was not taken into account. The definitions we propose here and the developments concerning stochastic block models are new and we believe better founded than in this previous work. 
+A preliminary version of this study was published in [@dulac2017study]. However, the definitions of preferential attachment and local degrees we proposed in this previous work are not entirely satisfying inasmuch as the dynamic aspect of preferential attachment was not taken into account. The definitions we propose here and the developments concerning stochastic block models are new and we believe better founded than in this previous work.
 
 We study, in a theoretical way, how the non-parametric versions of the classical stochastic mixed membership models handle homophily and preferential attachment. For this purpose, we introduce formal definitions of this phenomenon and then study how the models behave with respect to these definitions but, first, we present these models and the settings in which we study their behavior.
 
@@ -47,7 +47,7 @@ In the latent feature model, each node is represented by a finite vector of bina
     \item Generate a feature matrix $\mat{\Theta}_{N \times \infty}$ representing the feature vector of each node: \[\mat{\Theta} \sim \IBP(\alpha)\]
 \item Generate a weight matrix for each latent feature:\\
     \[\mat{\phi}_{mn} \sim N(0, \sigma_w), \, m,n \in \mathbb{N}^{+*}\]
-\item Generate or not a link between any node $i$ and any node $j$ according to: 
+\item Generate or not a link between any node $i$ and any node $j$ according to:
 \begin{equation*} \label{eq:link-ilfm}
 y_{ij} \sim \mathrm{Bern}(\sigma(\mat{\theta}_{i} \mat{\Phi} \mat{\theta}_{j}^\top))
 \end{equation*}
@@ -56,7 +56,7 @@ where $^\top$ dentotes the transpose and $\sigma()$ is the sigmoid function, map
 
 This model makes use of two real hyper-parameters, one for the IBP process ($\alpha$), and one for the variance of the normal distribution underlying the weight matrix ($\sigma_w$). In the case of undirected networks, the matrices $\mat{Y}$ and $\mat{\Phi}$ are symmetric and only their upper (or lower) diagonal parts are generated. Lastly, both $\mat{\Theta}$ and $\mat{\Phi}$ are infinite matrices. In practice however, one always deals with a finite number of latent features. A graphical representation of this model is given in Figure \ref{fig_4:mmm} (left).
 
-The MMSB model generates class membership distributions per node on the basis of a Dirichlet distribution. Then, for each connection between two nodes, a particular class for each node is first sampled from the class membership distribution, and the probability of connecting the two nodes is, as in the previous model, based on a Bernoulli distribution integrating the weight of the two classes. 
+The MMSB model generates class membership distributions per node on the basis of a Dirichlet distribution. Then, for each connection between two nodes, a particular class for each node is first sampled from the class membership distribution, and the probability of connecting the two nodes is, as in the previous model, based on a Bernoulli distribution integrating the weight of the two classes.
 
 The non-parametric version \imb\ parallels this development but considers, in lieu of the Dirichlet distribution, a Hierarchical Dirichlet Process, leading to the following generative model:
 
@@ -69,7 +69,7 @@ where $\gem$ (named after Griffiths, Engen and McCloskey) denotes the Stick Brea
 * Generate a weight matrix for each latent class from i.i.d Beta distribution:
 $$ \phi_{mn} \sim \mathrm{Beta}(\lambda_0,\lambda_1), \, m,n \in \mathbb{N}^{+*} $$
 * For any node $i$ and any node $j$, choose a class from their class membership distribution according to a Categorical distribution and generate or not a link according to a Bernoulli distribution:
-   \begin{gather*} \label{eq:link-immsb} 
+   \begin{gather*} \label{eq:link-immsb}
     z_{i \rightarrow j} \sim \mbox{Cat}(\mat{\theta}_i) \ , \quad z_{i \leftarrow j} \sim \mbox{Cat}(\mat{\theta}_j) \\
     y_{ij} \sim \mathrm{Bern}(\phi_{z_{i \rightarrow j}z_{i \leftarrow j}})
    \end{gather*}
@@ -137,7 +137,7 @@ It is straightforward that both \ifm\ and \imb\ in the setting $\mathcal{M}_e$ a
 
 Dropping the correlation between latent factors in the natural similarity leads to a new similarity, solely based on the latent factors and defined by $s_l(i,j) = \mat{\hat{\theta}}_{i} \mat{\hat{\theta}}_j^\top \nonumber$ ($s_l$ stands for latent similarity). With this similarity, however, neither \ifm\  nor \imb\ are homophilic. Indeed, let us first assume that $\mat{\hat{\Phi}}$ is null on the diagonal, and strictly positive elsewhere (this can be obtained for both models). For \imb, one has:
 \begin{align}
-\pr(y_{ij}=1 \mid \me) & = \sum_{k' \neq k} \hat{\theta}_{ik} \hat{\phi}_{kk'} \hat{\theta}_{jk'} \nonumber 
+\pr(y_{ij}=1 \mid \me) & = \sum_{k' \neq k} \hat{\theta}_{ik} \hat{\phi}_{kk'} \hat{\theta}_{jk'} \nonumber
 \end{align}
 as $\hat{\phi}_{kk} = 0$. Let us now consider $\mat{\hat{\theta}}_i=\mat{\hat{\theta}}_j=(0,1,0)$ and $\mat{\hat{\theta}}_{i'}=(0.5,0,0.5)$ and $\mat{\hat{\theta}}_{j'}=(0,1,0)$. Then, $s_l(i,j)=1$ and $s_l(i',j')=0$. However, $\pr(y_{ij}=1 \mid \me) = 0$ whereas $\pr(y_{i'j'}=1 \mid \me) > 0$. \imb\ is thus not homophilic under $s_l$. The same example, replacing $\mat{\hat{\theta}}_{i'}=(0.5,0,0.5)$ by $\mat{\hat{\theta}}_{i'}=(1,0,1)$, can be used to show that \ifm\ is neither homophilic under $s_l$.
 
@@ -146,7 +146,7 @@ This shows that, for a model to be homophilic, it should be designed according t
 
 
 ## Preferential attachment
-\label{sec_4:burstiness} 
+\label{sec_4:burstiness}
 
 As mentioned before, preferential attachement can be global, in which case nodes are connected across communities, and/or local to the network communities. Preferential attachment is reminiscent of a phenomenon called \textit{burstiness}, studied in different contexts [@barabasi_burst]. We introduce here definitions for the local and global preferential attachment effects that are extensions of the definitions for burstiness proposed in [@clinchant2010information] for text collections. We will first study global preferential attachment for the models \ifm\ and \imb\ in the two contexts defined by $\mathcal{M}_g$ and $\mathcal{M}_e$. We will then turn our attention to local preferential attachment.
 
@@ -277,13 +277,13 @@ d_{i,k}^{(p)} &= \sum_{j=1}^p P(y_{ij,k}=1 | \me) \nonumber \\
     &= \sum_{j=1}^p \theta_{ik} \phi_{kk} \theta_{jk}
 \end{align}
 
-As one can note, such a local degree is not necessarily an integer and the definition of the local preferential attachment has to be adapted accordingly. 
+As one can note, such a local degree is not necessarily an integer and the definition of the local preferential attachment has to be adapted accordingly.
 
 \begin{definition}[\imb\ - local preferential attachment, $\me$]
 We say that \imb, in $\me$, satisfies the local preferential attachment effect iff for any indexing, for any node $i, \, 1\leq i \leq N$ such that $\theta_{ik}=1$, for any step $p, \, 1\leq p < N$, and for all $\epsilon$ compatible with the domain of definition of $d_{i,k}$ and $x$, $P(d_{i,k}^{(N)} \geq x+\epsilon | d_{i,k}^{(p)} \geq x,\me)$ increases with $x$. If $P(d_{i,k}^{(N)} \geq x+\epsilon | d_{i,k}^{(p)} \geq x,\me)$ is independent of $x$, the model is said to be neutral wrt to the local preferential attachment effect.
 \end{definition}
 
-This definition can be seen as the continuous counterpart of Definition \ref{def:locdeg-discrete}. If $\epsilon$ is too large, the probability is null and is independent on $x$, hence the compatibility requirement with the domain of definition of $x$ and $d_{i,k}$. 
+This definition can be seen as the continuous counterpart of Definition \ref{def:locdeg-discrete}. If $\epsilon$ is too large, the probability is null and is independent on $x$, hence the compatibility requirement with the domain of definition of $x$ and $d_{i,k}$.
 
 Because of the Hierarchical Dirichlet Process underlying the \imb\ model, $\mat{\theta}_i$ follows a Dirichlet distribution: $\mat{\theta}_i \sim \Dir((\alpha_0 \beta_k + N_{ik})_{1 \le k \le K})$, with $\mat{\beta}\sim \gem(\gamma)$ and $N_{ik}$ being the number of edges connecting node $i$ through class $k$ (see for example [@teh2006hierarchical]) and $K$ the number of latent classes obtained. The marginals $\theta_{ik}$ are thus distributed according to a Beta distribution: $\theta_{ik} \sim \Beta(a_{ik}, b_{ik})$ with $a_{ik} = \alpha_0\beta_k + N_{ik}$ and $b_{ik} = \sum_{k'=1, k' \ne k}^{K} \alpha_0\beta_k' + N_{ik'}$.
 
@@ -291,19 +291,17 @@ The following property displays a sufficient condition on $x$, $\epsilon$, $a_{i
 
 
 \begin{proposition}\label{prop:IMBlocal}
-Let $F_k^p = \sum_{j=1}^p \hat{f}_{jk}$ and $E_{d_{ik}}=\sum_{j=1}^N \theta_{ik}\phi_{kk}\theta_{jk}$. In the regions where $x$ and $\epsilon$ are such that
+Let $E_k^p = \sum_{j=1}^p \hat\phi_{kk} \hat{f}_{jk}$ with $1\leq p \leq N$. In the region where $x$ and $\epsilon$ are such that
 \begin{equation*}
-x^{a_{ik}-1}\frac{\theta_{ik}}{E_{d_{ik}}}\left(a_{ik}(1-\epsilon) -x(a_{ik}-b_{ik}) \right) \geq b_{ik}\frac{(F_k^p)^{a_{ik}}\phi_{kk}^{a_{ik}-1}}{F_k^N}
+x^{a_{ik}-1}\left(a_{ik}(E_k^N-\epsilon) + x(b_{ik} - a_{ik}) \right) \geq b_{ik}(E_k^p)^{a_{ik}}
 \end{equation*}
 $P(d_{i,k}^{(N)} \geq x+\epsilon | d_{i,k}^{(p)} \geq x,\me)$ increases with $x$.
 \end{proposition}
 
-As one can note, when $x$ is large, $\epsilon$ is small and $b_{ik}-a_{ik}>0$ (which roughly means that the class $k$ concentrates less than half of the capacaity of the network) then the above condition is likely to be met and \imb satisfies the local preferential attachment effect. 
 
 \begin{proof}
-
-We consider IMMSB in $\me$. Let $F_k^P=\sum_{j=1}^p \hat \theta_{jk}$ and $F_k^N=\sum_{j=1}^N \hat \theta_{jk}$. 
-Using the change of variables $x'=\frac{x}{F_k^p \phi_{kk'}}$ and $\epsilon' = \frac{\epsilon}{F_k^N \phi_{kk'}}$, one gets
+We consider IMMSB in $\me$. Let $F_k^P=\sum_{j=1}^p \hat \theta_{jk}$ and $F_k^N=\sum_{j=1}^N \hat \theta_{jk}$.
+Using the change of variables $x'=\frac{x}{F_k^p \phi_{kk}}$ and $\epsilon' = \frac{\epsilon}{F_k^N \phi_{kk}}$, one gets
 \begin{align*}
 p(d_{ik}^{(N)} > x+\epsilon | d_{ik}^{(p)} > x, \me) &= p(\theta_{ik} > qx'+\epsilon' | \theta_{ik} > x') \\
 &=\frac{P(\hat \theta_{ik} > qx'+\epsilon')}{P(\hat \theta_{ik} > x')} = g(x')
@@ -332,12 +330,14 @@ where $C=\frac{\left(\int_{x'}^1t^{a-1}(1-t)^{b-1}dt\right)^2}{(qx'+\epsilon')^{
 &\Leftrightarrow x'^{a-1} a(1-\epsilon') \geq \frac{F_k^p}{F_k^N} ( x'^a(a-b) + b) \\
 &\Leftrightarrow x'^{a-1} \left(a(1-\epsilon') - x'(a-b)\frac{F_k^p}{F_k^N} \right) \geq b \frac{F_k^p}{F_k^N}
 \end{align*}
-Finally, let $E_{d_{ik}}=\sum_{j=1}^N \theta_{ik}\phi_{kk}\theta_{jk}=\theta_{ik}\phi_{kk'}F_k^N$, by rolling back the variable changes,  one obtains
+Finally, let $E_k^p=\sum_{j=1}^p \phi_{kk}f_{jk}=\phi_{kk}F_k^p$ with $1\leq p \leq N$, by rolling back the change of variables, one obtains
 \begin{equation*}
-x^{a-1}\frac{\theta_{ik}}{E_{d_{ik}}}\left(a(1-\epsilon) -x(a-b) \right) \geq b\frac{(F_k^p)^{a}\phi_{kk}^{a-1}}{F_k^N}
+x^{a-1}\left(a(E_k^N-\epsilon) -x(a-b) \right) \geq b E_k^p ,
 \end{equation*}
-
+which concludes the proof.
 \end{proof}
+
+As one can note, when $x$ is large, $\epsilon$ is small and $b_{ik}-a_{ik}>0$ (which roughly means that the class $k$ concentrates less than half of the capacaity of the network), then the above condition is likely to be met. In this situation, \imb satisfies the local preferential attachment effect.
 
 We now present an experimental illustration of the above theoretical results.
 
@@ -353,11 +353,11 @@ The measures considered to evaluate the preferential attachment rely on a goodne
 
 * Estimate the parameters $\alpha$ and $x_\text{min}$ of the power law model. $\alpha$ is the scaling parameter of the law and $x_\text{min}$, the lower bound for the tail. It has been fixed to the smallest value observed in the distributions evaluated, in our experiments to allow their comparisons.
 * Using the Kolmogorov-Smirnov (KS) statistic, compute the distance $KS_{obs}$ between the degree distribution obtained on the network with the theoretical distribution corresponding to the power law with the estimated parameters.
-* Sample $S$ synthetic datasets from the power law with the estimated parameters. For each sample dataset $s \in S$, compute the distance $KS_{s}$ between the distribution obtained on this synthetic dataset, drawn from the power law, with the corresponding theoretical distribution using the Kolmogorov-Smirnov statistic. 
+* Sample $S$ synthetic datasets from the power law with the estimated parameters. For each sample dataset $s \in S$, compute the distance $KS_{s}$ between the distribution obtained on this synthetic dataset, drawn from the power law, with the corresponding theoretical distribution using the Kolmogorov-Smirnov statistic.
 * Decide how many sample dataset $S$ to use, with a rule of thumb, based on a worst-case performance analysis of the test [@clauset2009power]. To obtain a precision of the $p$-value about $\epsilon$, one should choose $S = \frac{1}{4}\epsilon^{-2}$.
 * The p-value is defined as the fraction of the resulting statistics $KS_s, s \in \{1,\dotsc,S\}$ obtained on the samples larger than the value $KS_{obs}$ computed on the network distribution.
 
-If p-value is large (close to 1), then the difference between the data and the model can be attributed to statistical fluctuations alone; if it is small, the model is not a plausible fit for the data and we can not conclude that there is an evidence for the preferential attachment in the network. 
+If p-value is large (close to 1), then the difference between the data and the model can be attributed to statistical fluctuations alone; if it is small, the model is not a plausible fit for the data and we can not conclude that there is an evidence for the preferential attachment in the network.
 However, as mentioned in [@clauset2009power] high value of the $p$-value should be considered with caution for at least two reasons. First, there may be other distribution that match the data equally or better. Second, a small number of samples of the data may lead to high p-value and reflect the fact that is hard to rule out a hypothesis in such a case.
 
 
@@ -419,11 +419,11 @@ Figure \ref{fig_4:synt_graph_local} represents the local degree distributions fo
         \begin{minipage}{0.48\textwidth}
             \includegraphics[width=\textwidth]{source/figures/chap4/corpus/manufacturing_1}
         \end{minipage}
-        \caption {Local degree distributions for the four training datasets. For Network1 and Network2 the classes come from ground-truth. For Blogs and Manufacturing, classes are obtained with a Louvain algorithm.} 
+        \caption {Local degree distributions for the four training datasets. For Network1 and Network2 the classes come from ground-truth. For Blogs and Manufacturing, classes are obtained with a Louvain algorithm.}
 	\label{fig_4:synt_graph_local}
 \end{figure}
 
-### Homophily 
+### Homophily
 
 Figure \ref{fig_4:homo_mustach} presents boxplots describing the distributions of the natural $s_n(i,j)$ and latent $s_l(i,j)$ similarities computed respectively on linked and non-linked pairs of nodes for \imb\  (top) and \ifm\ (bottom). The results have been aggregated over the four datasets. They confirm that the natural similarity is  higher for pairs of nodes which are linked than for pairs of nodes which are not   linked, for both models. For the latent similarity,  there is no difference between the linked and non-linked pairs, indicating that the links are not homophilic. These experimental results are in line with the theoretical results presented in Section\ref{sec_4:homophily} that state that both \ifm\ and \imb\ are homophilic for the natural similarity but are not homophilic for the latent similarity.
 
@@ -450,13 +450,13 @@ Once the models have been learned, they are used to generate links (or non-links
 
 Table \ref{table:me_gofit} reports the value of the power-law goodness of fit for \imb\ and \ifm\ in the global case (left) and in the local case (right). The precision of the test was set to $\epsilon = 0.03$. It appears that for both models, the global preferential attachment is only verified for networks generated from datasets where the property was observed, namely in Network1 with p-value equal to 0.9 for \imb\ and 1 for \ifm, and in Blogs with a p-value equal to 1 for both models; the property is not verified in Network2 and in Manufacturing, where the p-values are equal to 0. This is in accordance with Proposition 2.1 according to which both \ifm\ and \imb\ do not satisfy global preferential attachment. However, these models are able to capture this property if it exists in the training datasets. Moreover, one can observe that, in the local case, \imb\ complies with the preferential attachment with $p$-values equal or close to 1 for the four networks, while \ifm\ obtained low p-values for the networks that were less locally bursty (respectively 0 for Network2 and 0.3 for Manufacturing). In addition, the power-law coefficients $\alpha$ are significantly greater for \imb\ than for \ifm, and specially for the bursty networks Network1 and Blogs.
 
-Figure \ref{fig:me_local} illustrates the local preferential attachment for Network1 (top) and Network2 (bottom) estimated with \imb\ (left) and \ifm\ (right). The shape of the local degree distributions appears more linear for \imb\ and with more fluctuations for \ifm. This illustrates the fact that \ifm\ does not capture local preferential attachment whereas \imb\ does, as stated in Proposition \ref{prop:IMBlocal}. 
+Figure \ref{fig:me_local} illustrates the local preferential attachment for Network1 (top) and Network2 (bottom) estimated with \imb\ (left) and \ifm\ (right). The shape of the local degree distributions appears more linear for \imb\ and with more fluctuations for \ifm. This illustrates the fact that \ifm\ does not capture local preferential attachment whereas \imb\ does, as stated in Proposition \ref{prop:IMBlocal}.
 
 \input{source/figures/chap4/corpus/me_deg}
 
 
 #### Generating process
-In Figure \ref{fig:burst_immsb} and \ref{fig:burst_ilfm} we show respectively for IMMSB and ILFM the evolution of the local preferential attachment following the definition given in section \ref{sec_4:local_me}, for the networks Manufacturing and Networks1 and for two different values of the generating process at step $p$ ($p$ is given as a percentage of $N$ in the plots). For IMMSB one can see on figure \ref{fig:burst_immsb}, that the probability of generating new links increases with the degree. However, for ILFM, one can observe, on figure \ref{fig:burst_ilfm}, some classes where the preferential attachment is no true such as for the class 3 in Manufacturing where the probability to generate new links decreases with the degree or contains some plateau. For Networks1, the probability to generate new links increase in average because the model is fitted with a networks where the preferential attachment is present. However, on can see that the increase of the probability is not as clear than for IMMSB. The value of the probability fluctuate and reach some plateau. The interpretation of these results with regard to the properties that we asses for the local preferential attachment is that IMMSB is better adapted than ILFM to capture the local preferential attachment.
+In Figure \ref{fig:burst_immsb} and \ref{fig:burst_ilfm} we show respectively for IMMSB and ILFM the evolution of the local preferential attachment following the definition given in section \ref{sec_4:local_me}, for the networks Manufacturing and Networks1 and for two different values of the generating process at step $p$ ($p$ is given as a percentage of $N$ in the plots). For IMMSB one can see on figure \ref{fig:burst_immsb}, that the probability of generating new links increases with the degree. However, for ILFM, one can observe, on figure \ref{fig:burst_ilfm}, some classes where the preferential attachment is no true such as for the class 3 in Manufacturing where the probability to generate new links decreases with the degree or contains some plateau. For Networks1, the probability to generate new links increases in average because the model is fitted with a networks where the preferential attachment is present. However, on can see that the increase of the probability is not as clear than for IMMSB. The value of the probability fluctuate and reaches some plateau. The interpretation of these results with regard to the properties that we asses for the local preferential attachment is that IMMSB is better adapted than ILFM to capture the local preferential attachment.
 
 
 \begin{figure}[h]
@@ -489,7 +489,7 @@ The above behavior can be explained by the fact that \imb\ satisfies the local p
     \begin{minipage}{0.75\textwidth}
         \includegraphics[width=\textwidth]{source/figures/chap4/corpus/testset_max_20}
     \end{minipage}
-    \caption{Top: AUC-ROC curves for Network1 (left) and Network2 (right) with 75 percent of data used for learning that compares the performance of models. Bottom: Relative performance of \imb\ and \ifm\ according to the percentage of data used for testing, the rest being used for learning.} 
+    \caption{Top: AUC-ROC curves for Network1 (left) and Network2 (right) with 75 percent of data used for learning that compares the performance of models. Bottom: Relative performance of \imb\ and \ifm\ according to the percentage of data used for testing, the rest being used for learning.}
 \label{fig_4:auc}
 \end{figure}
 
@@ -498,7 +498,7 @@ The above behavior can be explained by the fact that \imb\ satisfies the local p
 
 Illustrations in the $\mg$ case are based on the simulation of the models where the parameters $\Theta$ and $\Phi$ have been marginalized out. In other words the degrees that we are going to observe are the expected degree for a large numbers (in the sense of the theory of large numbers) of generated parameters, given the hyper-parameters of the model. In order to simulate this scenario, we generated a large number (100) of networks with a given set of hyper-parameters for the models. Then we reported the average global degree distribution in Figure \ref{fig:mg_deg} (top). For this experiments, fix the number of nodes to 1000. We went trough the generative process 100 times in order to simulate the $\mg$ mode. In order to have a comparable number of classes for \ifm and \imb and block-block probability priors, we fix the hyper-parameters $\lambda_0=\lambda_1=0.5$ for both models, $\alpha=\alpha_0=1$ for \ifm, and $\gamma=0.5$ for \imb.
 
-We see that the global degree distributions are not monotone, with several peaks, and that the range values of the outcome degrees are concentrated in a small segment determined by the hyper-parameters of the models. The shape of the global degree distributions shows that the global preferential attachment is not satisfied. 
+We see that the global degree distributions are not monotone, with several peaks, and that the range values of the outcome degrees are concentrated in a small segment determined by the hyper-parameters of the models. The shape of the global degree distributions shows that the global preferential attachment is not satisfied.
 
 
 In the Figure \ref{fig:mg_deg} (bottom), we also reported a measure on the local preferential attachment in $\mg$. An important note is that, to be able to compute the statistics for the local degree, the latent classes need to be aligned between the different epochs in order to report average values of the local degree distributions. But, the mixed membership models do not defined unique labels over the latent classes. Thus, it is not straightforward to identify the common classes between the generations of the different network realizations. Actually, as the processes are exchangeable, they is no strict correspondence between classes in two independent generative process. Nevertheless, the property of the Dirichlet Process and the Indian Buffet Process, enable to identify the classes by ordering them with their size (or concentration). For example, the stick breaking process interpretation of the DP provides a natural class ordering with a descending (or ascending) order of the class representations. While the IBP generates a row-exchangeable feature matrix, it is possible to reorder the rows to obtain a $\Theta$ matrix where the size of the classes keeps the same descending (or ascending) order.
@@ -512,11 +512,11 @@ For the local degree, one can see that, for IMMSB, the shape of the distribution
 
 We have studied whether stochastic mixed membership models, such as \ifm\ and \imb\, can generate new links while satisfying important properties frequently observed in real social networks, namely  homophily and preferential attachment. To do so, we have introduced formal definitions adapted for these properties in a global and a local context where edges are either considered across the full network or inside communities. We have analyzed how these models behave according to those definitions. We have shown, in particular, that both models are homophilic with the natural similarity that underlies them.  Concerning the preferential attachment, we have shown that stochastic mixed membership models do not comply with global preferential attachment. The situation is however more contrasted when the property is considered at the local level: \imb\ enforces a partial local preferential attachment whereas \ifm\ does not.
 
-These findings have been validated experimentally on two real and two artificial networks that have different degrees of global and local preferential attachment. An important, practical finding of our study is that \imb, usually considered of lesser "quality" than \ifm, can indeed yield better results on bursty networks (\textit{i.e.} networks with preferential attachment) when the number of training data is limited. 
- 
+These findings have been validated experimentally on two real and two artificial networks that have different degrees of global and local preferential attachment. An important, practical finding of our study is that \imb, usually considered of lesser "quality" than \ifm, can indeed yield better results on bursty networks (\textit{i.e.} networks with preferential attachment) when the number of training data is limited.
+
 There are many directions to extend this work with the motivation of improving our theoretical understanding of graphical models for link prediction in complex networks. A interesting extension is to examine the relation between the local preferential attachment and the dynamic of the latent classes.
 
 An other direction of interest in the line of this work is to study how the preferential attachment relates to the sparsity of a network and how the exchangeability assumption should be relaxed in order to have models that naturally comply with both the preferential attachment and the sparsity properties.
- 
+
 
 

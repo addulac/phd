@@ -49,7 +49,7 @@ In this study, we consider the weighted relations as a measure for the number of
 
 <!--In the second case the weights can also be seen as a \emph{strength} of connection between individuals, since it represents a count/number of times they interacted together. There is a number of situations where such a case arise. One can think for example, to the count of clicks that an user makes during a web session. Or the number of time that a individual send a message to another in a communication network, such as email or online social networks. Or again, the number of transportation between two cities. Thus modeling weighted networks is a way to take into account the strength of relations that arise in a temporal context, but by keeping the exchangeability assumptions. Or says differently, we loose the time order in which each individual connections took place. That is the reason why we use the term \emph{time exchangeability}.-->
 
-These two properties justify to build weighted networks datasets from sequence of either weighted graphs or binary graphs to feed a Poisson based model. This is convenient to exploit the network datasets that are often provided as a time sequence of binary or weighted interactions by summing up all node pairs interactions. 
+These two properties justify to build weighted networks datasets from sequence of either weighted graphs or binary graphs to feed a Poisson based model. This is convenient to exploit the network datasets that are often provided as a time sequence of binary or weighted interactions by summing up all node pairs interactions.
 
 <!-- nips comment....time exhvngbility (loose) but weighte win over binary. -->
 
@@ -66,14 +66,14 @@ Mixed-membership stochastic block (MMSB) models extend stochastic block models [
 2. Generate two sets of latent class memberships for each possible interactions, $$Z_\rightarrow = \{z_{i\rightarrow j} \sim \textrm{Cat}(\theta_i), 1 \le i,j \le N\}$$ and $$Z_\leftarrow = \{z_{i\leftarrow j} \sim \textrm{Cat}(\theta_j), 1 \le i,j \le N\},$$ with categorical draws;
 3. Generate or not a link between two nodes $(i,j)$ according to $$y_{ij} \sim F(\phi_{z_{i \rightarrow j}z_{i \leftarrow j}}),$$ where $F$ is a distribution in the exponential family and $\phi_{z_{i \rightarrow j}z_{i \leftarrow j}}$ an associated (usually drawn from a conjugate distribution) parameter that represents the relations between classes. For unweighted graphs, $F$ is usually Bernoulli and $\phi$ its conjugate Beta distribution.
 
-Many real networks nevertheless rely on graphs in which edges are naturally weighted. In co-authorship networks, for example, it is standard to consider edges weighted according to the number of collaborations between authors [@newman2001scientific]. In communication networks, the weights are based on the number of messages sent from the sender to the receiver. In text mining and natural language processing applications, it is also common to use word graphs in which edges are weighted on the basis of the number of times the words co-occur (in a sentence, paragraph or document). In all these cases, weights are integers that can naturally be modeled with Poisson distributions. Relying on its conjugate Gamma distribution for $\phi$, one finally obtains the following models, denoted MMSB for unweighted graphs and WMMSB for weighted graphs:
+As mentionned, many real networks nevertheless rely on graphs in which edges are naturally weighted. the number of collaborations in a co-authorship networks, the number of messages sent from the sender to the receiver in a communcation network, etc. In all these cases, weights are integers that can naturally be modeled with Poisson distributions. Relying on its conjugate Gamma distribution for $\phi$, one finally obtains the following models, denoted MMSB for unweighted graphs and WMMSB for weighted graphs:
 $$
 \theta_i \sim \textrm{Dir}(\alpha), \,\, z_{i\rightarrow j} \sim \textrm{Cat}(\theta_i), \,\, z_{i\leftarrow j} \sim \textrm{Cat}(\theta_j)
 $$
 and:
 \begin{align*} \label{eq:generative}
 y_{ij} &\sim \textrm{Bern}(\phi_{z_{i \rightarrow j}z_{i \leftarrow j}}), &\phi_{kk'} &\sim \textrm{Beta}(\lambda_0, \lambda_1), & \textrm{ \textit{for unweighted graphs}} \\
-y_{ij} &\sim \textrm{Poi}(\phi_{z_{i \rightarrow j}z_{i \leftarrow j}}), &\phi_{kk'} &\sim \textrm{Gamma}(r, \frac{p}{1-p}), & \textrm{ \textit{for weighted graphs}} 
+y_{ij} &\sim \textrm{Poi}(\phi_{z_{i \rightarrow j}z_{i \leftarrow j}}), &\phi_{kk'} &\sim \textrm{Gamma}(r, \frac{p}{1-p}), & \textrm{ \textit{for weighted graphs}}
 \end{align*}
 The choice made here for the Poisson and Gamma distributions in WMMSB allows one to represent overdispersed count data as one has [@zhou2012beta]
 $$y_{ij} \sim \textrm{NB}(r,p)$$
@@ -106,13 +106,13 @@ We first provide below the results obtained through collapsed variational infere
 
 ### Collapsed Variational Inference
 
-In the remainder, we use the notation $n^{-ij}$ to indicate that the superscript $ij$ is excluded from the underlying count variable, and $n_{\bm{.}}$ to indicate a sum over the dotted subscript index. Furthermore, $\Pi$ will denote the model parameters ($\Pi = (\Theta,\Phi,Z)$ for MMSB and WMMSB and $\Pi = (\Theta,\Phi,Z,R,P)$ for WMMSB-bg) and $\Omega$ the hyper-parameters ($\Omega = (\alpha,\lambda_0,\lambda_1)$ for MMSB, $\Omega = (\alpha,r,p)$ for WMMSB and $\Omega = (\alpha, c_0, r_0, c, \epsilon)$ for WMMSB-bg). 
+In the remainder, we use the notation $n^{-ij}$ to indicate that the superscript $ij$ is excluded from the underlying count variable, and $n_{\bm{.}}$ to indicate a sum over the dotted subscript index. Furthermore, $\Pi$ will denote the model parameters ($\Pi = (\Theta,\Phi,Z)$ for MMSB and WMMSB and $\Pi = (\Theta,\Phi,Z,R,P)$ for WMMSB-bg) and $\Omega$ the hyper-parameters ($\Omega = (\alpha,\lambda_0,\lambda_1)$ for MMSB, $\Omega = (\alpha,r,p)$ for WMMSB and $\Omega = (\alpha, c_0, r_0, c, \epsilon)$ for WMMSB-bg).
 
-From Jensen's inequality, for any distribution $q$, one has: 
+From Jensen's inequality, for any distribution $q$, one has:
 \begin{equation*}
 \log p(Y | \Omega) \ge \Er_{q}[\log p(Y, \Pi\ | \Omega)] + \textrm{H}[q(\Pi)]
 \end{equation*}
-where $\textrm{H}$ denotes the entropy. The goal of variational inference is then to find $q$ that maximizes the right-hand side of the above inequality, usually referred to as the Evidence Lower BOund (ELBO). In its collapsed version, following [@teh2007collapsed], one weakens the mean-field assumption made over the variational distribution, leading to, for MMSB and WMMSB: 
+where $\textrm{H}$ denotes the entropy. The goal of variational inference is then to find $q$ that maximizes the right-hand side of the above inequality, usually referred to as the Evidence Lower BOund (ELBO). In its collapsed version, following [@teh2007collapsed], one weakens the mean-field assumption made over the variational distribution, leading to, for MMSB and WMMSB:
 \begin{equation*}
 q(\Pi) = q(\Theta, \Phi | Z) q(Z)
 \end{equation*}
@@ -145,11 +145,11 @@ In this inference scheme, $\gamma_{ij}$ are the \emph{local} parameters while th
 
 Finally, the model parameters can be recovered from their estimates as follows:
 \begin{align*}
-\hat \theta_{ik} = \frac{N^{\Theta}_{\rightarrow ik} + N^{\Theta}_{\leftarrow ik} + \alpha_k}{2N + \alpha_{\bm{.}}} \qquad 
+\hat \theta_{ik} = \frac{N^{\Theta}_{\rightarrow ik} + N^{\Theta}_{\leftarrow ik} + \alpha_k}{2N + \alpha_{\bm{.}}} \qquad
 \hat \phi_{kk'}=\begin{cases}
      \frac{N^{\Phi}_{1 kk'} + \lambda_1}{N^{\Phi}_{\bm{.}kk'} + \lambda_{\bm{.}}} & \textrm{ \textit{for MMSB}} \\
     \frac{p(N^Y_{kk'} + r)}{N^{\Phi}_{\bm{.}kk'} - p + 1} & \textrm{ \textit{for WMMSB}}
-%    \frac{\Er_{q}[p_{kk'}](N^Y_{kk'} + \Er_{q}[r_{kk'}])}{N^{\Phi}_{\bm{.}kk'} - \Er_{q}[p_{kk'}] + 1} & \textrm{ for WMMSB-bg} 
+%    \frac{\Er_{q}[p_{kk'}](N^Y_{kk'} + \Er_{q}[r_{kk'}])}{N^{\Phi}_{\bm{.}kk'} - \Er_{q}[p_{kk'}] + 1} & \textrm{ for WMMSB-bg}
     \end{cases}
 \end{align*}
 
@@ -159,7 +159,7 @@ For WMMSB-bg model, we consider the following collapsed variational distribution
 \begin{equation*}
 q(\Pi) = q(\Theta, \Phi|Z, R, P)q(Z)q(R)q(P)
 \end{equation*}
-with $R=(r_{kk'}), P=(p_{kk'}), \, 1 \le k,k' \le K$. As before, $q(z_{i \rightarrow j}, z_{i \leftarrow j}|\gamma_{ij})$ is multinomial with parameter $\gamma_{ij}$. 
+with $R=(r_{kk'}), P=(p_{kk'}), \, 1 \le k,k' \le K$. As before, $q(z_{i \rightarrow j}, z_{i \leftarrow j}|\gamma_{ij})$ is multinomial with parameter $\gamma_{ij}$.
 
 The same development as above applies for the parameters $\gamma_{ijkk'}$, given here also by Eq. \ref{eq:maximization}. Furthermore, the predictive link probability now take the form:
 \begin{align*}
@@ -171,16 +171,16 @@ $$
 \hat \phi_{kk'} = \frac{\Er_{q}[p_{kk'}](N^Y_{kk'} + \Er_{q}[r_{kk'}])}{N^{\Phi}_{\bm{.}kk'} - \Er_{q}[p_{kk'}] + 1}
 $$
 
-Setting $q(P) = p(P|Y,Z,\Omega)$ where $p$ is the true distribution and exploiting the conjugacy of the Beta and the negative binomial distributions leads to a Beta distribution for $p_{kk'}$: 
+Setting $q(P) = p(P|Y,Z,\Omega)$ where $p$ is the true distribution and exploiting the conjugacy of the Beta and the negative binomial distributions leads to a Beta distribution for $p_{kk'}$:
 \begin{equation} \label{eq:pk_update}
   p_{kk'} \sim \textrm{Beta}(c\epsilon + N^Y_{kk'}, c(1-\epsilon) + N^\Phi_{kk'}\Er_{q}[r_{kk'}])
 \end{equation}
-so that: 
+so that:
 $$
 \Er_{q}[p_{kk'}] = \frac{c\epsilon + N^Y_{kk'}}{c\epsilon + N^Y_{kk'} + c(1-\epsilon) + N^\Phi_{kk'}\Er_{q}[r_{kk'}]}
 $$
 
-Lastly, as for its true distribution, the variational distribution for $r_{kk'}$ is taken in the Gamma family: $q(r_{kk'}) \sim \textrm{Gamma}(a_{kk'},b_{kk'})$. Even though $a_{kk'}$ can not be estimated explicitly, one only needs to have access to the expectation of $r_{kk'}$, that takes the following form: 
+Lastly, as for its true distribution, the variational distribution for $r_{kk'}$ is taken in the Gamma family: $q(r_{kk'}) \sim \textrm{Gamma}(a_{kk'},b_{kk'})$. Even though $a_{kk'}$ can not be estimated explicitly, one only needs to have access to the expectation of $r_{kk'}$, that takes the following form:
 \begin{equation} \label{eq:rk_update}
 \Er_{q}[r_{kk'}] = \frac{r_0c_0+N^Y_{kk'}}{c_0 -N^\Phi_{kk'}\log(1-p_{kk'})}
 \end{equation}
@@ -194,16 +194,16 @@ Stochastic variational inference aims at optimizing ELBO through noisy yet unbia
 \item Sample a node $i$ uniformly from all nodes in the graph; with probability $\frac{1}{2}$, either select $s_1^i$ or any set from $S_0^i$ (in the latter case, the selection is uniform over the sets in $S_0^i$). We will denote by $s_i$ the set selected and by $|s_i|$ its cardinality.
 \item For each node $j \in s_i$, compute $\gamma_{ijkk'}$ through Eq. \ref{eq:maximization} and intermediate global counts acc. to:
 {\small \label{local_gradient_chap5}
-\begin{align*} 
+\begin{align*}
   &\hat N^{\Theta}_{\leftarrow jk'} = \frac{1}{Cg(s_i)} \sum_{k} \gamma_{ijkk'} \\
   &\hat N^{\Theta}_{\rightarrow ik} \mathrel{+}= \frac{1}{|s_i|} \frac{1}{Cg(s_i)} \sum_{k'} \gamma_{ijkk'} \\
   &\hat N^{\Phi}_{.kk'} \mathrel{+}= \frac{1}{|s_i|} \frac{1}{Cg(s_i)} \gamma_{ijkk'} \\
-  &\hat N^{Y}_{kk'} \mathrel{+}= \frac{1}{|s_i|} \frac{1}{Cg(s_i)} \gamma_{ijkk'} y_{ij} 
+  &\hat N^{Y}_{kk'} \mathrel{+}= \frac{1}{|s_i|} \frac{1}{Cg(s_i)} \gamma_{ijkk'} y_{ij}
 \end{align*}
 }
 where $C$ is a constant that is $2$ for undirected graphs and $1$ for directed graphs and $g(s_i) = \frac{1}{Nm}$ if $s_i \in S_0^i$ and $\frac{1}{N}$ otherwise. Note that $Cg(s_i)$ correspond to the probability to observe the node $i$ depending on either $s_i$ belongs to $S_0$ or $S_1$.
 \item Update of the global counts (online version of Eq. \ref{eq:sss}): \label{global_gradient_chap5}
-\begin{align*} 
+\begin{align*}
   &N^{\Theta}_{\rightarrow ik} \leftarrow (1 - \rho^{i,\Theta}_t) N^{\Theta}_{\rightarrow ik} + \rho^{i,\Theta}_t \hat N^{\Theta}_{\rightarrow ik} \\
   &N^{\Theta}_{\leftarrow jk'} \leftarrow (1 - \rho^{i,\Theta}_t) N^{\Theta}_{\leftarrow jk'} + \rho^{i,\Theta}_t \hat N^{\Theta}_{\leftarrow jk'}  \\
   &N^{\Phi}_{.kk'} \leftarrow (1 - \rho^{\Phi}_t) N^{\Phi}_{.kk'} + \rho^{\Phi}_t \hat N^{\Phi}_{.kk'} \\
@@ -274,7 +274,7 @@ $t \gets 0$ \\
 
 We experimented our models on several real-world networks, directed and undirected. Their statistics and properties are summarized in Table \ref{table_5-chap5:corpus} and detailed descriptions are available in the online Koblenz network collection^[http://konect.uni-koblenz.de/networks/]. For both astro-ph and hep-ph datasets, we used the cleaned version available in the graph-tool framework.
 
-\begin{table}[h] 
+\begin{table}[h]
 \bgroup
 \def\arraystretch{1} % 1 is the default, change whatever you need
     \input{source/figures/chap5/img/corpus}
@@ -323,12 +323,12 @@ Variational inference, used here for MMSB models, and MCMC, used for SBM models,
 
 ### Results
 
-Figure \ref{fig_5:roc} gives the AUC/ROC scores for the different models when using 1\%, 5\%, 10\%, 20\%, 30\% and 50\% of the training data, for 6 networks (the complete results, over all training set size and networks are given in the appendix \ref{annexe:wmmsb}). As one can note, MMSB models outperform the other models when the amount of training data is limited. Among these models, WMMSB-bg is the best performing one, which highlights the importance of the Beta and Gamma priors used. The poor performance of MMSB on some networks can be explained by the fact that the convergence of the model is very sensitive to the sampling choices done during the online inference, as illustrated by the high variance in the results. When the amount of training data is sufficient (which depends on the network considered), SBM models tend to be better. As discussed before, we attribute this to the MCMC method used in SBM models. Surprisingly, and contrary to what is happening for MMSB models, WSBM does not really outperform SBM; this model does not seem to be able to make a good use of the edge covariates. 
+Figure \ref{fig_5:roc} gives the AUC/ROC scores for the different models when using 1\%, 5\%, 10\%, 20\%, 30\% and 50\% of the training data, for 6 networks (the complete results, over all training set size and networks are given in the appendix \ref{annexe:wmmsb}). As one can note, MMSB models outperform the other models when the amount of training data is limited. Among these models, WMMSB-bg is the best performing one, which highlights the importance of the Beta and Gamma priors used. The poor performance of MMSB on some networks can be explained by the fact that the convergence of the model is very sensitive to the sampling choices done during the online inference, as illustrated by the high variance in the results. When the amount of training data is sufficient (which depends on the network considered), SBM models tend to be better. As discussed before, we attribute this to the MCMC method used in SBM models. Surprisingly, and contrary to what is happening for MMSB models, WSBM does not really outperform SBM; this model does not seem to be able to make a good use of the edge covariates.
 
 Table \ref{table_5:roc}, which displays the results of MMSB, WMMSB-bg, SBM and WSBM for all networks when using 10\% and 100\% of the training data, confirms these elements. As one can note, using all training data, SBM outperforms WSBM on 5 datasets. Interestingly, there is an important degradation for SBM models when only 10\% of the training set is used. MMSB models are more stable in this aspect, showing that the stochastic variational inference used in MMSB models allows one to learn a correct model with few data.
 
 Finally, it is worth mentioning that on the dataset prosper-loans, the only network classified as "Interaction" in the Konnect repository, most models fail to learn the topology. In particular, MMSB barely exceeds a random classifier. Only the weighted MMSB models, WMMSB and WMMSB-bg, succeed in predicting new edges, with a performance above 0.75 when using only 10\% of the training data.
- 
+
 
 \begin{table}
 \centering
@@ -382,7 +382,7 @@ prosper-loans & 6595.175 $\pm$ 4612.049  & 12255.827 $\pm$ 4878.113 & 1182.409 $
 <!--
 %%% WSim
 
-For the weighted models, we further measure the capacity to predict right edge counts with a $l_1$ distance between the real count of the test set and the expected count of the models 
+For the weighted models, we further measure the capacity to predict right edge counts with a $l_1$ distance between the real count of the test set and the expected count of the models
 
 \begin{equation*}
 D_{l_1}(D_{test} || \{\Thetah, \Phih\}) = \sum_{i,j \in \D_{test}} | y_{ij} - \Er[y_{ij}|\Thetah, \Phih] |
